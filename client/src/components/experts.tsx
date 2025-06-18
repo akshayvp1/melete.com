@@ -120,7 +120,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
     const fetchCounsellors = async () => {
       try {
         setLoading(true);
-        const counsellors = await AuthService.getCounsellors();
+        const counsellors = await AuthService.frontGetCounsellors();
         setConsultants(counsellors.filter((c) => !c.isBlocked));
       } catch (err: any) {
         console.error('Error fetching counsellors:', err);
