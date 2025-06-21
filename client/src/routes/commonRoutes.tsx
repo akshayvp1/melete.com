@@ -10,6 +10,12 @@ import ServicePage from '../pages/servicePage';
 import ExpertPafe from '../pages/expertPage'
 import ImprovePage from '../pages/improvePage';
 import PrivacyPolicyPage from '../pages/termsPage';
+import ParentSupportPage from '../pages/parentSupportPage';
+import ChildSupportPage from '../pages/childSupportPage';
+import AdultSupportPage from '../pages/adultSupportPage';
+import PregnancySupportPage from '../pages/pregnancySupportPage';
+import OldAgePage from '../pages/oldAgePage';
+
 function commonRoutes() {
   return (
     <Routes>
@@ -23,6 +29,13 @@ function commonRoutes() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/improve" element={<ImprovePage/>}/>
         <Route path="/privacy" element={<PrivacyPolicyPage/>}/>
+        <Route path="/parent-support" element={<ParentSupportPage/>}/>
+        <Route path="/child-support" element={<ChildSupportPage/>}/>
+        <Route path="/adult-support" element={<AdultSupportPage/>}/>
+        <Route path="/pregnancy-support" element={<PregnancySupportPage/>}/>
+        <Route path="/oldage-support" element={<OldAgePage/>}/>
+
+
 
     </Routes>
   )

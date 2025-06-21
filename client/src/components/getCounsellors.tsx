@@ -350,7 +350,7 @@ const CounsellorList: React.FC = () => {
           </h2>
           <p className="text-gray-500 mb-6">Check back later for our expert counsellors.</p>
           <Link
-            to="/services"
+            to="/service"
             className="inline-block px-6 py-2 rounded-full bg-[#31A382] text-white font-medium hover:bg-[#2F9B7A] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#31A382] focus:ring-offset-2"
             aria-label="Explore our services"
           >
