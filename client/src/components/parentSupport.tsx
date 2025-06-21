@@ -209,33 +209,33 @@ const ParentSupportPage: React.FC = () => {
               </span>
             </h2>
             <p className="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto">
-              Evidence-based support and practical strategies designed to help parents build stronger, healthier relationships with their children.
+              Evidence-based support and practicalstructor strategies designed to help parents build stronger, healthier relationships with their children.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2 gap-6">
             {services.map((service, index) => (
               <div
                 key={index}
-                className={`bg-white rounded-3xl shadow-xl p-8 border border-gray-200 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 ${
+                className={`bg-white rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-200 hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 ${
                   isServicesVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                 }`}
                 style={{ transitionDelay: `${index * 150}ms` }}
               >
-                <div className="flex items-start gap-6">
-                  <div className="bg-[#015F4A] p-4 rounded-2xl shadow-lg flex-shrink-0">
-                    <service.icon className="w-8 h-8 text-white" />
+                <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+                  <div className="bg-[#015F4A] p-3 sm:p-4 rounded-xl shadow-md flex-shrink-0">
+                    <service.icon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                   </div>
                   
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-[#015F4A] mb-4">{service.title}</h3>
-                    <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
+                    <h3 className="text-xl sm:text-2xl font-bold text-[#015F4A] mb-3">{service.title}</h3>
+                    <p className="text-sm sm:text-base text-gray-600 mb-4 leading-relaxed">{service.description}</p>
                     
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                       {service.features.map((feature, featureIndex) => (
-                        <div key={featureIndex} className="flex items-center gap-3">
-                          <CheckCircle className="w-5 h-5 text-[#015F4A] flex-shrink-0" />
-                          <span className="text-sm text-gray-600">{feature}</span>
+                        <div key={featureIndex} className="flex items-center gap-2">
+                          <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#015F4A] flex-shrink-0" />
+                          <span className="text-xs sm:text-sm text-gray-600">{feature}</span>
                         </div>
                       ))}
                     </div>
