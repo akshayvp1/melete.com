@@ -1,14 +1,14 @@
 import React from 'react';
 
-const PrivacyPolicyPage: React.FC = () => {
+const TermsConditionsPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
       <div className="border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-6 py-16 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Privacy Policy</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Terms and Conditions</h1>
           <p className="text-lg text-gray-600">
-            Your privacy and data security are our top priorities
+            Please read these terms carefully before using MELETE
           </p>
         </div>
       </div>
@@ -18,63 +18,35 @@ const PrivacyPolicyPage: React.FC = () => {
         {/* Introduction */}
         <div className="mb-12">
           <p className="text-gray-800 mb-4 leading-relaxed text-lg">
-            MELETE ("we", "us", "our") is committed to protecting the privacy and security of our users' personal information. 
-            This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mental 
-            wellness services through our website and/or mobile application (collectively, the "Platform").
+            Please read these Terms and Conditions carefully before using the MELETE mobile application ("Application", "Service") 
+            operated by MELETE WELLNESS SOLUTIONS PRIVATE LIMITED ("Company", "We", "Us", or "Our").
           </p>
           <p className="text-gray-800 leading-relaxed text-lg">
-            By accessing or using our Platform, you agree to the terms of this Privacy Policy.
+            By downloading or using the Application, you agree to abide by these Terms and Conditions. If you do not agree to these Terms, please refrain from using the Service.
           </p>
         </div>
 
         {/* Section 1 */}
         <div className="mb-12">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>1. Information We Collect</h2>
+            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>1. Interpretation and Definitions</h2>
           </div>
-          <div className="space-y-8">
-            <p className="text-gray-800 text-lg">
-              We may collect and process the following types of information:
-            </p>
-            
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">1.1 Personal Information</h3>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {[
-                      "Name", "Email address", "Phone number", "Date of birth", 
-                      "Gender (optional)", "Health-related data voluntarily provided by you", "Emergency contact information (optional)"
-                    ].map((item, index) => (
-                      <li key={index} className="text-gray-700 text-lg">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">1.2 Sensitive Personal Data</h3>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <p className="text-gray-700 text-lg">
-                    Information relating to your mental and emotional health status, as shared through assessments, 
-                    consultations, or chat support on our Platform.
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">1.3 Usage and Device Information</h3>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {[
-                      "IP address", "Device type and operating system", "Browser type", 
-                      "Location data (if permitted)", "Log data (Such as pages visited, session duration, features used)"
-                    ].map((item, index) => (
-                      <li key={index} className="text-gray-700 text-lg">• {item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+          <div className="space-y-6">
+            <p className="text-gray-800 text-lg font-semibold">Definitions</p>
+            <p className="text-gray-800 text-lg">For these Terms:</p>
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <ul className="space-y-3">
+                {[
+                  "Application refers to MELETE, the mental health mobile application.",
+                  "Account means an individual user account created to access the Application's services.",
+                  "Company refers to MELETE WELLNESS SOLUTIONS PRIVATE LIMITED, registered in India.",
+                  "Service refers to the Application and all services made available through it.",
+                  "Content means any text, audio, video, graphics, or other material posted or made available through the Application.",
+                  "You refers to the individual accessing the Application or using the Service, or any legal entity on whose behalf the Service is used."
+                ].map((item, index) => (
+                  <li key={index} className="text-gray-700 text-lg">• {item}</li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
@@ -82,78 +54,144 @@ const PrivacyPolicyPage: React.FC = () => {
         {/* Section 2 */}
         <div className="mb-12">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>2. How We Use Your Information</h2>
+            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>2. Acknowledgment</h2>
           </div>
           <div className="space-y-6">
             <p className="text-gray-800 text-lg">
-              We use the collected information for the following purposes:
+              These Terms constitute an agreement between You and the Company regarding your use of the Service. You affirm that you are at least 18 years of age or using the app under parental supervision.
             </p>
-            <div className="bg-gray-50 p-6 rounded-lg">
-              <ul className="space-y-3">
-                {[
-                  "To provide, manage, and improve our mental wellness services",
-                  "To personalize your user experience",
-                  "To schedule and conduct consultations, therapy sessions, and assessments",
-                  "To send you notifications, updates, or service-related messages",
-                  "To respond to your inquiries and support requests",
-                  "To comply with legal and regulatory obligations"
-                ].map((item, index) => (
-                  <li key={index} className="text-gray-700 text-lg">• {item}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="bg-gray-50 border-l-4 p-6 rounded-r-lg" style={{ borderColor: '#015F4A' }}>
-              <p className="text-gray-800 font-medium text-lg">
-                We do not use your personal data for any advertising, profiling, or automated decision-making purposes.
-              </p>
-            </div>
+            <p className="text-gray-800 text-lg">
+              Your access to and use of the Service is also conditioned on your acceptance of and compliance with our Privacy Policy. Please review our Privacy Policy for details on data handling and your rights.
+            </p>
           </div>
         </div>
 
         {/* Section 3 */}
         <div className="mb-12">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>3. Disclosure of Information</h2>
+            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>3. User Accounts</h2>
           </div>
           <div className="space-y-6">
             <p className="text-gray-800 text-lg">
-              We do not sell, rent, or trade your personal information. However, we may share your information in the following circumstances:
+              To access certain features, you must register an account by providing accurate and complete information. You are responsible for safeguarding your password and for all activities under your account.
             </p>
+            <p className="text-gray-800 text-lg">You agree not to:</p>
             <div className="bg-gray-50 p-6 rounded-lg">
               <ul className="space-y-3">
                 {[
-                  "With licensed mental health professionals for providing therapy or consultation services you have requested",
-                  "With third-party service providers who assist in hosting, analytics, communication, or other operational services, under strict data protection agreements",
-                  "When required by law or in response to valid legal requests by public authorities",
-                  "To protect our legal rights, safety, or property or that of others"
+                  "Impersonate any person or entity",
+                  "Share your credentials",
+                  "Use offensive, obscene, or misleading usernames"
                 ].map((item, index) => (
                   <li key={index} className="text-gray-700 text-lg">• {item}</li>
                 ))}
               </ul>
             </div>
+            <p className="text-gray-800 text-lg">
+              Notify Us immediately of any unauthorized account use.
+            </p>
           </div>
         </div>
 
-        {/* Sections 4-6 */}
+        {/* Section 4 */}
+        <div className="mb-12">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>4. Services Provided</h2>
+          </div>
+          <div className="space-y-6">
+            <p className="text-gray-800 text-lg">Through MELETE, you can:</p>
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <ul className="space-y-3">
+                {[
+                  "Access online counselling, yoga, mindfulness resources, guided meditation, and wellness programs",
+                  "Book sessions with certified mental health professionals and yoga trainers",
+                  "Receive mental wellness content and notifications",
+                  "Participate in custom wellness programs"
+                ].map((item, index) => (
+                  <li key={index} className="text-gray-700 text-lg">• {item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-red-50 border-l-4 border-red-400 p-6 rounded-r-lg">
+              <p className="text-red-800 font-medium text-lg">
+                <strong>Important:</strong> This Application is not intended for emergency medical services. In case of a crisis, contact your local emergency number.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 5 */}
+        <div className="mb-12">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>5. Content and Usage Restrictions</h2>
+          </div>
+          <div className="space-y-6">
+            <p className="text-gray-800 text-lg">You agree not to:</p>
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <ul className="space-y-3">
+                {[
+                  "Post unlawful, abusive, defamatory, or discriminatory content",
+                  "Upload content containing viruses or malware",
+                  "Violate intellectual property rights",
+                  "Use the Service for unauthorized commercial purposes",
+                  "Misrepresent or impersonate others"
+                ].map((item, index) => (
+                  <li key={index} className="text-gray-700 text-lg">• {item}</li>
+                ))}
+              </ul>
+            </div>
+            <p className="text-gray-800 text-lg">
+              We reserve the right to remove any content deemed inappropriate.
+            </p>
+          </div>
+        </div>
+
+        {/* Section 6 */}
+        <div className="mb-12">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>6. Privacy and Data Handling</h2>
+          </div>
+          <div className="space-y-6">
+            <p className="text-gray-800 text-lg">
+              By using the Application, you consent to the collection and use of personal and sensitive data as per our Privacy Policy. This may include:
+            </p>
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <ul className="space-y-3">
+                {[
+                  "Name, age, contact details, and booking history",
+                  "Device, usage, and location data (when permitted)"
+                ].map((item, index) => (
+                  <li key={index} className="text-gray-700 text-lg">• {item}</li>
+                ))}
+              </ul>
+            </div>
+            <p className="text-gray-800 text-lg">
+              For full details, please refer to our Privacy Policy.
+            </p>
+          </div>
+        </div>
+
+        {/* Sections 7-10 */}
         {[
           {
-            number: 4,
-            title: "Data Security",
-            content: "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. These include:",
-            items: ["SSL encryption", "Access controls and authentication mechanisms", "Secure data storage and transmission protocols"]
+            number: 7,
+            title: "Intellectual Property",
+            content: "The Service, content, and all intellectual property rights remain the property of the Company. No part of the Service may be copied, reproduced, or redistributed without our prior written consent."
           },
           {
-            number: 5,
-            title: "Data Retention",
-            content: "We retain your personal information for as long as necessary to fulfil the purposes for which it was collected, or as required by applicable laws and regulations.",
-            items: []
+            number: 8,
+            title: "Third-Party Services",
+            content: "The Application may contain links to third-party websites or services. We have no control over their content, privacy policies, or practices and assume no responsibility for them."
           },
           {
-            number: 6,
-            title: "Your Rights",
-            content: "Depending on your jurisdiction, you may have the following rights regarding your personal data:",
-            items: ["Right to access", "Right to rectify inaccurate information", "Right to erase your data", "Right to restrict or object to processing", "Right to data portability", "Right to withdraw consent at any time"],
-            footer: "To exercise these rights, you can contact us at the details provided below."
+            number: 9,
+            title: "Limitation of Liability",
+            content: "To the fullest extent permitted by law:"
+          },
+          {
+            number: 10,
+            title: "Termination",
+            content: "We reserve the right to suspend or terminate your account without notice if you breach these Terms. Upon termination, your right to use the Service ceases immediately."
           }
         ].map((section) => (
           <div key={section.number} className="mb-12">
@@ -162,43 +200,39 @@ const PrivacyPolicyPage: React.FC = () => {
             </div>
             <div className="space-y-6">
               <p className="text-gray-800 text-lg">{section.content}</p>
-              {section.items.length > 0 && (
+              {section.number === 9 && (
                 <div className="bg-gray-50 p-6 rounded-lg">
-                  <ul className="space-y-2">
-                    {section.items.map((item, index) => (
+                  <ul className="space-y-3">
+                    {[
+                      "The Application is provided \"as is\" without warranties",
+                      "The Company will not be liable for indirect, incidental, or consequential damages",
+                      "Our liability is limited to the amount you paid for the Service, whichever is lower"
+                    ].map((item, index) => (
                       <li key={index} className="text-gray-700 text-lg">• {item}</li>
                     ))}
                   </ul>
                 </div>
               )}
-              {section.footer && (
-                <p className="text-gray-700 text-base italic">{section.footer}</p>
-              )}
             </div>
           </div>
         ))}
 
-        {/* Sections 7-10 */}
+        {/* Sections 11-14 */}
         {[
           {
-            number: 7,
-            title: "Cookies and Tracking Technologies",
-            content: "We may use cookies and similar technologies to enhance your experience on our Platform. You can choose to disable cookies through your browser settings; however, some features of the Platform may not function properly without them."
+            number: 11,
+            title: "Changes to These Terms",
+            content: "We may amend these Terms periodically. Continued use of the Application after changes implies acceptance of the updated Terms."
           },
           {
-            number: 8,
-            title: "Third-Party Links",
-            content: "Our Platform may contain links to third-party websites or services. We are not responsible for the privacy practices of such external platforms and encourage you to review their respective privacy policies."
+            number: 12,
+            title: "Governing Law",
+            content: "These Terms are governed by the laws of INDIA, without regard to its conflict of law principles."
           },
           {
-            number: 9,
-            title: "Children's Privacy",
-            content: "Our services are intended for users aged 18 and above. We do not knowingly collect personal information from individuals under 18 years of age. If we become aware of such information, we will take steps to delete it promptly."
-          },
-          {
-            number: 10,
-            title: "Changes to this Privacy Policy",
-            content: "We may update this Privacy Policy periodically. Any changes will be posted on this page with a revised \"Effective Date\". Continued use of our services after such updates signifies your acceptance of the revised policy."
+            number: 13,
+            title: "Dispute Resolution",
+            content: "For any concerns or disputes, you agree to first contact us for informal resolution. Failing which, the dispute shall be subject to the jurisdiction of Calicut."
           }
         ].map((section) => (
           <div key={section.number} className="mb-12">
@@ -212,18 +246,18 @@ const PrivacyPolicyPage: React.FC = () => {
         {/* Contact Section */}
         <div className="mb-12">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>11. Contact Us</h2>
+            <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>14. Contact Us</h2>
           </div>
           <div className="space-y-6">
             <p className="text-gray-800 text-lg">
-              If you have any questions, concerns, or complaints regarding this Privacy Policy or our data practices, please contact us at:
+              For any questions or concerns about these Terms:
             </p>
             <div className="bg-gray-50 p-8 rounded-lg">
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4">
                   <div>
                     <span className="font-semibold text-gray-900 text-lg">Company:</span>
-                    <span className="ml-3 text-gray-700 text-lg">Melete Wellness Solutions Private Limited</span>
+                    <span className="ml-3 text-gray-700 text-lg">Melete Wellness Solutions Private Limited</span>
                   </div>
                   <div>
                     <span className="font-semibold text-gray-900 text-lg">Email:</span>
@@ -237,7 +271,7 @@ const PrivacyPolicyPage: React.FC = () => {
                   </div>
                   <div>
                     <span className="font-semibold text-gray-900 text-lg">Address:</span>
-                    <span className="ml-3 text-gray-700 text-lg">2nd Floor,VK Tower,Mankavu,Calicut-673007 </span>
+                    <span className="ml-3 text-gray-700 text-lg">2nd Floor, VK Tower, Mankavu, Calicut-673007</span>
                   </div>
                 </div>
               </div>
@@ -260,4 +294,4 @@ const PrivacyPolicyPage: React.FC = () => {
   );
 };
 
-export default PrivacyPolicyPage;
+export default TermsConditionsPage;

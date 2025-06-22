@@ -22,7 +22,7 @@ const navItems: NavItem[] = [
   },
   { name: 'Our Experts', href: '/experts' },
   { name: 'About', href: '/about' },
-  { name: 'Contact', href: '/contact' },
+  // { name: 'Contact', href: '/contact' },
   { name: 'Improve With Us', href: '/improve' },
 ];
 
