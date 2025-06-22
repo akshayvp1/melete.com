@@ -190,14 +190,14 @@ const Navbar: React.FC = () => {
                 )}
               </div>
             ))}
-            <motion.button
+            {/* <motion.button
               className="px-6 py-2 rounded-full font-semibold text-base shadow-md hover:opacity-90 transition-all duration-300 text-white"
               style={{ backgroundColor: '#015F4A' }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               Get Started
-            </motion.button>
+            </motion.button> */}
           </div>
         </div>
       </motion.nav>

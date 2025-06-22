@@ -5,15 +5,13 @@ import AdminLogin from "../components/AdminLogin";
 
 function AdminLoginPage() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <div className="min-h-screen flex flex-col justify-between">
-        <div className="flex-grow pt-20 px-4 sm:px-8 md:px-16 lg:px-32">
-          <AdminLogin />
-        </div>
-        <Footer />
-      </div>
-    </>
+      <main className="flex-grow px-4 sm:px-8 md:px-16 lg:px-32 mt-35">
+        <AdminLogin />
+      </main>
+      <Footer />
+    </div>
   );
 }
 
