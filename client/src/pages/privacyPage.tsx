@@ -1,5 +1,5 @@
 import React from 'react';
-import TermsAndCondition from '../components/termsAndConditions';
+import PrivacyPolicyPage from '../components/privacyPolicy';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -8,7 +8,7 @@ const TermsPage: React.FC = () => {
     <>
       <Navbar />
       <div className="pt-16 md:pt-20">
-        <TermsAndCondition />
+        <PrivacyPolicyPage />
       </div>
       <Footer />
     </>

@@ -243,7 +243,7 @@ const TermsConditionsPage: React.FC = () => {
           </div>
         ))}
 
-        {/* Contact Section */}
+        {/* Contact Section - Mobile Optimized */}
         <div className="mb-12">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-900 pb-2 border-b-2" style={{ borderColor: '#015F4A' }}>14. Contact Us</h2>
@@ -252,27 +252,23 @@ const TermsConditionsPage: React.FC = () => {
             <p className="text-gray-800 text-lg">
               For any questions or concerns about these Terms:
             </p>
-            <div className="bg-gray-50 p-8 rounded-lg">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-4">
-                  <div>
-                    <span className="font-semibold text-gray-900 text-lg">Company:</span>
-                    <span className="ml-3 text-gray-700 text-lg">Melete Wellness Solutions Private Limited</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-gray-900 text-lg">Email:</span>
-                    <span className="ml-3 text-gray-700 text-lg">meletewellnesssolutions@gmail.com</span>
-                  </div>
+            <div className="bg-gray-50 p-6 sm:p-8 rounded-lg">
+              <div className="space-y-6">
+                <div className="flex flex-col sm:flex-row sm:items-center">
+                  <span className="font-semibold text-gray-900 text-lg mb-2 sm:mb-0 sm:min-w-[100px]">Company:</span>
+                  <span className="text-gray-700 text-lg break-words">Melete Wellness Solutions Private Limited</span>
                 </div>
-                <div className="space-y-4">
-                  <div>
-                    <span className="font-semibold text-gray-900 text-lg">Phone:</span>
-                    <span className="ml-3 text-gray-700 text-lg">+91 8943175522</span>
-                  </div>
-                  <div>
-                    <span className="font-semibold text-gray-900 text-lg">Address:</span>
-                    <span className="ml-3 text-gray-700 text-lg">2nd Floor, VK Tower, Mankavu, Calicut-673007</span>
-                  </div>
+                <div className="flex flex-col sm:flex-row sm:items-center">
+                  <span className="font-semibold text-gray-900 text-lg mb-2 sm:mb-0 sm:min-w-[100px]">Email:</span>
+                  <span className="text-gray-700 text-lg break-all">meletewellnesssolutions@gmail.com</span>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center">
+                  <span className="font-semibold text-gray-900 text-lg mb-2 sm:mb-0 sm:min-w-[100px]">Phone:</span>
+                  <span className="text-gray-700 text-lg">+91 8943175522</span>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-start">
+                  <span className="font-semibold text-gray-900 text-lg mb-2 sm:mb-0 sm:min-w-[100px]">Address:</span>
+                  <span className="text-gray-700 text-lg break-words">2nd Floor, VK Tower, Mankavu, Calicut-673007</span>
                 </div>
               </div>
             </div>
