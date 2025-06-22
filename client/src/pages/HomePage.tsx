@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/meleteProvide';
 import TherapyImprovementsSection from '../components/TherapyImprovementsSection';
-import BetterLYFCard from '../components/BetterLYFCard';
+// import BetterLYFCard from '../components/BetterLYFCard';
 import ConsultantsSection from '../components/getCounsellors';
 import WhatWeOffer from '../components/offer';
 import Footer from '../components/Footer';
@@ -51,7 +51,7 @@ const Home: React.FC = () => {
       <main className={LAYOUT_CONFIG.navbarHeight} role="main">
         <HeroSection />
         <TherapyImprovementsSection />
-        <BetterLYFCard />
+        {/* <BetterLYFCard /> */}
         <ConsultantsSection />
         <WhatWeOffer />
         <SubscriptionPlans />

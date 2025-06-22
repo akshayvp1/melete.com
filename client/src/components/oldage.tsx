@@ -429,14 +429,14 @@ const SeniorSupportPage: React.FC = () => {
                     )}
                     
                     {/* Action Buttons */}
-                    <div className="flex gap-2 mt-6">
+                    {/* <div className="flex gap-2 mt-6">
                       <button className="flex-1 bg-[#015F4A] text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-[#014136] transition-all duration-300 transform hover:scale-105">
                         Book Session
                       </button>
                       <button className="px-4 py-2 border border-[#015F4A] text-[#015F4A] text-sm font-medium rounded-lg hover:bg-[#015F4A]/5 transition-colors">
                         View Profile
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))}

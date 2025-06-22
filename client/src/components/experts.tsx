@@ -85,14 +85,14 @@ const CounsellorCard: React.FC<CounsellorCardProps> = ({ consultant }) => {
           </div>
         </div>
         <div className="flex">
-          <button
+          {/* <button
             onClick={handleBookSession}
             className="flex-1 py-2 px-4 bg-teal-600 text-white rounded-lg text-sm font-semibold hover:bg-teal-700 transition-all duration-200 flex items-center justify-center"
             aria-label={`Book a session with ${consultant.name}`}
           >
             <MessageCircle className="w-4 h-4 mr-2" />
             Book
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

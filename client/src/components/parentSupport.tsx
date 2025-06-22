@@ -291,182 +291,159 @@ const ParentSupportPage: React.FC = () => {
 
       {/* Team Section */}
       <section 
-        ref={teamRef}
-        className="py-16 lg:py-24 bg-gray-50"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`text-center mb-16 transform transition-all duration-1000 ${
-            isTeamVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          }`}>
-            <h2 className="text-3xl lg:text-5xl font-bold text-[#015F4A] mb-6">
-              Meet Our Expert
-              <span className="block text-[#015F4A]">
-                Parent Support Specialists
-              </span>
-            </h2>
-            <p className="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto">
-              Our licensed professionals specialize in family dynamics and are dedicated to helping you become the parent you want to be.
-            </p>
-          </div>
-
-          {loading && (
-            <div className="text-center py-12">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#015F4A]"></div>
-              <p className="mt-4 text-gray-600">Loading our expert specialists...</p>
-            </div>
-          )}
-
-          {error && (
-            <div className="text-center py-12">
-              <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto">
-                <p className="text-red-600 mb-4">Error: {error}</p>
-                <button 
-                  onClick={fetchCounsellors}
-                  className="px-6 py-2 bg-[#015F4A] text-white rounded-lg hover:bg-[#014A3A] transition-colors"
-                >
-                  Retry
-                </button>
-              </div>
-            </div>
-          )}
-
-          {!loading && !error && consultants.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-600 mb-4">No counsellors available at the moment.</p>
-              <button 
-                onClick={fetchCounsellors}
-                className="px-6 py-2 bg-[#015F4A] text-white rounded-lg hover:bg-[#014A3A] transition-colors"
-              >
-                Refresh
-              </button>
-            </div>
-          )}
-
-          {!loading && !error && consultants.length > 0 && (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {consultants.map((member, index) => (
-                <div
-                  key={member.id}
-                  className={`bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-200 overflow-hidden group ${
-                    isTeamVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-                  }`}
-                  style={{ transitionDelay: `${index * 150}ms` }}
-                >
-                  {/* Professional Header with Image */}
-                  <div className="relative bg-[#015F4A] p-8 pb-20">
-                    <div className="flex items-center justify-between mb-6">
-                      {member.isVerified && (
-                        <div className="flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full">
-                          <CheckCircle className="w-4 h-4 text-white" />
-                          <span className="text-sm text-white font-medium">Verified</span>
-                        </div>
-                      )}
-                      <div className="flex items-center gap-1">
-                        <div className="flex">
-                          {[...Array(5)].map((_, i) => (
-                            <div key={i} className={`w-4 h-4 ${i < Math.floor(member.rating) ? 'text-yellow-400' : 'text-white/30'}`}>
-                              ★
-                            </div>
-                          ))}
-                        </div>
-                        <span className="text-white/80 text-sm ml-2">({member.sessions})</span>
-                      </div>
-                    </div>
-                    
-                    {/* Profile Image - Positioned to overlap */}
-                    <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
-                      <div className="w-24 h-24 rounded-full bg-white p-1 shadow-xl">
-                        <img
-                          src={member.image}
-                          alt={member.name}
-                          className="w-full h-full rounded-full object-cover"
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=015F4A&color=ffffff&size=96`;
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Content */}
-                  <div className="pt-16 px-8 pb-8">
-                    <div className="text-center mb-6">
-                      <h3 className="text-xl font-bold text-[#015F4A] mb-2">{member.name}</h3>
-                      <p className="text-[#015F4A] font-semibold text-base mb-2">{member.qualification}</p>
-                      <p className="text-gray-600 text-sm">{member.specialization}</p>
-                    </div>
-                    
-                    {/* Experience and Location */}
-                    <div className="flex items-center justify-center gap-6 text-sm text-gray-500 mb-6">
-                      {member.experience && (
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4" />
-                          <span>{member.experience}</span>
-                        </div>
-                      )}
-                      {member.location && (
-                        <div className="flex items-center gap-2">
-                          <User className="w-4 h-4" />
-                          <span>{member.location}</span>
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* Languages */}
-                    {member.languages && member.languages.length > 0 && (
-                      <div className="mb-6">
-                        <p className="text-sm font-semibold text-[#015F4A] mb-3">Languages:</p>
-                        <div className="flex flex-wrap gap-2 justify-center">
-                          {member.languages.slice(0, 3).map((language, langIndex) => (
-                            <span key={langIndex} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg">
-                              {language}
-                            </span>
-                          ))}
-                          {member.languages.length > 3 && (
-                            <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-lg">
-                              +{member.languages.length - 3}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {/* Expertise Tags */}
-                    {member.expertise && member.expertise.length > 0 && (
-                      <div className="mb-6">
-                        <p className="text-sm font-semibold text-[#015F4A] mb-3">Specializations:</p>
-                        <div className="flex flex-wrap gap-2 justify-center">
-                          {member.expertise.slice(0, 2).map((skill, skillIndex) => (
-                            <span key={skillIndex} className="px-3 py-1 bg-[#015F4A]/10 text-[#015F4A] text-sm rounded-lg font-medium">
-                              {skill}
-                            </span>
-                          ))}
-                          {member.expertise.length > 2 && (
-                            <span className="px-3 py-1 bg-[#015F4A]/10 text-[#015F4A] text-sm rounded-lg font-medium">
-                              +{member.expertise.length - 2} more
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                    
-                    {/* Action Buttons */}
-                    <div className="flex gap-3 mt-8">
-                      <button className="flex-1 bg-[#015F4A] text-white text-sm font-medium py-3 px-4 rounded-xl hover:bg-[#014A3A] transition-colors">
-                        Book Session
-                      </button>
-                      <button className="px-4 py-3 border border-[#015F4A] text-[#015F4A] text-sm font-medium rounded-xl hover:bg-[#015F4A]/5 transition-colors">
-                        View Profile
-                      </button>
-                    </div>
-                  </div>
+              ref={teamRef}
+              className="py-16 lg:py-24 bg-white"
+            >
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className={`text-center mb-16 transform transition-all duration-1000 ${
+                  isTeamVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                }`}>
+                  <h2 className="text-3xl lg:text-5xl font-bold text-slate-800 mb-6">
+                    Meet Our Specialized
+                    <span className="block text-[#015F4A]">
+                      Senior Care Therapists
+                    </span>
+                  </h2>
+                  <p className="text-lg lg:text-xl text-slate-600 max-w-3xl mx-auto">
+                    Our licensed professionals specialize in geriatric mental health and are dedicated to supporting seniors with dignity and expertise.
+                  </p>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      
+                {loading && (
+                  <div className="text-center py-12">
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#015F4A]"></div>
+                    <p className="mt-4 text-slate-600">Loading our expert therapists...</p>
+                  </div>
+                )}
+      
+                {error && (
+                  <div className="text-center py-12">
+                    <p className="text-red-600 mb-4">Error: {error}</p>
+                    <button 
+                      onClick={fetchCounsellors}
+                      className="px-6 py-2 bg-[#015F4A] text-white rounded-lg hover:bg-[#014136] transition-all duration-300"
+                    >
+                      Retry
+                    </button>
+                  </div>
+                )}
+      
+                {!loading && !error && (
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {consultants.map((member, index) => (
+                      <div
+                        key={member.id}
+                        className={`bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden group ${
+                          isTeamVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                        }`}
+                        style={{ transitionDelay: `${index * 150}ms` }}
+                      >
+                        {/* Professional Header with Image */}
+                        <div className="relative bg-[#015F4A] p-6 pb-16">
+                          <div className="flex items-center justify-between mb-4">
+                            {member.isVerified && (
+                              <div className="flex items-center gap-1 bg-white/20 px-2 py-1 rounded-full">
+                                <CheckCircle className="w-3 h-3 text-white" />
+                                <span className="text-xs text-white font-medium">Verified</span>
+                              </div>
+                            )}
+                            <div className="flex items-center gap-1">
+                              <div className="flex">
+                                {[...Array(5)].map((_, i) => (
+                                  <div key={i} className={`w-3 h-3 ${i < Math.floor(member.rating) ? 'text-yellow-400' : 'text-white/30'}`}>
+                                    ★
+                                  </div>
+                                ))}
+                              </div>
+                              <span className="text-white/80 text-xs ml-1">({member.sessions})</span>
+                            </div>
+                          </div>
+                          
+                          {/* Profile Image - Positioned to overlap */}
+                          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
+                            <div className="w-16 h-16 rounded-full bg-white p-1 shadow-lg">
+                              <img
+                                src={member.image}
+                                alt={member.name}
+                                className="w-full h-full rounded-full object-cover"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=015F4A&color=ffffff&size=64`;
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Content */}
+                        <div className="pt-12 px-6 pb-6">
+                          <div className="text-center mb-4">
+                            <h3 className="text-lg font-bold text-slate-800 mb-1">{member.name}</h3>
+                            <p className="text-[#015F4A] font-semibold text-sm mb-1">{member.qualification}</p>
+                            <p className="text-slate-600 text-sm">{member.specialization}</p>
+                          </div>
+                          
+                          {/* Experience and Location */}
+                          <div className="flex items-center justify-center gap-4 text-xs text-slate-500 mb-4">
+                            <div className="flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              <span>{member.experience}</span>
+                            </div>
+                            {member.location && (
+                              <div className="flex items-center gap-1">
+                                <Home className="w-3 h-3" />
+                                <span>{member.location}</span>
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Languages */}
+                          {member.languages && member.languages.length > 0 && (
+                            <div className="mb-4">
+                              <p className="text-xs font-semibold text-slate-700 mb-2">Languages:</p>
+                              <div className="flex flex-wrap gap-1 justify-center">
+                                {member.languages.slice(0, 3).map((language, langIndex) => (
+                                  <span key={langIndex} className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-md">
+                                    {language}
+                                  </span>
+                                ))}
+                                {member.languages.length > 3 && (
+                                  <span className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-md">
+                                    +{member.languages.length - 3}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Expertise Tags */}
+                          {member.expertise && member.expertise.length > 0 && (
+                            <div className="mb-4">
+                              <p className="text-xs font-semibold text-slate-700 mb-2">Specializations:</p>
+                              <div className="flex flex-wrap gap-1 justify-center">
+                                {member.expertise.slice(0, 2).map((skill, skillIndex) => (
+                                  <span key={skillIndex} className="px-2 py-1 bg-[#015F4A]/10 text-[#015F4A] text-xs rounded-md font-medium">
+                                    {skill}
+                                  </span>
+                                ))}
+                                {member.expertise.length > 2 && (
+                                  <span className="px-2 py-1 bg-[#015F4A]/10 text-[#015F4A] text-xs rounded-md font-medium">
+                                    +{member.expertise.length - 2} more
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Action Buttons */}
+                          
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </section>
     </div>
   );
 };

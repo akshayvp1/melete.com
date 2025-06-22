@@ -3,8 +3,9 @@ import React from 'react';
 import { Heart, Users, Brain, Clock, Award, CheckCircle, Building, GraduationCap, Briefcase, Star } from 'lucide-react';
 import serviceImage from '../assets/service.jpg'
 import melteIcon from '../assets/Micon.png'
-import student from '../assets/student.jpg'
-import professional from '../assets/professionals.jpg'
+import student from "../assets/colleges.webp";
+import institution from "../assets/institution.webp";
+import company from '../assets/company.webp'
 const MeleteServices = () => {
   const plans = [
     {
@@ -75,8 +76,8 @@ const MeleteServices = () => {
   // Professional stock images using placeholder service
   const categoryImages = {
     students: student,
-    professionals: professional, 
-    institutions: "https://images.unsplash.com/photo-1562774053-701939374585?w=400&h=300&fit=crop&auto=format"
+    professionals: company, 
+    institutions: institution
   };
 
   const heroImage = serviceImage;

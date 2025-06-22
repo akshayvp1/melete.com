@@ -860,7 +860,7 @@ const AboutPage = () => {
               },
               {
                 icon: Headphones,
-                title: "Mental Health Related Music",
+                title: "Relaxation Music",
                 description: "Curated music playlists designed to support mental health and relaxation.",
                 image: music
               },
