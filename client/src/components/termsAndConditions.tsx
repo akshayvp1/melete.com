@@ -386,10 +386,10 @@ const TermsConditionsPage: React.FC = () => {
       </ul>
 
       <p><strong>• 7. Intellectual Property</strong></p>
-      <p>The Service, content, and all intellectual property rights remain the property of the Company.</p>
+      <p>The Service, content, and all intellectual property rights remain the property of the Company.No part of the Service may be copied, reproduced, or redistributed without our prior written consent.</p>
 
       <p><strong>• 8. Third-Party Services</strong></p>
-      <p>We are not responsible for the content or practices of third-party websites or services linked from the Application.</p>
+      <p>The Application may contain links to third-party websites or services. We have no control over their content, privacy policies, or practices and assume no responsibility for them.</p>
 
       <p><strong>• 9. Limitation of Liability</strong></p>
       <ul>
@@ -399,16 +399,16 @@ const TermsConditionsPage: React.FC = () => {
       </ul>
 
       <p><strong>• 10. Termination</strong></p>
-      <p>We reserve the right to suspend or terminate your account without notice if you breach these Terms.</p>
+      <p>We reserve the right to suspend or terminate your account without notice if you breach these Terms.Upon termination, your right to use the Service ceases immediately.</p>
 
       <p><strong>• 11. Changes to These Terms</strong></p>
-      <p>Continued use of the Application after updates implies acceptance of the new Terms.</p>
+      <p>We may amend these Terms periodically. Continued use of the Application after changes implies acceptance of the updated Terms.</p>
 
       <p><strong>• 12. Governing Law</strong></p>
       <p>These Terms are governed by the laws of INDIA.</p>
 
       <p><strong>• 13. Dispute Resolution</strong></p>
-      <p>Disputes shall be subject to the jurisdiction of Calicut after informal resolution attempts.</p>
+      <p>For any concerns or disputes, you agree to first contact us for informal resolution. Failing which, the dispute shall be subject to the jurisdiction of Calicut.</p>
 
       <p><strong>• 14. Contact Us</strong></p>
       <ul>
