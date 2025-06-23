@@ -83,14 +83,18 @@ class AdminAuthRepository implements IAdminAuthRepository {
       throw new Error("Failed to fetch users");
     }
   }
-  async frontGetCounsellors(): Promise<ICounsellor[]> {
+ async frontGetCounsellors(): Promise<ICounsellor[]> {
     try {
-      return await this.counsellorModel.find({}).exec();
+      return await this.counsellorModel
+        .find({})
+        .sort({ experience: -1 }) // Sort by experience in descending order
+        .exec();
     } catch (error) {
-      console.error("Error fetching users:", error);
-      throw new Error("Failed to fetch users");
+      console.error("Error fetching counsellors:", error);
+      throw new Error("Failed to fetch counsellors");
     }
-  }
+}
+
    async findUserById(id: string): Promise<ICounsellor | null> {
     try {
       return await this.counsellorModel.findById(id).select("-password").lean();
