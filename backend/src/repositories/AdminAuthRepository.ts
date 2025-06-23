@@ -104,7 +104,7 @@ class AdminAuthRepository implements IAdminAuthRepository {
   }
  async blockCounsellors(userId: string): Promise<ICounsellor> {
   try {
-    console.log("yooooooo");
+    
     const user = await this.counsellorModel
       .findByIdAndUpdate(userId, { isBlocked: true }, { new: true })
       .exec();
