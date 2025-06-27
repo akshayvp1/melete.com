@@ -24,48 +24,7 @@ import relaxation from '../assets/relaxation-tech.webp'
 import activity from '../assets/activities.webp'
 import habit from '../assets/habit.webp'
 const MeleteServices = () => {
-  const plans = [
-    {
-      name: "Basic Plan",
-      subtitle: "Essential Support",
-      description: "24/7 Mental Health Support for instant emotional care",
-      features: ["24/7 Mental Health Support", "Instant emotional care", "Expert consultations"],
-      pricing: {
-        students: "",
-        corporate: "",
-        institutions: "/student"
-      }
-    },
-    {
-      name: "Standard Plan", 
-      subtitle: "Complete Care",
-      description: "Enhanced support with workshops and community tools",
-      features: [
-        "24/7 Experts Support",
-        "Monthly Online Workshops", 
-        "2 In-person Workshops per Semester",
-        "Community connection tools"
-      ],
-      
-      popular: true
-    },
-    {
-      name: "Premium Plan",
-      subtitle: "Premium Wellness",
-      description: "Comprehensive care with personalized wellness plans",
-      features: [
-        "24/7 Mental Health Support",
-        "Monthly In-Person Workshops",
-        "Personalized wellness plans", 
-        "Priority expert access"
-      ],
-      pricing: {
-        students: "",
-        corporate: "",
-        institutions: "/student"
-      }
-    }
-  ];
+  
 
   const services = [
     {
@@ -352,7 +311,7 @@ const MeleteServices = () => {
       </div>
 
       {/* Pricing Plans Section */}
-      <div className="py-16 bg-gray-50">
+      {/* <div className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-[#015F4A] mb-4">Choose Your Wellness Plan</h2>
@@ -414,7 +373,7 @@ const MeleteServices = () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -6,7 +6,7 @@ import TherapyImprovementsSection from '../components/TherapyImprovementsSection
 import ConsultantsSection from '../components/getCounsellors';
 import WhatWeOffer from '../components/offer';
 import Footer from '../components/Footer';
-import SubscriptionPlans from '../components/planComponents';
+// import SubscriptionPlans from '../components/planComponents';
 
 // Constants
 const CONTACT_CONFIG = {
@@ -54,7 +54,7 @@ const Home: React.FC = () => {
         {/* <BetterLYFCard /> */}
         <ConsultantsSection />
         <WhatWeOffer />
-        <SubscriptionPlans />
+        {/* <SubscriptionPlans /> */}
       </main>
       
       {/* Footer */}
