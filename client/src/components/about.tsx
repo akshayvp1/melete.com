@@ -541,6 +541,7 @@ import relaxation from '../assets/relaxation-tech.webp';
 import activity from '../assets/activities.webp';
 import habit from '../assets/habit.webp';
 import mobileApp from '../assets/habit.webp'
+import application from '../assets/meleteapp.jpg'
 
 const AboutPage = () => {
   return (
@@ -953,9 +954,25 @@ const AboutPage = () => {
                   </a>
                 </div>
               </div>
-              <div className="flex justify-center lg:justify-end">
+              {/* <div className="flex justify-center lg:justify-end">
                 <img src={mobileApp} alt="MELETE mobile app interface" className="w-auto h-96 object-contain" loading="lazy" />
-              </div>
+              </div> */}
+
+              <div className="flex justify-center lg:justify-end">
+  <div className="relative w-[250px] h-[500px] rounded-[2.5rem] bg-black border-[14px] border-gray-900 shadow-xl overflow-hidden">
+    {/* Top notch */}
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-4 bg-gray-900 rounded-b-lg z-20" />
+
+    {/* Mobile App Screenshot */}
+    <img
+      src={application}
+      alt="MELETE mobile app interface"
+      className="w-full h-full object-cover rounded-[2rem]"
+      loading="lazy"
+    />
+  </div>
+</div>
+
             </div>
           </div>
         </div>
