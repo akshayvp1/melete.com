@@ -1078,7 +1078,7 @@ const expertiseOptions: string[] = [
   'psycho Education','Adolescents','General Psychiatry','Developmental Disorders',
   'Addiction & Substance Use Disorders','Sleep-Related Concerns','Identity Confusion & Emotional Difficulties',
   'Online Counselling','Screen Addiction',"Anger Issues",'Porn Addiction','Phobias','Obsessive Compulsive Tendencies',
-  'Personality Disorders','Relaxation Technique','Psychological Assessments'
+  'Personality Disorders','Relaxation Technique','Psychological Assessments','Parental counselling'
 ];
 
 const languageOptions: string[] = [
