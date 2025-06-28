@@ -716,10 +716,15 @@
 // export default AddCounsellor;
 
 
-import React, { useState, ChangeEvent, useCallback } from 'react';
-import { User, Upload, X, Plus, MapPin, BookOpen, Globe, Award, Briefcase, Camera, Check } from 'lucide-react';
+
+
+
+import React, { useState, ChangeEvent, useEffect } from 'react';
+import { User, Upload, X, Plus, MapPin, BookOpen, Globe, Award, Briefcase, Camera } from 'lucide-react';
+import { toast } from 'react-toastify';
 import Cropper from 'react-easy-crop';
-import { Area } from 'react-easy-crop/types';
+import adminAuthService from '../services/AuthService';
+import AuthService from '../services/AuthService';
 
 interface FormData {
   name: string;
@@ -780,29 +785,27 @@ const AddCounsellor: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errors, setErrors] = useState<Errors>({});
-  
-  // Image cropping states
   const [showCropper, setShowCropper] = useState<boolean>(false);
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
-  const [originalImage, setOriginalImage] = useState<File | null>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
   // Predefined options
   const expertiseOptions: string[] = [
     'Anxiety', 'Relationship Issues', 'Career Guidance', 'Depression',
     'Family Therapy', 'Addiction Recovery', 'Trauma', 'Child Counselling',
     'Couples Therapy', 'Grief Counselling', 'Stress Management',
-    'PTSD', 'Eating Disorders', 'Exam-Related Issues','Behavioural issues','Academic backwardness ',
-    'psycho Education','Adolescents','General Psychiatry','Developmental Disorders',
-    'Addiction & Substance Use Disorders','Sleep-Related Concerns','Identity Confusion & Emotional Difficulties',
-    'Online Counselling','Screen Addiction',"Anger Issues",'Porn Addiction','Phobias','Obsessive Compulsive Tendencies',
-    'Personality Disorders','Relaxation Technique','Psychological Assessments'
+    'PTSD', 'Eating Disorders', 'Exam-Related Issues', 'Behavioural issues', 'Academic backwardness ',
+    'psycho Education', 'Adolescents', 'General Psychiatry', 'Developmental Disorders',
+    'Addiction & Substance Use Disorders', 'Sleep-Related Concerns', 'Identity Confusion & Emotional Difficulties',
+    'Online Counselling', 'Screen Addiction', 'Anger Issues', 'Porn Addiction', 'Phobias', 'Obsessive Compulsive Tendencies',
+    'Personality Disorders', 'Relaxation Technique', 'Psychological Assessments'
   ];
 
   const languageOptions: string[] = [
-    'English', 'Malayalam', 'Tamil', 'Hindi'
+    'English', 'Malayalam', 'Tamil',
+    'Hindi'
   ];
 
   const counsellingTypeOptions: string[] = [
@@ -826,159 +829,81 @@ const AddCounsellor: React.FC = () => {
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setOriginalImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageToCrop(reader.result as string);
         setShowCropper(true);
-        setZoom(1);
-        setCrop({ x: 0, y: 0 });
-        setCroppedAreaPixels(null);
-        // Clear existing preview and formData.image to ensure new image is processed
-        setImagePreview(null);
-        setFormData(prev => ({
-          ...prev,
-          image: null
-        }));
       };
       reader.readAsDataURL(file);
-      
-      setErrors(prev => ({
-        ...prev,
-        image: undefined
-      }));
     }
   };
 
-  const handleEditImage = () => {
-    if (originalImage) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageToCrop(reader.result as string);
-        setShowCropper(true);
-        setZoom(1);
-        setCrop({ x: 0, y: 0 });
-        setCroppedAreaPixels(null);
-      };
-      reader.readAsDataURL(originalImage);
-    } else if (imagePreview) {
-      // If no original image (e.g., loaded from existing data), fetch the preview image
-      fetch(imagePreview)
-        .then(res => res.blob())
-        .then(blob => {
-          const file = new File([blob], 'existing-image.jpg', { type: 'image/jpeg', lastModified: Date.now() });
-          setOriginalImage(file);
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setImageToCrop(reader.result as string);
-            setShowCropper(true);
-            setZoom(1);
-            setCrop({ x: 0, y: 0 });
-            setCroppedAreaPixels(null);
-          };
-          reader.readAsDataURL(file);
-        })
-        .catch(() => {
-          setErrors(prev => ({
-            ...prev,
-            image: 'Failed to load image for editing.'
-          }));
-        });
-    }
-  };
-
-  const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
-  }, []);
+  };
 
-  const getCroppedImage = async (): Promise<File> => {
-    if (!croppedAreaPixels || !imageToCrop) {
-      throw new Error('No image to crop');
-    }
-
+  const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<File> => {
     const image = new Image();
-    image.src = imageToCrop;
-    await new Promise(resolve => {
-      image.onload = resolve;
-    });
+    image.src = imageSrc;
+    await new Promise(resolve => (image.onload = resolve));
 
     const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      throw new Error('Failed to get canvas context');
-    }
+    const ctx = canvas.getContext('2d')!;
+    canvas.width = pixelCrop.width;
+    canvas.height = pixelCrop.height;
 
-    // Set canvas to high resolution (400x400 for better quality)
-    const targetSize = 400;
-    canvas.width = targetSize;
-    canvas.height = targetSize;
-
-    // Enable high-quality image rendering
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-
-    // Calculate scaling factors
-    const scaleX = image.naturalWidth / 100;
-    const scaleY = image.naturalHeight / 100;
-
-    // Draw cropped image
     ctx.drawImage(
       image,
-      croppedAreaPixels.x * scaleX,
-      croppedAreaPixels.y * scaleY,
-      croppedAreaPixels.width * scaleX,
-      croppedAreaPixels.height * scaleY,
+      pixelCrop.x,
+      pixelCrop.y,
+      pixelCrop.width,
+      pixelCrop.height,
       0,
       0,
-      targetSize,
-      targetSize
+      pixelCrop.width,
+      pixelCrop.height
     );
 
     return new Promise((resolve) => {
       canvas.toBlob((blob) => {
         if (blob) {
-          const file = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg', lastModified: Date.now() });
+          const file = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg' });
           resolve(file);
         }
-      }, 'image/jpeg', 0.95); // Higher quality setting
+      }, 'image/jpeg');
     });
   };
 
-  const handleCropConfirm = async () => {
-    try {
-      const croppedFile = await getCroppedImage();
-      
-      setFormData(prev => ({
-        ...prev,
-        image: croppedFile
-      }));
-
-      // Create preview URL
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(croppedFile);
-
-      setShowCropper(false);
-      setImageToCrop(null);
-      setZoom(1);
-      setCrop({ x: 0, y: 0 });
-      setCroppedAreaPixels(null);
-    } catch (error) {
-      setErrors(prev => ({
-        ...prev,
-        image: 'Failed to crop image. Please try again.'
-      }));
+  const handleCrop = async () => {
+    if (imageToCrop && croppedAreaPixels) {
+      try {
+        const croppedImage = await getCroppedImg(imageToCrop, croppedAreaPixels);
+        setFormData(prev => ({
+          ...prev,
+          image: croppedImage
+        }));
+        setErrors(prev => ({
+          ...prev,
+          image: undefined
+        }));
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result as string);
+          setShowCropper(false);
+          setImageToCrop(null);
+        };
+        reader.readAsDataURL(croppedImage);
+      } catch (error) {
+        setErrors(prev => ({
+          ...prev,
+          image: 'Failed to crop image.'
+        }));
+        toast.error('Failed to crop image.', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
+      }
     }
-  };
-
-  const handleCropCancel = () => {
-    setShowCropper(false);
-    setImageToCrop(null);
-    setZoom(1);
-    setCrop({ x: 0, y: 0 });
-    setCroppedAreaPixels(null);
   };
 
   const handleArrayFieldChange = (
@@ -1133,10 +1058,8 @@ const AddCounsellor: React.FC = () => {
         image: undefined
       };
 
-      // Simulate API call
-      console.log('Counsellor data:', counsellorData);
-      
-      // Reset form
+      await adminAuthService.addCounsellor(counsellorData);
+
       setFormData({
         name: '',
         qualification: '',
@@ -1152,19 +1075,36 @@ const AddCounsellor: React.FC = () => {
         specialization: '',
       });
       setImagePreview(null);
-      setOriginalImage(null);
-      
-      alert('Counsellor added successfully!');
+      toast.success('Counsellor added successfully!', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
     } catch (error: any) {
       console.error('Error adding counsellor:', error);
       if (error.message !== 'Please correct the form errors.') {
         setErrors({ general: error.message || 'Error adding counsellor. Please try again.' });
       }
-      alert(error.message || 'Error adding counsellor.');
+      toast.error(error.message || 'Error adding counsellor.', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const fetchedEvents = await AuthService.getCounsellors();
+        console.log(fetchedEvents);
+      } catch (err) {
+        console.error('Error fetching events:', err);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const ArrayFieldSelector: React.FC<ArrayFieldSelectorProps> = ({ title, field, options, icon: Icon, error }) => (
     <div className="space-y-3">
@@ -1215,72 +1155,6 @@ const AddCounsellor: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white">
-      {/* Image Cropper Modal */}
-      {showCropper && imageToCrop && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-auto">
-            <h3 className="text-lg font-semibold mb-4 flex items-center">
-              <Camera className="w-5 h-5 mr-2 text-[#0A4F43]" />
-              Crop Profile Image
-            </h3>
-            
-            <div className="relative h-96 mb-4">
-              <Cropper
-                image={imageToCrop}
-                crop={crop}
-                zoom={zoom}
-                aspect={1}
-                cropShape="round"
-                showGrid={true}
-                restrictPosition={false}
-                onCropChange={setCrop}
-                onZoomChange={setZoom}
-                onCropComplete={onCropComplete}
-                classes={{
-                  containerClassName: 'bg-gray-100 rounded-lg',
-                  mediaClassName: 'max-h-80 object-contain',
-                  cropAreaClassName: 'border-2 border-[#0A4F43] shadow-lg'
-                }}
-                zoomSpeed={0.5}
-                maxZoom={3}
-                minZoom={1}
-              />
-            </div>
-            
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Zoom
-              </label>
-              <input
-                type="range"
-                value={zoom}
-                min={1}
-                max={3}
-                step={0.1}
-                onChange={(e) => setZoom(Number(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#0A4F43]"
-              />
-            </div>
-            
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={handleCropCancel}
-                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleCropConfirm}
-                className="px-4 py-2 bg-[#0A4F43] text-white rounded-lg hover:bg-[#083d33] flex items-center transition-colors"
-              >
-                <Check className="w-4 h-4 mr-2" />
-                Confirm Crop
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Add New Counsellor</h1>
         <p className="text-gray-600">Fill in the details to add a new counsellor to the platform</p>
@@ -1300,49 +1174,89 @@ const AddCounsellor: React.FC = () => {
             Profile Image
           </h2>
           
-          <div className="flex items-center space-x-6">
+          {showCropper && imageToCrop ? (
             <div className="relative">
-              {imagePreview ? (
-                <>
-                  <img
-                    src={imagePreview}
-                    alt="Preview"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
-                  />
-                  <button
-                    onClick={handleEditImage}
-                    className="absolute bottom-0 right-0 bg-[#0A4F43] text-white p-2 rounded-full hover:bg-[#083d33] transition-colors"
-                    title="Edit Image"
-                  >
-                    <Camera className="w-4 h-4" />
-                  </button>
-                </>
-              ) : (
-                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-4 border-white shadow-lg">
-                  <User className="w-10 h-10 text-gray-400" />
-                </div>
-              )}
-            </div>
-            
-            <div>
-              <label className="inline-flex items-center px-4 py-2 bg-[#0A4F43] text-white rounded-lg hover:bg-[#083d33] transition-colors cursor-pointer">
-                <Upload className="w-4 h-4 mr-2" />
-                Upload Image
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="hidden"
+              <div className="relative w-full h-64">
+                <Cropper
+                  image={imageToCrop}
+                  crop={crop}
+                  zoom={zoom}
+                  aspect={1}
+                  cropShape="round"
+                  showGrid={false}
+                  onCropChange={setCrop}
+                  onZoomChange={setZoom}
+                  onCropComplete={onCropComplete}
                 />
-              </label>
-              <p className="text-sm text-gray-500 mt-2">
-                Upload an image and crop it to fit perfectly
-              </p>
-              {errors.image && (
-                <p className="text-red-700 text-sm mt-2">{errors.image}</p>
-              )}
+              </div>
+              <div className="flex justify-end space-x-4 mt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowCropper(false);
+                    setImageToCrop(null);
+                  }}
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCrop}
+                  className="px-4 py-2 bg-[#0A4F43] text-white rounded-lg hover:bg-[#083d33] transition-colors"
+                >
+                  Crop Image
+                </button>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex items-center space-x-6">
+              <div className="relative">
+                {imagePreview ? (
+                  <div className="relative">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImageToCrop(imagePreview);
+                        setShowCropper(true);
+                      }}
+                      className="absolute top-0 right-0 bg-[#0A4F43] text-white rounded-full p-1.5 hover:bg-[#083d33] transition-colors"
+                    >
+                      <Camera className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-4 border-white bg-gray-200 shadow-lg">
+                    <User className="w-10 h-10 text-gray-400" />
+                  </div>
+                )}
+              </div>
+              
+              <div>
+                <label className="inline-flex items-center px-4 py-2 bg-[#0A4F43] text-white rounded-lg hover:bg-[#083d33] transition-colors cursor-pointer">
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload Image
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </label>
+                <p className="text-sm text-gray-500 mt-2">
+                  Recommended: Square image, at least 200x200px
+                </p>
+                {errors.image && (
+                  <p className="text-red-700 text-sm mt-2">{errors.image}</p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Basic Information */}
@@ -1565,8 +1479,9 @@ const AddCounsellor: React.FC = () => {
                 specialization: ''
               });
               setImagePreview(null);
-              setOriginalImage(null);
               setErrors({});
+              setShowCropper(false);
+              setImageToCrop(null);
             }}
             className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
           >

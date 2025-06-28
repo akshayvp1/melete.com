@@ -1,3 +1,9 @@
+
+
+
+
+
+
 // import React, { useState, useEffect } from 'react';
 // import { Star, Users, Clock, MapPin, Lock, Unlock, Edit } from 'lucide-react';
 // import { toast } from 'react-toastify';
@@ -34,9 +40,9 @@
 
 //   const handleBlockCounsellor = async (counsellorId: string) => {
 //     try {
-//       console.log('Attempting to block counsellor:', counsellorId); // Debug log
+//       console.log('Attempting to block counsellor:', counsellorId);
 //       const updatedCounsellor = await AuthService.blockCounsellor(counsellorId);
-//       console.log('Block successful:', updatedCounsellor); // Debug log
+//       console.log('Block successful:', updatedCounsellor);
 //       setShowConfirm(null);
 //       onToggleBlock(counsellorId, updatedCounsellor);
 //       toast.success(`${consultant.name} has been blocked.`, {
@@ -56,9 +62,9 @@
 
 //   const handleUnblockCounsellor = async (counsellorId: string) => {
 //     try {
-//       console.log('Attempting to unblock counsellor:', counsellorId); // Debug log
+//       console.log('Attempting to unblock counsellor:', counsellorId);
 //       const updatedCounsellor = await AuthService.unblockCounsellor(counsellorId);
-//       console.log('Unblock successful:', updatedCounsellor); // Debug log
+//       console.log('Unblock successful:', updatedCounsellor);
 //       setShowConfirm(null);
 //       onToggleBlock(counsellorId, updatedCounsellor);
 //       toast.success(`${consultant.name} has been unblocked.`, {
@@ -77,8 +83,8 @@
 //   };
 
 //   const handleConfirmAction = (e: React.MouseEvent) => {
-//     e.stopPropagation(); // Prevent event bubbling
-//     console.log('Confirm action triggered:', showConfirm); // Debug log
+//     e.stopPropagation();
+//     console.log('Confirm action triggered:', showConfirm);
 //     if (showConfirm) {
 //       if (showConfirm.action === 'block') {
 //         handleBlockCounsellor(showConfirm.counsellorId);
@@ -90,14 +96,14 @@
 //   };
 
 //   const handleCancelAction = (e: React.MouseEvent) => {
-//     e.stopPropagation(); // Prevent event bubbling
-//     console.log('Cancel action triggered'); // Debug log
+//     e.stopPropagation();
+//     console.log('Cancel action triggered');
 //     setShowConfirm(null);
 //   };
 
 //   const handleToggleClick = (e: React.MouseEvent) => {
-//     e.stopPropagation(); // Prevent event bubbling
-//     console.log('Toggle button clicked, isBlocked:', consultant.isBlocked); // Debug log
+//     e.stopPropagation();
+//     console.log('Toggle button clicked, isBlocked:', consultant.isBlocked);
 //     setShowConfirm({ action: consultant.isBlocked ? 'unblock' : 'block', counsellorId: consultant.id });
 //   };
 
@@ -105,7 +111,7 @@
 //     <div
 //       className={`bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-200 border border-gray-200 overflow-hidden max-w-sm ${
 //         consultant.isBlocked ? 'bg-gray-100' : ''
-//       }`} // Changed opacity-60 to bg-gray-100 to avoid affecting buttons
+//       }`}
 //     >
 //       {showConfirm && (
 //         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -243,13 +249,34 @@
 //   onUpdate: (updatedConsultant: Consultant) => void;
 // }
 
+// const expertiseOptions: string[] = [
+//   'Anxiety', 'Relationship Issues', 'Career Guidance', 'Depression',
+//   'Family Therapy', 'Addiction Recovery', 'Trauma', 'Child Counselling',
+//   'Couples Counselling', 'Grief Counselling', 'Stress Management',
+//   'PTSD', 'Eating Disorders', 'Exam-Related Issues','Behavioural issues','Academic backwardness ',
+//   'psycho Education','Adolescents','General Psychiatry','Developmental Disorders',
+//   'Addiction & Substance Use Disorders','Sleep-Related Concerns','Identity Confusion & Emotional Difficulties',
+//   'Online Counselling','Screen Addiction',"Anger Issues",'Porn Addiction','Phobias','Obsessive Compulsive Tendencies',
+//   'Personality Disorders','Personality Disorders','Relaxation Technique','Psychological Assessments'
+
+// ];
+
+// const languageOptions: string[] = [
+//   'English', 'Malayalam', 'Tamil', 'Hindi'
+// ];
+
+// const counsellingTypeOptions: string[] = [
+//   'Individual', 'Group', 'Family Counselling', 'Couples Counselling',
+//   'Online Therapy', 'Phone Counselling', 'Walk-in Sessions', 'Emergency Support'
+// ];
+
 // const EditCounsellorForm: React.FC<EditCounsellorFormProps> = ({ consultant, onClose, onUpdate }) => {
 //   const [formData, setFormData] = useState({
 //     name: consultant.name,
 //     qualification: consultant.qualification,
-//     expertise: consultant.expertise.join(', '),
-//     languages: consultant.languages.join(', '),
-//     counsellingTypes: consultant.counsellingTypes.join(', '),
+//     expertise: consultant.expertise,
+//     languages: consultant.languages,
+//     counsellingTypes: consultant.counsellingTypes,
 //     experience: consultant.experience,
 //     location: consultant.location,
 //     bio: consultant.bio,
@@ -263,6 +290,20 @@
 
 //   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 //     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSelectChange = (field: 'expertise' | 'languages' | 'counsellingTypes', value: string) => {
+//     setFormData((prev) => ({
+//       ...prev,
+//       [field]: [...prev[field], value]
+//     }));
+//   };
+
+//   const handleRemoveItem = (field: 'expertise' | 'languages' | 'counsellingTypes', value: string) => {
+//     setFormData((prev) => ({
+//       ...prev,
+//       [field]: prev[field].filter((item: string) => item !== value)
+//     }));
 //   };
 
 //   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -325,9 +366,9 @@
 //         ...consultant,
 //         name: formData.name.trim(),
 //         qualification: formData.qualification.trim(),
-//         expertise: formData.expertise.split(',').map((s) => s.trim()).filter(Boolean),
-//         languages: formData.languages.split(',').map((s) => s.trim()).filter(Boolean),
-//         counsellingTypes: formData.counsellingTypes.split(',').map((s) => s.trim()).filter(Boolean),
+//         expertise: formData.expertise,
+//         languages: formData.languages,
+//         counsellingTypes: formData.counsellingTypes,
 //         experience: formData.experience.trim(),
 //         location: formData.location.trim(),
 //         image: imageUrl,
@@ -359,6 +400,10 @@
 //       }
 //     }
 //   };
+
+//   const availableExpertise = expertiseOptions.filter((option) => !formData.expertise.includes(option));
+//   const availableLanguages = languageOptions.filter((option) => !formData.languages.includes(option));
+//   const availableCounsellingTypes = counsellingTypeOptions.filter((option) => !formData.counsellingTypes.includes(option));
 
 //   return (
 //     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4" role="dialog" aria-modal="true">
@@ -421,7 +466,6 @@
 //                   value={formData.email}
 //                   onChange={handleChange}
 //                   className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-//                   required
 //                 />
 //               </div>
 //             </div>
@@ -437,34 +481,101 @@
 //               />
 //             </div>
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Expertise (comma-separated)</label>
-//               <input
-//                 type="text"
-//                 name="expertise"
-//                 value={formData.expertise}
-//                 onChange={handleChange}
+//               <label className="block text-sm font-medium text-gray-700 mb-1">Expertise</label>
+//               <div className="mb-2">
+//                 {formData.expertise.map((item, index) => (
+//                   <span
+//                     key={index}
+//                     className="inline-flex items-center px-2 py-1 mr-2 mb-2 bg-teal-50 text-teal-700 text-xs rounded-full border border-teal-200"
+//                   >
+//                     {item}
+//                     <button
+//                       type="button"
+//                       onClick={() => handleRemoveItem('expertise', item)}
+//                       className="ml-2 text-teal-700 hover:text-teal-900"
+//                     >
+//                       &times;
+//                    The button allows users to remove an expertise item from the list.
+//                     </button>
+//                   </span>
+//                 ))}
+//               </div>
+//               <select
+//                 onChange={(e) => handleSelectChange('expertise', e.target.value)}
 //                 className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-//               />
+//                 disabled={availableExpertise.length === 0}
+//               >
+//                 <option value="">Add expertise</option>
+//                 {availableExpertise.map((option) => (
+//                   <option key={option} value={option}>
+//                     {option}
+//                   </option>
+//                 ))}
+//               </select>
 //             </div>
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Languages (comma-separated)</label>
-//               <input
-//                 type="text"
-//                 name="languages"
-//                 value={formData.languages}
-//                 onChange={handleChange}
+//               <label className="block text-sm font-medium text-gray-700 mb-1">Languages</label>
+//               <div className="mb-2">
+//                 {formData.languages.map((item, index) => (
+//                   <span
+//                     key={index}
+//                     className="inline-flex items-center px-2 py-1 mr-2 mb-2 bg-teal-50 text-teal-700 text-xs rounded-full border border-teal-200"
+//                   >
+//                     {item}
+//                     <button
+//                       type="button"
+//                       onClick={() => handleRemoveItem('languages', item)}
+//                       className="ml-2 text-teal-700 hover:text-teal-900"
+//                     >
+//                       &times;
+//                     </button>
+//                   </span>
+//                 ))}
+//               </div>
+//               <select
+//                 onChange={(e) => handleSelectChange('languages', e.target.value)}
 //                 className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-//               />
+//                 disabled={availableLanguages.length === 0}
+//               >
+//                 <option value="">Add language</option>
+//                 {availableLanguages.map((option) => (
+//                   <option key={option} value={option}>
+//                     {option}
+//                   </option>
+//                 ))}
+//               </select>
 //             </div>
 //             <div>
-//               <label className="block text-sm font-medium text-gray-700 mb-1">Counselling Types (comma-separated)</label>
-//               <input
-//                 type="text"
-//                 name="counsellingTypes"
-//                 value={formData.counsellingTypes}
-//                 onChange={handleChange}
+//               <label className="block text-sm font-medium text-gray-700 mb-1">Counselling Types</label>
+//               <div className="mb-2">
+//                 {formData.counsellingTypes.map((item, index) => (
+//                   <span
+//                     key={index}
+//                     className="inline-flex items-center px-2 py-1 mr-2 mb-2 bg-teal-50 text-teal-700 text-xs rounded-full border border-teal-200"
+//                   >
+//                     {item}
+//                     <button
+//                       type="button"
+//                       onClick={() => handleRemoveItem('counsellingTypes', item)}
+//                       className="ml-2 text-teal-700 hover:text-teal-900"
+//                     >
+//                       &times;
+//                     </button>
+//                   </span>
+//                 ))}
+//               </div>
+//               <select
+//                 onChange={(e) => handleSelectChange('counsellingTypes', e.target.value)}
 //                 className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-//               />
+//                 disabled={availableCounsellingTypes.length === 0}
+//               >
+//                 <option value="">Add counselling type</option>
+//                 {availableCounsellingTypes.map((option) => (
+//                   <option key={option} value={option}>
+//                     {option}
+//                   </option>
+//                 ))}
+//               </select>
 //             </div>
 //             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 //               <div>
@@ -583,7 +694,7 @@
 //   }, []);
 
 //   const handleToggleBlock = (id: string, updatedCounsellor: Consultant) => {
-//     console.log('Updating state for counsellor:', id, updatedCounsellor.isBlocked); // Debug log
+//     console.log('Updating state for counsellor:', id, updatedCounsellor.isBlocked);
 //     setConsultants((prev) =>
 //       prev.map((c) => (c.id === id ? updatedCounsellor : c))
 //     );
@@ -712,10 +823,12 @@
 
 
 
+
 import React, { useState, useEffect } from 'react';
 import { Star, Users, Clock, MapPin, Lock, Unlock, Edit } from 'lucide-react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cropper from 'react-easy-crop';
 import AuthService from '../services/AuthService';
 
 interface Consultant {
@@ -965,8 +1078,7 @@ const expertiseOptions: string[] = [
   'psycho Education','Adolescents','General Psychiatry','Developmental Disorders',
   'Addiction & Substance Use Disorders','Sleep-Related Concerns','Identity Confusion & Emotional Difficulties',
   'Online Counselling','Screen Addiction',"Anger Issues",'Porn Addiction','Phobias','Obsessive Compulsive Tendencies',
-  'Personality Disorders','Personality Disorders','Relaxation Technique','Psychological Assessments'
-
+  'Personality Disorders','Relaxation Technique','Psychological Assessments'
 ];
 
 const languageOptions: string[] = [
@@ -995,6 +1107,11 @@ const EditCounsellorForm: React.FC<EditCounsellorFormProps> = ({ consultant, onC
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>(consultant.image);
+  const [showCropper, setShowCropper] = useState<boolean>(false);
+  const [imageToCrop, setImageToCrop] = useState<string | null>(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -1033,9 +1150,76 @@ const EditCounsellorForm: React.FC<EditCounsellorFormProps> = ({ consultant, onC
         });
         return;
       }
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageToCrop(reader.result as string);
+        setShowCropper(true);
+      };
+      reader.readAsDataURL(file);
     }
+  };
+
+  const onCropComplete = (croppedArea: any, croppedAreaPixels: any) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
+  const getCroppedImg = async (imageSrc: string, pixelCrop: any): Promise<File> => {
+    const image = new Image();
+    image.src = imageSrc;
+    await new Promise(resolve => (image.onload = resolve));
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d')!;
+    canvas.width = pixelCrop.width;
+    canvas.height = pixelCrop.height;
+
+    ctx.drawImage(
+      image,
+      pixelCrop.x,
+      pixelCrop.y,
+      pixelCrop.width,
+      pixelCrop.height,
+      0,
+      0,
+      pixelCrop.width,
+      pixelCrop.height
+    );
+
+    return new Promise((resolve) => {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const file = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg' });
+          resolve(file);
+        }
+      }, 'image/jpeg');
+    });
+  };
+
+  const handleCrop = async () => {
+    if (imageToCrop && croppedAreaPixels) {
+      try {
+        const croppedImage = await getCroppedImg(imageToCrop, croppedAreaPixels);
+        setImageFile(croppedImage);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result as string);
+          setShowCropper(false);
+          setImageToCrop(null);
+        };
+        reader.readAsDataURL(croppedImage);
+      } catch (error) {
+        toast.error('Failed to crop image.', {
+          position: 'top-right',
+          autoClose: 3000,
+          theme: 'colored',
+        });
+      }
+    }
+  };
+
+  const handleEditImage = () => {
+    setImageToCrop(imagePreview);
+    setShowCropper(true);
   };
 
   const uploadImageToCloudinary = async (file: File): Promise<string> => {
@@ -1120,7 +1304,14 @@ const EditCounsellorForm: React.FC<EditCounsellorFormProps> = ({ consultant, onC
           <div className="flex justify-between items-center">
             <h3 className="text-2xl font-semibold text-gray-800">Edit Counsellor</h3>
             <button
-              onClick={onClose}
+              onClick={() => {
+                onClose();
+                setShowCropper(false);
+                setImageToCrop(null);
+                if (imageFile) {
+                  URL.revokeObjectURL(imagePreview);
+                }
+              }}
               className="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-all duration-200"
               aria-label="Close modal"
             >
@@ -1130,233 +1321,290 @@ const EditCounsellorForm: React.FC<EditCounsellorFormProps> = ({ consultant, onC
             </button>
           </div>
         </div>
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
-          <div className="flex justify-center">
-            <div className="relative">
-              <img
-                src={imagePreview}
-                alt="Profile preview"
-                className="w-32 h-32 rounded-full object-cover border-4 border-teal-500 shadow-sm"
+        {showCropper && imageToCrop ? (
+          <div className="p-6">
+            <div className="relative w-full h-64">
+              <Cropper
+                image={imageToCrop}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                cropShape="round"
+                showGrid={false}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
               />
-              <label
-                htmlFor="image-upload"
-                className="absolute bottom-2 right-2 bg-teal-500 text-white p-2 rounded-full cursor-pointer hover:bg-teal-600 transition-colors shadow-md"
+            </div>
+            <div className="flex justify-end space-x-4 mt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowCropper(false);
+                  setImageToCrop(null);
+                  if (imageFile) {
+                    URL.revokeObjectURL(imagePreview);
+                    setImageFile(null);
+                    setImagePreview(consultant.image);
+                  }
+                }}
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm hover:bg-gray-100 transition-all"
               >
-                <Edit className="w-5 h-5" />
-                <input
-                  id="image-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
-              </label>
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleCrop}
+                className="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm hover:bg-teal-700 transition-all"
+              >
+                Crop Image
+              </button>
             </div>
           </div>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        ) : (
+          <form onSubmit={handleSubmit} className="p-6 space-y-5">
+            <div className="flex justify-center">
+              <div className="relative">
+                <img
+                  src={imagePreview}
+                  alt="Profile preview"
+                  className="w-32 h-32 rounded-full object-cover border-4 border-teal-500 shadow-sm"
+                />
+                <label
+                  htmlFor="image-upload"
+                  className="absolute bottom-2 right-2 bg-teal-500 text-white p-2 rounded-full cursor-pointer hover:bg-teal-600 transition-colors shadow-md"
+                >
+                  <Edit className="w-5 h-5" />
+                  <input
+                    id="image-upload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                </label>
+                {imagePreview !== consultant.image && (
+                  <button
+                    type="button"
+                    onClick={handleEditImage}
+                    className="absolute top-2 right-2 bg-teal-500 text-white p-2 rounded-full cursor-pointer hover:bg-teal-600 transition-colors shadow-md"
+                  >
+                    <Edit className="w-5 h-5" />
+                  </button>
+                )}
+              </div>
+            </div>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
+                  />
+                </div>
+              </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Qualification</label>
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="qualification"
+                  value={formData.qualification}
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                <label className="block text-sm font-medium text-gray-700 mb-1">Expertise</label>
+                <div className="mb-2">
+                  {formData.expertise.map((item, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center px-2 py-1 mr-2 mb-2 bg-teal-50 text-teal-700 text-xs rounded-full border border-teal-200"
+                    >
+                      {item}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveItem('expertise', item)}
+                        className="ml-2 text-teal-700 hover:text-teal-900"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <select
+                  onChange={(e) => handleSelectChange('expertise', e.target.value)}
                   className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-                />
+                  disabled={availableExpertise.length === 0}
+                >
+                  <option value="">Add expertise</option>
+                  {availableExpertise.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
               </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Qualification</label>
-              <input
-                type="text"
-                name="qualification"
-                value={formData.qualification}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Expertise</label>
-              <div className="mb-2">
-                {formData.expertise.map((item, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center px-2 py-1 mr-2 mb-2 bg-teal-50 text-teal-700 text-xs rounded-full border border-teal-200"
-                  >
-                    {item}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveItem('expertise', item)}
-                      className="ml-2 text-teal-700 hover:text-teal-900"
-                    >
-                      &times;
-                   The button allows users to remove an expertise item from the list.
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <select
-                onChange={(e) => handleSelectChange('expertise', e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-                disabled={availableExpertise.length === 0}
-              >
-                <option value="">Add expertise</option>
-                {availableExpertise.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Languages</label>
-              <div className="mb-2">
-                {formData.languages.map((item, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center px-2 py-1 mr-2 mb-2 bg-teal-50 text-teal-700 text-xs rounded-full border border-teal-200"
-                  >
-                    {item}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveItem('languages', item)}
-                      className="ml-2 text-teal-700 hover:text-teal-900"
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <select
-                onChange={(e) => handleSelectChange('languages', e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-                disabled={availableLanguages.length === 0}
-              >
-                <option value="">Add language</option>
-                {availableLanguages.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Counselling Types</label>
-              <div className="mb-2">
-                {formData.counsellingTypes.map((item, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center px-2 py-1 mr-2 mb-2 bg-teal-50 text-teal-700 text-xs rounded-full border border-teal-200"
-                  >
-                    {item}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveItem('counsellingTypes', item)}
-                      className="ml-2 text-teal-700 hover:text-teal-900"
-                    >
-                      &times;
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <select
-                onChange={(e) => handleSelectChange('counsellingTypes', e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-                disabled={availableCounsellingTypes.length === 0}
-              >
-                <option value="">Add counselling type</option>
-                {availableCounsellingTypes.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Experience</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Languages</label>
+                <div className="mb-2">
+                  {formData.languages.map((item, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center px-2 py-1 mr-2 mb-2 bg-teal-50 text-teal-700 text-xs rounded-full border border-teal-200"
+                    >
+                      {item}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveItem('languages', item)}
+                        className="ml-2 text-teal-700 hover:text-teal-900"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <select
+                  onChange={(e) => handleSelectChange('languages', e.target.value)}
+                  className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
+                  disabled={availableLanguages.length === 0}
+                >
+                  <option value="">Add language</option>
+                  {availableLanguages.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Counselling Types</label>
+                <div className="mb-2">
+                  {formData.counsellingTypes.map((item, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center px-2 py-1 mr-2 mb-2 bg-teal-50 text-teal-700 text-xs rounded-full border border-teal-200"
+                    >
+                      {item}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveItem('counsellingTypes', item)}
+                        className="ml-2 text-teal-700 hover:text-teal-900"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <select
+                  onChange={(e) => handleSelectChange('counsellingTypes', e.target.value)}
+                  className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
+                  disabled={availableCounsellingTypes.length === 0}
+                >
+                  <option value="">Add counselling type</option>
+                  {availableCounsellingTypes.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Experience</label>
+                  <input
+                    type="text"
+                    name="experience"
+                    value={formData.experience}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
                 <input
                   type="text"
-                  name="experience"
-                  value={formData.experience}
+                  name="specialization"
+                  value={formData.specialization}
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
                 <input
                   type="text"
-                  name="phone"
-                  value={formData.phone}
+                  name="location"
+                  value={formData.location}
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+                <textarea
+                  name="bio"
+                  value={formData.bio}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
+                  rows={5}
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
-              <input
-                type="text"
-                name="specialization"
-                value={formData.specialization}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-              />
+            <div className="flex gap-4 pt-6">
+              <button
+                type="submit"
+                className="flex-1 bg-teal-600 text-white py-3 px-6 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={loading}
+                aria-label="Save changes"
+              >
+                {loading ? 'Submitting...' : 'Update Counsellor'}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  setShowCropper(false);
+                  setImageToCrop(null);
+                  if (imageFile) {
+                    URL.revokeObjectURL(imagePreview);
+                  }
+                }}
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-100 transition-all duration-200"
+                aria-label="Cancel"
+              >
+                Cancel
+              </button>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
-              <textarea
-                name="bio"
-                value={formData.bio}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200"
-                rows={5}
-              />
-            </div>
-          </div>
-          <div className="flex gap-4 pt-6">
-            <button
-              type="submit"
-              className="flex-1 bg-teal-600 text-white py-3 px-6 rounded-lg text-sm font-semibold hover:bg-teal-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={loading}
-              aria-label="Save changes"
-            >
-              {loading ? 'Submitting...' : 'Update Counsellor'}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-100 transition-all duration-200"
-              aria-label="Cancel"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+          </form>
+        )}
       </div>
     </div>
   );
