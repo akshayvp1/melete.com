@@ -1,6 +1,12 @@
-// import React, { useState, ChangeEvent } from 'react';
+
+
+
+
+// import React, { useState, ChangeEvent, useEffect } from 'react';
 // import { User, Upload, X, Plus, MapPin, BookOpen, Globe, Award, Briefcase, Camera } from 'lucide-react';
-// import adminAuthService from '../services/AuthService'; // Assume this service exists
+// import { toast } from 'react-toastify';
+// import adminAuthService from '../services/AuthService'; 
+// import AuthService from '../services/AuthService';
 
 // interface FormData {
 //   name: string;
@@ -18,11 +24,28 @@
 //   specialization: string;
 // }
 
+// interface Errors {
+//   name?: string;
+//   email?: string;
+//   phone?: string;
+//   qualification?: string;
+//   experience?: string;
+//   location?: string;
+//   bio?: string;
+//   specialization?: string;
+//   expertise?: string;
+//   languages?: string;
+//   counsellingTypes?: string;
+//   image?: string;
+//   general?: string; // Added general property
+// }
+
 // interface ArrayFieldSelectorProps {
 //   title: string;
 //   field: keyof Pick<FormData, 'expertise' | 'languages' | 'counsellingTypes'>;
 //   options: string[];
 //   icon: React.ElementType;
+//   error?: string;
 // }
 
 // const AddCounsellor: React.FC = () => {
@@ -38,28 +61,32 @@
 //     bio: '',
 //     email: '',
 //     phone: '',
-//     specialization: ''
+//     specialization: '',
 //   });
 
 //   const [imagePreview, setImagePreview] = useState<string | null>(null);
 //   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-//   const [error, setError] = useState<string | null>(null);
+//   const [errors, setErrors] = useState<Errors>({});
 
 //   // Predefined options
 //   const expertiseOptions: string[] = [
-//     'Anxiety & Depression', 'Relationship Counselling', 'Career Guidance',
-//     'Family Therapy', 'Addiction Recovery', 'Trauma Therapy',
-//     'Child Psychology', 'Couples Therapy', 'Grief Counselling',
-//     'Stress Management', 'PTSD', 'Eating Disorders'
-//   ];
+//   'Anxiety', 'Relationship Issues', 'Career Guidance', 'Depression',
+//   'Family Therapy', 'Addiction Recovery', 'Trauma', 'Child Counselling',
+//   'Couples Therapy', 'Grief Counselling', 'Stress Management',
+//   'PTSD', 'Eating Disorders', 'Exam-Related Issues','Behavioural issues','Academic backwardness ',
+//   'psycho Education','Adolescents','General Psychiatry','Developmental Disorders',
+//   'Addiction & Substance Use Disorders','Sleep-Related Concerns','Identity Confusion & Emotional Difficulties',
+//   'Online Counselling','Screen Addiction',"Anger Issues",'Porn Addiction','Phobias','Obsessive Compulsive Tendencies',
+//   'Personality Disorders','Relaxation Technique','Psychological Assessments'
+// ];;
 
 //   const languageOptions: string[] = [
-//     'English', 'Spanish', 'French', 'German', 'Italian', 'Portuguese',
-//     'Hindi', 'Mandarin', 'Japanese', 'Korean', 'Arabic', 'Dutch'
+//     'English', 'Malayalam', 'Tamil',
+//     'Hindi'
 //   ];
 
 //   const counsellingTypeOptions: string[] = [
-//     'Individual Therapy', 'Group Therapy', 'Family Counselling',
+//     'Individual', 'Group', 'Family Counselling',
 //     'Couples Counselling', 'Online Therapy', 'Phone Counselling',
 //     'Walk-in Sessions', 'Emergency Support'
 //   ];
@@ -70,6 +97,11 @@
 //       ...prev,
 //       [name]: value
 //     }));
+//     // Clear error for the field on change
+//     setErrors(prev => ({
+//       ...prev,
+//       [name]: undefined
+//     }));
 //   };
 
 //   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +111,10 @@
 //         ...prev,
 //         image: file
 //       }));
-
+//       setErrors(prev => ({
+//         ...prev,
+//         image: undefined
+//       }));
 //       const reader = new FileReader();
 //       reader.onloadend = () => {
 //         setImagePreview(reader.result as string);
@@ -98,6 +133,10 @@
 //         ? prev[field].filter(item => item !== value)
 //         : [...prev[field], value]
 //     }));
+//     setErrors(prev => ({
+//       ...prev,
+//       [field]: undefined
+//     }));
 //   };
 
 //   const removeArrayItem = (
@@ -108,6 +147,93 @@
 //       ...prev,
 //       [field]: prev[field].filter(item => item !== value)
 //     }));
+//     setErrors(prev => ({
+//       ...prev,
+//       [field]: undefined
+//     }));
+//   };
+
+//   const validateForm = (): Errors => {
+//     const newErrors: Errors = {};
+
+//     // Name
+//     if (!formData.name.trim()) {
+//       newErrors.name = 'Name is required.';
+//     } else if (formData.name.trim().length > 100) {
+//       newErrors.name = 'Name must be 100 characters or less.';
+//     }
+
+//     // Email - not required, but validate format if provided
+//     if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+//       newErrors.email = 'Invalid email format.';
+//     }
+
+//     // Phone - required if email is provided
+//     if (formData.email.trim()) {
+//       if (!formData.phone.trim()) {
+//         newErrors.phone = 'Phone number is required when email is provided.';
+//       } else if (!/^[6-9]\d{9}$/.test(formData.phone)) {
+//         newErrors.phone = 'Phone number must be 10 digits, start with 6, 7, 8, or 9, and contain only numbers.';
+//       }
+//     } else if (formData.phone && !/^[6-9]\d{9}$/.test(formData.phone)) {
+//       newErrors.phone = 'Phone number must be 10 digits, start with 6, 7, 8, or 9, and contain only numbers.';
+//     }
+
+//     // Qualification
+//     if (!formData.qualification.trim()) {
+//       newErrors.qualification = 'Qualification is required.';
+//     } else if (formData.qualification.trim().length > 200) {
+//       newErrors.qualification = 'Qualification must be 200 characters or less.';
+//     }
+
+//     // Experience
+//     if (!formData.experience) {
+//       newErrors.experience = 'Experience is required.';
+//     }
+
+//     // Location
+//     if (!formData.location.trim()) {
+//       newErrors.location = 'Location is required.';
+//     } else if (formData.location.trim().length > 100) {
+//       newErrors.location = 'Location must be 100 characters or less.';
+//     }
+
+//     // Bio
+//     if (formData.bio.trim().length > 1000) {
+//       newErrors.bio = 'Bio must be 1000 characters or less.';
+//     }
+
+//     // Specialization
+//     if (formData.specialization.trim().length > 200) {
+//       newErrors.specialization = 'Specialization must be 200 characters or less.';
+//     }
+
+//     // Expertise
+//     if (formData.expertise.length === 0) {
+//       newErrors.expertise = 'At least one expertise area is required.';
+//     }
+
+//     // Languages
+//     if (formData.languages.length === 0) {
+//       newErrors.languages = 'At least one language is required.';
+//     }
+
+//     // Counselling Types
+//     if (formData.counsellingTypes.length === 0) {
+//       newErrors.counsellingTypes = 'At least one counselling type is required.';
+//     }
+
+//     // Image
+//     if (formData.image) {
+//       const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+//       if (!allowedTypes.includes(formData.image.type)) {
+//         newErrors.image = 'Image must be JPEG, PNG, or GIF.';
+//       } else if (formData.image.size > 5 * 1024 * 1024) {
+//         newErrors.image = 'Image must be less than 5MB.';
+//       }
+//     }
+
+//     return newErrors;
 //   };
 
 //   const uploadImageToCloudinary = async (file: File): Promise<string> => {
@@ -135,12 +261,14 @@
 
 //   const handleSubmit = async () => {
 //     setIsSubmitting(true);
-//     setError(null);
+//     setErrors({});
 
 //     try {
-//       // Validate required fields
-//       if (!formData.name || !formData.email || !formData.location || !formData.qualification || !formData.experience) {
-//         throw new Error('Please fill in all required fields.');
+//       // Validate form
+//       const validationErrors = validateForm();
+//       if (Object.keys(validationErrors).length > 0) {
+//         setErrors(validationErrors);
+//         throw new Error('Please correct the form errors.');
 //       }
 
 //       let imageUrl = '';
@@ -151,11 +279,16 @@
 //       // Prepare data for adminAuthService
 //       const counsellorData = {
 //         ...formData,
+//         name: formData.name.trim(),
+//         email: formData.email.trim(),
+//         qualification: formData.qualification.trim(),
+//         location: formData.location.trim(),
+//         bio: formData.bio.trim(),
+//         specialization: formData.specialization.trim(),
 //         imageUrl,
-//         image: undefined // Remove File object as it's not needed in the API call
+//         image: undefined // Remove File object
 //       };
-//       console.log(counsellorData,"ppppppp");
-      
+
 //       // Call adminAuthService to submit counsellor data
 //       await adminAuthService.addCounsellor(counsellorData);
 
@@ -172,19 +305,42 @@
 //         bio: '',
 //         email: '',
 //         phone: '',
-//         specialization: ''
+//         specialization: '',
 //       });
 //       setImagePreview(null);
-//       alert('Counsellor added successfully!');
-//     } catch (error) {
+//       toast.success('Counsellor added successfully!', {
+//         position: 'top-right',
+//         autoClose: 3000,
+//       });
+//     } catch (error: any) {
 //       console.error('Error adding counsellor:', error);
-//       setError(error instanceof Error ? error.message : 'Error adding counsellor. Please try again.');
+//       if (error.message !== 'Please correct the form errors.') {
+//         setErrors({ general: error.message || 'Error adding counsellor. Please try again.' });
+//       }
+//       toast.error(error.message || 'Error adding counsellor.', {
+//         position: 'top-right',
+//         autoClose: 3000,
+//       });
 //     } finally {
 //       setIsSubmitting(false);
 //     }
 //   };
 
-//   const ArrayFieldSelector: React.FC<ArrayFieldSelectorProps> = ({ title, field, options, icon: Icon }) => (
+ 
+// useEffect(() => {
+//   const fetchEvents = async () => {
+//     try {
+//       const fetchedEvents = await AuthService.getCounsellors();
+//       console.log(fetchedEvents); 
+//     } catch (err) {
+//       console.error('Error fetching events:', err);
+//     }
+//   };
+
+//   fetchEvents();
+// }, []);
+
+//   const ArrayFieldSelector: React.FC<ArrayFieldSelectorProps> = ({ title, field, options, icon: Icon, error }) => (
 //     <div className="space-y-3">
 //       <label className="flex items-center text-sm font-semibold text-gray-700">
 //         <Icon className="w-4 h-4 mr-2 text-[#0A4F43]" />
@@ -224,6 +380,10 @@
 //           ))}
 //         </div>
 //       )}
+      
+//       {error && (
+//         <p className="text-red-700 text-sm mt-2">{error}</p>
+//       )}
 //     </div>
 //   );
 
@@ -234,9 +394,9 @@
 //         <p className="text-gray-600">Fill in the details to add a new counsellor to the platform</p>
 //       </div>
 
-//       {error && (
+//       {errors.general && (
 //         <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-lg">
-//           {error}
+//           {errors.general}
 //         </div>
 //       )}
 
@@ -257,7 +417,7 @@
 //                   className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
 //                 />
 //               ) : (
-//                 <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-4 border-white shadow-lg">
+//                 <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-4 border-white bg-gray-200 shadow-lg">
 //                   <User className="w-10 h-10 text-gray-400" />
 //                 </div>
 //               )}
@@ -277,6 +437,9 @@
 //               <p className="text-sm text-gray-500 mt-2">
 //                 Recommended: Square image, at least 200x200px
 //               </p>
+//               {errors.image && (
+//                 <p className="text-red-700 text-sm mt-2">{errors.image}</p>
+//               )}
 //             </div>
 //           </div>
 //         </div>
@@ -298,37 +461,57 @@
 //                 name="name"
 //                 value={formData.name}
 //                 onChange={handleInputChange}
-//                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all"
+//                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all ${
+//                   errors.name ? 'border-red-300' : 'border-gray-300'
+//                 }`}
 //                 placeholder="Enter full name"
 //               />
+//               {errors.name && (
+//                 <p className="text-red-700 text-sm mt-2">{errors.name}</p>
+//               )}
 //             </div>
             
 //             <div>
 //               <label className="block text-sm font-semibold text-gray-700 mb-2">
-//                 Email Address *
+//                 Email Address
 //               </label>
 //               <input
 //                 type="email"
 //                 name="email"
 //                 value={formData.email}
 //                 onChange={handleInputChange}
-//                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all"
-//                 placeholder="Enter email address"
+//                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all ${
+//                   errors.email ? 'border-red-300' : 'border-gray-300'
+//                 }`}
+//                 placeholder="Enter email"
 //               />
+//               {errors.email && (
+//                 <p className="text-red-700 text-sm mt-2">{errors.email}</p>
+//               )}
 //             </div>
             
 //             <div>
 //               <label className="block text-sm font-semibold text-gray-700 mb-2">
-//                 Phone Number
+//                 Phone Number {formData.email.trim() && '*'}
 //               </label>
 //               <input
 //                 type="tel"
 //                 name="phone"
 //                 value={formData.phone}
 //                 onChange={handleInputChange}
-//                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all"
+//                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all ${
+//                   errors.phone ? 'border-red-300' : 'border-gray-300'
+//                 }`}
 //                 placeholder="Enter phone number"
 //               />
+//               {errors.phone && (
+//                 <p className="text-red-700 text-sm mt-2">{errors.phone}</p>
+//               )}
+//               {formData.email.trim() && (
+//                 <p className="text-sm text-gray-500 mt-1">
+//                   Phone number is required when email is provided
+//                 </p>
+//               )}
 //             </div>
             
 //             <div>
@@ -341,9 +524,14 @@
 //                 name="location"
 //                 value={formData.location}
 //                 onChange={handleInputChange}
-//                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all"
+//                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all ${
+//                   errors.location ? 'border-red-300' : 'border-gray-300'
+//                 }`}
 //                 placeholder="City, State/Country"
 //               />
+//               {errors.location && (
+//                 <p className="text-red-700 text-sm mt-2">{errors.location}</p>
+//               )}
 //             </div>
 //           </div>
 //         </div>
@@ -366,9 +554,14 @@
 //                 name="qualification"
 //                 value={formData.qualification}
 //                 onChange={handleInputChange}
-//                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all"
+//                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all ${
+//                   errors.qualification ? 'border-red-300' : 'border-gray-300'
+//                 }`}
 //                 placeholder="e.g., MA Psychology, PhD Clinical Psychology"
 //               />
+//               {errors.qualification && (
+//                 <p className="text-red-700 text-sm mt-2">{errors.qualification}</p>
+//               )}
 //             </div>
             
 //             <div>
@@ -380,7 +573,9 @@
 //                 name="experience"
 //                 value={formData.experience}
 //                 onChange={handleInputChange}
-//                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all"
+//                 className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all ${
+//                   errors.experience ? 'border-red-300' : 'border-gray-300'
+//                 }`}
 //               >
 //                 <option value="">Select experience</option>
 //                 <option value="0-1">0-1 years</option>
@@ -389,10 +584,13 @@
 //                 <option value="11-15">11-15 years</option>
 //                 <option value="15+">15+ years</option>
 //               </select>
+//               {errors.experience && (
+//                 <p className="text-red-700 text-sm mt-2">{errors.experience}</p>
+//               )}
 //             </div>
 //           </div>
           
-//           <div className="mb-6">
+//           {/* <div className="mb-6">
 //             <label className="block text-sm font-semibold text-gray-700 mb-2">
 //               Specialization
 //             </label>
@@ -401,10 +599,15 @@
 //               name="specialization"
 //               value={formData.specialization}
 //               onChange={handleInputChange}
-//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all"
+//               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all ${
+//                 errors.specialization ? 'border-red-300' : 'border-gray-300'
+//               }`}
 //               placeholder="Primary area of specialization"
 //             />
-//           </div>
+//             {errors.specialization && (
+//               <p className="text-red-700 text-sm mt-2">{errors.specialization}</p>
+//             )}
+//           </div> */}
           
 //           <div>
 //             <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -415,9 +618,14 @@
 //               value={formData.bio}
 //               onChange={handleInputChange}
 //               rows={4}
-//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all"
+//               className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all ${
+//                 errors.bio ? 'border-red-300' : 'border-gray-300'
+//               }`}
 //               placeholder="Brief professional background and approach to counselling..."
 //             />
+//             {errors.bio && (
+//               <p className="text-red-700 text-sm mt-2">{errors.bio}</p>
+//             )}
 //           </div>
 //         </div>
 
@@ -429,6 +637,7 @@
 //             field="expertise"
 //             options={expertiseOptions}
 //             icon={Award}
+//             error={errors.expertise}
 //           />
 //         </div>
 
@@ -439,6 +648,7 @@
 //             field="languages"
 //             options={languageOptions}
 //             icon={Globe}
+//             error={errors.languages}
 //           />
 //         </div>
 
@@ -449,6 +659,7 @@
 //             field="counsellingTypes"
 //             options={counsellingTypeOptions}
 //             icon={User}
+//             error={errors.counsellingTypes}
 //           />
 //         </div>
 
@@ -456,6 +667,24 @@
 //         <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
 //           <button
 //             type="button"
+//             onClick={() => {
+//               setFormData({
+//                 name: '',
+//                 qualification: '',
+//                 expertise: [],
+//                 languages: [],
+//                 counsellingTypes: [],
+//                 experience: '',
+//                 location: '',
+//                 image: null,
+//                 bio: '',
+//                 email: '',
+//                 phone: '',
+//                 specialization: ''
+//               });
+//               setImagePreview(null);
+//               setErrors({});
+//             }}
 //             className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
 //           >
 //             Cancel
@@ -490,11 +719,8 @@
 
 
 
-import React, { useState, ChangeEvent, useEffect } from 'react';
-import { User, Upload, X, Plus, MapPin, BookOpen, Globe, Award, Briefcase, Camera } from 'lucide-react';
-import { toast } from 'react-toastify';
-import adminAuthService from '../services/AuthService'; 
-import AuthService from '../services/AuthService';
+import React, { useState, ChangeEvent, useEffect, useRef, useCallback } from 'react';
+import { User, Upload, X, Plus, MapPin, BookOpen, Globe, Award, Briefcase, Camera, Crop, Check } from 'lucide-react';
 
 interface FormData {
   name: string;
@@ -525,7 +751,7 @@ interface Errors {
   languages?: string;
   counsellingTypes?: string;
   image?: string;
-  general?: string; // Added general property
+  general?: string;
 }
 
 interface ArrayFieldSelectorProps {
@@ -534,6 +760,13 @@ interface ArrayFieldSelectorProps {
   options: string[];
   icon: React.ElementType;
   error?: string;
+}
+
+interface Crop {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 const AddCounsellor: React.FC = () => {
@@ -555,22 +788,33 @@ const AddCounsellor: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errors, setErrors] = useState<Errors>({});
+  
+  // Image cropping states
+  const [showCropper, setShowCropper] = useState<boolean>(false);
+  const [imageToCrop, setImageToCrop] = useState<string | null>(null);
+  const [crop, setCrop] = useState<Crop>({ x: 0, y: 0, width: 200, height: 200 });
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [imageNaturalSize, setImageNaturalSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
+  const [croppedImageFile, setCroppedImageFile] = useState<File | null>(null);
+  
+  const imageRef = useRef<HTMLImageElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Predefined options
   const expertiseOptions: string[] = [
-  'Anxiety', 'Relationship Issues', 'Career Guidance', 'Depression',
-  'Family Therapy', 'Addiction Recovery', 'Trauma', 'Child Counselling',
-  'Couples Therapy', 'Grief Counselling', 'Stress Management',
-  'PTSD', 'Eating Disorders', 'Exam-Related Issues','Behavioural issues','Academic backwardness ',
-  'psycho Education','Adolescents','General Psychiatry','Developmental Disorders',
-  'Addiction & Substance Use Disorders','Sleep-Related Concerns','Identity Confusion & Emotional Difficulties',
-  'Online Counselling','Screen Addiction',"Anger Issues",'Porn Addiction','Phobias','Obsessive Compulsive Tendencies',
-  'Personality Disorders','Relaxation Technique','Psychological Assessments'
-];;
+    'Anxiety', 'Relationship Issues', 'Career Guidance', 'Depression',
+    'Family Therapy', 'Addiction Recovery', 'Trauma', 'Child Counselling',
+    'Couples Therapy', 'Grief Counselling', 'Stress Management',
+    'PTSD', 'Eating Disorders', 'Exam-Related Issues','Behavioural issues','Academic backwardness ',
+    'psycho Education','Adolescents','General Psychiatry','Developmental Disorders',
+    'Addiction & Substance Use Disorders','Sleep-Related Concerns','Identity Confusion & Emotional Difficulties',
+    'Online Counselling','Screen Addiction',"Anger Issues",'Porn Addiction','Phobias','Obsessive Compulsive Tendencies',
+    'Personality Disorders','Relaxation Technique','Psychological Assessments'
+  ];
 
   const languageOptions: string[] = [
-    'English', 'Malayalam', 'Tamil',
-    'Hindi'
+    'English', 'Malayalam', 'Tamil', 'Hindi'
   ];
 
   const counsellingTypeOptions: string[] = [
@@ -585,7 +829,6 @@ const AddCounsellor: React.FC = () => {
       ...prev,
       [name]: value
     }));
-    // Clear error for the field on change
     setErrors(prev => ({
       ...prev,
       [name]: undefined
@@ -595,20 +838,124 @@ const AddCounsellor: React.FC = () => {
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setFormData(prev => ({
-        ...prev,
-        image: file
-      }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageToCrop(reader.result as string);
+        setShowCropper(true);
+      };
+      reader.readAsDataURL(file);
+      
       setErrors(prev => ({
         ...prev,
         image: undefined
       }));
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
     }
+  };
+
+  const handleImageLoad = () => {
+    if (imageRef.current) {
+      const { naturalWidth, naturalHeight } = imageRef.current;
+      setImageNaturalSize({ width: naturalWidth, height: naturalHeight });
+      
+      // Set initial crop to center square
+      const size = Math.min(naturalWidth, naturalHeight);
+      setCrop({
+        x: (naturalWidth - size) / 2,
+        y: (naturalHeight - size) / 2,
+        width: size * 0.8,
+        height: size * 0.8
+      });
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setDragStart({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging || !imageRef.current) return;
+
+    const rect = imageRef.current.getBoundingClientRect();
+    const scaleX = imageNaturalSize.width / rect.width;
+    const scaleY = imageNaturalSize.height / rect.height;
+
+    const deltaX = (e.clientX - dragStart.x) * scaleX;
+    const deltaY = (e.clientY - dragStart.y) * scaleY;
+
+    setCrop(prev => ({
+      ...prev,
+      x: Math.max(0, Math.min(imageNaturalSize.width - prev.width, prev.x + deltaX)),
+      y: Math.max(0, Math.min(imageNaturalSize.height - prev.height, prev.y + deltaY))
+    }));
+
+    setDragStart({ x: e.clientX, y: e.clientY });
+  }, [isDragging, dragStart, imageNaturalSize]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isDragging, handleMouseMove, handleMouseUp]);
+
+  const getCroppedImage = (): Promise<File> => {
+    return new Promise((resolve) => {
+      if (!imageRef.current || !canvasRef.current) return;
+
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      canvas.width = crop.width;
+      canvas.height = crop.height;
+
+      ctx.drawImage(
+        imageRef.current,
+        crop.x, crop.y, crop.width, crop.height,
+        0, 0, crop.width, crop.height
+      );
+
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const file = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg' });
+          resolve(file);
+        }
+      }, 'image/jpeg', 0.9);
+    });
+  };
+
+  const handleCropConfirm = async () => {
+    const croppedFile = await getCroppedImage();
+    setCroppedImageFile(croppedFile);
+    
+    setFormData(prev => ({
+      ...prev,
+      image: croppedFile
+    }));
+
+    // Create preview URL
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string);
+    };
+    reader.readAsDataURL(croppedFile);
+
+    setShowCropper(false);
+    setImageToCrop(null);
+  };
+
+  const handleCropCancel = () => {
+    setShowCropper(false);
+    setImageToCrop(null);
   };
 
   const handleArrayFieldChange = (
@@ -644,19 +991,16 @@ const AddCounsellor: React.FC = () => {
   const validateForm = (): Errors => {
     const newErrors: Errors = {};
 
-    // Name
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required.';
     } else if (formData.name.trim().length > 100) {
       newErrors.name = 'Name must be 100 characters or less.';
     }
 
-    // Email - not required, but validate format if provided
     if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       newErrors.email = 'Invalid email format.';
     }
 
-    // Phone - required if email is provided
     if (formData.email.trim()) {
       if (!formData.phone.trim()) {
         newErrors.phone = 'Phone number is required when email is provided.';
@@ -667,51 +1011,42 @@ const AddCounsellor: React.FC = () => {
       newErrors.phone = 'Phone number must be 10 digits, start with 6, 7, 8, or 9, and contain only numbers.';
     }
 
-    // Qualification
     if (!formData.qualification.trim()) {
       newErrors.qualification = 'Qualification is required.';
     } else if (formData.qualification.trim().length > 200) {
       newErrors.qualification = 'Qualification must be 200 characters or less.';
     }
 
-    // Experience
     if (!formData.experience) {
       newErrors.experience = 'Experience is required.';
     }
 
-    // Location
     if (!formData.location.trim()) {
       newErrors.location = 'Location is required.';
     } else if (formData.location.trim().length > 100) {
       newErrors.location = 'Location must be 100 characters or less.';
     }
 
-    // Bio
     if (formData.bio.trim().length > 1000) {
       newErrors.bio = 'Bio must be 1000 characters or less.';
     }
 
-    // Specialization
     if (formData.specialization.trim().length > 200) {
       newErrors.specialization = 'Specialization must be 200 characters or less.';
     }
 
-    // Expertise
     if (formData.expertise.length === 0) {
       newErrors.expertise = 'At least one expertise area is required.';
     }
 
-    // Languages
     if (formData.languages.length === 0) {
       newErrors.languages = 'At least one language is required.';
     }
 
-    // Counselling Types
     if (formData.counsellingTypes.length === 0) {
       newErrors.counsellingTypes = 'At least one counselling type is required.';
     }
 
-    // Image
     if (formData.image) {
       const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
       if (!allowedTypes.includes(formData.image.type)) {
@@ -752,7 +1087,6 @@ const AddCounsellor: React.FC = () => {
     setErrors({});
 
     try {
-      // Validate form
       const validationErrors = validateForm();
       if (Object.keys(validationErrors).length > 0) {
         setErrors(validationErrors);
@@ -764,7 +1098,6 @@ const AddCounsellor: React.FC = () => {
         imageUrl = await uploadImageToCloudinary(formData.image);
       }
 
-      // Prepare data for adminAuthService
       const counsellorData = {
         ...formData,
         name: formData.name.trim(),
@@ -774,13 +1107,13 @@ const AddCounsellor: React.FC = () => {
         bio: formData.bio.trim(),
         specialization: formData.specialization.trim(),
         imageUrl,
-        image: undefined // Remove File object
+        image: undefined
       };
 
-      // Call adminAuthService to submit counsellor data
-      await adminAuthService.addCounsellor(counsellorData);
-
-      // Reset form after successful submission
+      // Simulate API call
+      console.log('Counsellor data:', counsellorData);
+      
+      // Reset form
       setFormData({
         name: '',
         qualification: '',
@@ -796,37 +1129,19 @@ const AddCounsellor: React.FC = () => {
         specialization: '',
       });
       setImagePreview(null);
-      toast.success('Counsellor added successfully!', {
-        position: 'top-right',
-        autoClose: 3000,
-      });
+      setCroppedImageFile(null);
+      
+      alert('Counsellor added successfully!');
     } catch (error: any) {
       console.error('Error adding counsellor:', error);
       if (error.message !== 'Please correct the form errors.') {
         setErrors({ general: error.message || 'Error adding counsellor. Please try again.' });
       }
-      toast.error(error.message || 'Error adding counsellor.', {
-        position: 'top-right',
-        autoClose: 3000,
-      });
+      alert(error.message || 'Error adding counsellor.');
     } finally {
       setIsSubmitting(false);
     }
   };
-
- 
-useEffect(() => {
-  const fetchEvents = async () => {
-    try {
-      const fetchedEvents = await AuthService.getCounsellors();
-      console.log(fetchedEvents); 
-    } catch (err) {
-      console.error('Error fetching events:', err);
-    }
-  };
-
-  fetchEvents();
-}, []);
 
   const ArrayFieldSelector: React.FC<ArrayFieldSelectorProps> = ({ title, field, options, icon: Icon, error }) => (
     <div className="space-y-3">
@@ -877,6 +1192,66 @@ useEffect(() => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white">
+      {/* Image Cropper Modal */}
+      {showCropper && imageToCrop && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-auto">
+            <h3 className="text-lg font-semibold mb-4 flex items-center">
+              <Crop className="w-5 h-5 mr-2 text-[#0A4F43]" />
+              Crop Image
+            </h3>
+            
+            <div className="relative inline-block mb-4">
+              <img
+                ref={imageRef}
+                src={imageToCrop}
+                alt="To crop"
+                className="max-w-full max-h-96 block"
+                onLoad={handleImageLoad}
+              />
+              
+              {imageNaturalSize.width > 0 && (
+                <div
+                  className="absolute border-2 border-[#0A4F43] cursor-move"
+                  style={{
+                    left: `${(crop.x / imageNaturalSize.width) * (imageRef.current?.clientWidth || 0)}px`,
+                    top: `${(crop.y / imageNaturalSize.height) * (imageRef.current?.clientHeight || 0)}px`,
+                    width: `${(crop.width / imageNaturalSize.width) * (imageRef.current?.clientWidth || 0)}px`,
+                    height: `${(crop.height / imageNaturalSize.height) * (imageRef.current?.clientHeight || 0)}px`,
+                  }}
+                  onMouseDown={handleMouseDown}
+                >
+                  <div className="absolute inset-0 bg-[#0A4F43] bg-opacity-20"></div>
+                  <div className="absolute top-0 left-0 w-2 h-2 bg-[#0A4F43] rounded-full -translate-x-1 -translate-y-1"></div>
+                  <div className="absolute top-0 right-0 w-2 h-2 bg-[#0A4F43] rounded-full translate-x-1 -translate-y-1"></div>
+                  <div className="absolute bottom-0 left-0 w-2 h-2 bg-[#0A4F43] rounded-full -translate-x-1 translate-y-1"></div>
+                  <div className="absolute bottom-0 right-0 w-2 h-2 bg-[#0A4F43] rounded-full translate-x-1 translate-y-1"></div>
+                </div>
+              )}
+            </div>
+            
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={handleCropCancel}
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCropConfirm}
+                className="px-4 py-2 bg-[#0A4F43] text-white rounded-lg hover:bg-[#083d33] flex items-center"
+              >
+                <Check className="w-4 h-4 mr-2" />
+                Confirm Crop
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Hidden canvas for cropping */}
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
+
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Add New Counsellor</h1>
         <p className="text-gray-600">Fill in the details to add a new counsellor to the platform</p>
@@ -905,7 +1280,7 @@ useEffect(() => {
                   className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
                 />
               ) : (
-                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-4 border-white bg-gray-200 shadow-lg">
+                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-4 border-white shadow-lg">
                   <User className="w-10 h-10 text-gray-400" />
                 </div>
               )}
@@ -923,7 +1298,7 @@ useEffect(() => {
                 />
               </label>
               <p className="text-sm text-gray-500 mt-2">
-                Recommended: Square image, at least 200x200px
+                Upload an image and crop it to fit perfectly
               </p>
               {errors.image && (
                 <p className="text-red-700 text-sm mt-2">{errors.image}</p>
@@ -1078,25 +1453,6 @@ useEffect(() => {
             </div>
           </div>
           
-          {/* <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Specialization
-            </label>
-            <input
-              type="text"
-              name="specialization"
-              value={formData.specialization}
-              onChange={handleInputChange}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-[#0A4F43] focus:border-transparent transition-all ${
-                errors.specialization ? 'border-red-300' : 'border-gray-300'
-              }`}
-              placeholder="Primary area of specialization"
-            />
-            {errors.specialization && (
-              <p className="text-red-700 text-sm mt-2">{errors.specialization}</p>
-            )}
-          </div> */}
-          
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Professional Bio
@@ -1171,6 +1527,7 @@ useEffect(() => {
                 specialization: ''
               });
               setImagePreview(null);
+              setCroppedImageFile(null);
               setErrors({});
             }}
             className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
