@@ -10,6 +10,7 @@ import { NavItem } from '../types/types';
 const navItems: NavItem[] = [
   { name: 'Home', href: '/' },
   { name: 'Service', href: '/service' },
+  { name: 'About', href: '/about' },
   { 
     name: 'Specialized Care', 
     items: [
@@ -21,7 +22,7 @@ const navItems: NavItem[] = [
     ]
   },
   { name: 'Our Experts', href: '/experts' },
-  { name: 'About', href: '/about' },
+  
   // { name: 'Contact', href: '/contact' },
   { name: 'Improve With Us', href: '/improve' },
 ];
