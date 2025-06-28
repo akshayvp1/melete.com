@@ -77,7 +77,7 @@ class AdminAuthRepository implements IAdminAuthRepository {
     }
     async getCounsellors(): Promise<ICounsellor[]> {
     try {
-      return await this.counsellorModel.find({}).exec();
+     return await this.counsellorModel.find({ isBlocked: false }).exec();
     } catch (error) {
       console.error("Error fetching users:", error);
       throw new Error("Failed to fetch users");

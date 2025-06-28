@@ -100,20 +100,22 @@ const ConsultantCard: React.FC<ConsultantCardProps> = ({ consultant, index }) =>
       <div className="p-6 flex flex-col h-full">
         {/* Profile Image */}
         <div className="flex justify-center mb-6">
-          <motion.div
-            className="relative"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-          >
-            <img
-              src={consultant.image || consultant.image || '/default-avatar.png'}
-              alt={consultant.name}
-              className="w-24 h-24 rounded-full object-cover border-3 border-[#31A382] shadow-md"
-            />
-            <div className="absolute inset-0 rounded-full bg-gradient-to-t from-[#31A382]/10 to-transparent"></div>
-          </motion.div>
-        </div>
+  <motion.div
+    className="relative"
+    initial={{ scale: 0.8, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    transition={{ duration: 0.5, delay: index * 0.1 }}
+  >
+    <div className="w-24 h-24 rounded-full bg-[#015F4A] flex items-center justify-center overflow-hidden">
+      <img
+        src={consultant.image || '/default-avatar.png'}
+        alt={consultant.name}
+        className="w-full h-full rounded-full object-cover border-3 border-[#31A382] shadow-md"
+      />
+    </div>
+    <div className="absolute inset-0 rounded-full bg-gradient-to-t from-[#31A382]/10 to-transparent"></div>
+  </motion.div>
+</div>
 
         {/* Consultant Info */}
         <div className="text-center mb-6 flex-grow">
