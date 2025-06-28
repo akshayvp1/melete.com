@@ -1393,11 +1393,11 @@ const AddCounsellor: React.FC = () => {
                 }`}
               >
                 <option value="">Select experience</option>
-                <option value="0-1">0-1 years</option>
-                <option value="2-5">2-5 years</option>
-                <option value="6-10">6-10 years</option>
-                <option value="11-15">11-15 years</option>
-                <option value="15+">15+ years</option>
+                <option value="0-1">0-1</option>
+                <option value="2-5">1+</option>
+                <option value="6-10">2+</option>
+                <option value="11-15">3+</option>
+                <option value="15+">4+</option>
               </select>
               {errors.experience && (
                 <p className="text-red-700 text-sm mt-2">{errors.experience}</p>
