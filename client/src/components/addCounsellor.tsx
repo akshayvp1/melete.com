@@ -717,7 +717,6 @@
 
 
 
-
 import React, { useState, ChangeEvent, useEffect, useCallback } from 'react';
 import { User, Upload, X, Plus, MapPin, BookOpen, Globe, Award, Briefcase, Camera, Check } from 'lucide-react';
 import Cropper from 'react-easy-crop';
@@ -789,6 +788,7 @@ const AddCounsellor: React.FC = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
+  const [originalImage, setOriginalImage] = useState<File | null>(null);
 
   // Predefined options
   const expertiseOptions: string[] = [
@@ -827,12 +827,14 @@ const AddCounsellor: React.FC = () => {
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setOriginalImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageToCrop(reader.result as string);
         setShowCropper(true);
         setZoom(1);
         setCrop({ x: 0, y: 0 });
+        setCroppedAreaPixels(null);
       };
       reader.readAsDataURL(file);
       
@@ -840,6 +842,20 @@ const AddCounsellor: React.FC = () => {
         ...prev,
         image: undefined
       }));
+    }
+  };
+
+  const handleEditImage = () => {
+    if (originalImage && imagePreview) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageToCrop(reader.result as string);
+        setShowCropper(true);
+        setZoom(1);
+        setCrop({ x: 0, y: 0 });
+        setCroppedAreaPixels(null);
+      };
+      reader.readAsDataURL(originalImage);
     }
   };
 
@@ -864,12 +880,16 @@ const AddCounsellor: React.FC = () => {
       throw new Error('Failed to get canvas context');
     }
 
-    // Set canvas size to desired output size (e.g., 200x200)
-    const targetSize = 200;
+    // Set canvas to high resolution (400x400 for better quality)
+    const targetSize = 400;
     canvas.width = targetSize;
     canvas.height = targetSize;
 
-    // Calculate scaling factor
+    // Enable high-quality image rendering
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    // Calculate scaling factors
     const scaleX = image.naturalWidth / 100;
     const scaleY = image.naturalHeight / 100;
 
@@ -889,10 +909,10 @@ const AddCounsellor: React.FC = () => {
     return new Promise((resolve) => {
       canvas.toBlob((blob) => {
         if (blob) {
-          const file = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg' });
+          const file = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg', lastModified: Date.now() });
           resolve(file);
         }
-      }, 'image/jpeg', 0.9);
+      }, 'image/jpeg', 0.95); // Higher quality setting
     });
   };
 
@@ -914,10 +934,12 @@ const AddCounsellor: React.FC = () => {
 
       setShowCropper(false);
       setImageToCrop(null);
+      setZoom(1);
+      setCrop({ x: 0, y: 0 });
     } catch (error) {
       setErrors(prev => ({
         ...prev,
-        image: 'Failed to crop image'
+        image: 'Failed to crop image. Please try again.'
       }));
     }
   };
@@ -927,6 +949,7 @@ const AddCounsellor: React.FC = () => {
     setImageToCrop(null);
     setZoom(1);
     setCrop({ x: 0, y: 0 });
+    setCroppedAreaPixels(null);
   };
 
   const handleArrayFieldChange = (
@@ -1100,6 +1123,7 @@ const AddCounsellor: React.FC = () => {
         specialization: '',
       });
       setImagePreview(null);
+      setOriginalImage(null);
       
       alert('Counsellor added successfully!');
     } catch (error: any) {
@@ -1179,14 +1203,18 @@ const AddCounsellor: React.FC = () => {
                 aspect={1}
                 cropShape="round"
                 showGrid={true}
+                restrictPosition={false}
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
                 onCropComplete={onCropComplete}
                 classes={{
-                  containerClassName: 'bg-gray-100',
-                  mediaClassName: 'max-h-80',
-                  cropAreaClassName: 'border-2 border-[#0A4F43]'
+                  containerClassName: 'bg-gray-100 rounded-lg',
+                  mediaClassName: 'max-h-80 object-contain',
+                  cropAreaClassName: 'border-2 border-[#0A4F43] shadow-lg'
                 }}
+                zoomSpeed={0.5}
+                maxZoom={3}
+                minZoom={1}
               />
             </div>
             
@@ -1201,20 +1229,20 @@ const AddCounsellor: React.FC = () => {
                 max={3}
                 step={0.1}
                 onChange={(e) => setZoom(Number(e.target.value))}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#0A4F43]"
               />
             </div>
             
             <div className="flex justify-end space-x-3">
               <button
                 onClick={handleCropCancel}
-                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleCropConfirm}
-                className="px-4 py-2 bg-[#0A4F43] text-white rounded-lg hover:bg-[#083d33] flex items-center"
+                className="px-4 py-2 bg-[#0A4F43] text-white rounded-lg hover:bg-[#083d33] flex items-center transition-colors"
               >
                 <Check className="w-4 h-4 mr-2" />
                 Confirm Crop
@@ -1253,11 +1281,9 @@ const AddCounsellor: React.FC = () => {
                     className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
                   />
                   <button
-                    onClick={() => {
-                      setImageToCrop(imagePreview);
-                      setShowCropper(true);
-                    }}
-                    className="absolute bottom-0 right-0 bg-[#0A4F43] text-white p-2 rounded-full hover:bg-[#083d33]"
+                    onClick={handleEditImage}
+                    className="absolute bottom-0 right-0 bg-[#0A4F43] text-white p-2 rounded-full hover:bg-[#083d33] transition-colors"
+                    title="Edit Image"
                   >
                     <Camera className="w-4 h-4" />
                   </button>
@@ -1297,7 +1323,7 @@ const AddCounsellor: React.FC = () => {
             Basic Information
           </h2>
           
-          <div className="grid grid-cols-1 mdgrid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Full Name *
@@ -1510,6 +1536,7 @@ const AddCounsellor: React.FC = () => {
                 specialization: ''
               });
               setImagePreview(null);
+              setOriginalImage(null);
               setErrors({});
             }}
             className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
