@@ -716,8 +716,7 @@
 // export default AddCounsellor;
 
 
-
-import React, { useState, ChangeEvent, useEffect, useCallback } from 'react';
+import React, { useState, ChangeEvent, useCallback } from 'react';
 import { User, Upload, X, Plus, MapPin, BookOpen, Globe, Award, Briefcase, Camera, Check } from 'lucide-react';
 import Cropper from 'react-easy-crop';
 import { Area } from 'react-easy-crop/types';
@@ -835,6 +834,12 @@ const AddCounsellor: React.FC = () => {
         setZoom(1);
         setCrop({ x: 0, y: 0 });
         setCroppedAreaPixels(null);
+        // Clear existing preview and formData.image to ensure new image is processed
+        setImagePreview(null);
+        setFormData(prev => ({
+          ...prev,
+          image: null
+        }));
       };
       reader.readAsDataURL(file);
       
@@ -846,7 +851,7 @@ const AddCounsellor: React.FC = () => {
   };
 
   const handleEditImage = () => {
-    if (originalImage && imagePreview) {
+    if (originalImage) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageToCrop(reader.result as string);
@@ -856,6 +861,29 @@ const AddCounsellor: React.FC = () => {
         setCroppedAreaPixels(null);
       };
       reader.readAsDataURL(originalImage);
+    } else if (imagePreview) {
+      // If no original image (e.g., loaded from existing data), fetch the preview image
+      fetch(imagePreview)
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], 'existing-image.jpg', { type: 'image/jpeg', lastModified: Date.now() });
+          setOriginalImage(file);
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setImageToCrop(reader.result as string);
+            setShowCropper(true);
+            setZoom(1);
+            setCrop({ x: 0, y: 0 });
+            setCroppedAreaPixels(null);
+          };
+          reader.readAsDataURL(file);
+        })
+        .catch(() => {
+          setErrors(prev => ({
+            ...prev,
+            image: 'Failed to load image for editing.'
+          }));
+        });
     }
   };
 
@@ -936,6 +964,7 @@ const AddCounsellor: React.FC = () => {
       setImageToCrop(null);
       setZoom(1);
       setCrop({ x: 0, y: 0 });
+      setCroppedAreaPixels(null);
     } catch (error) {
       setErrors(prev => ({
         ...prev,
