@@ -718,9 +718,10 @@
 
 
 
-
-import React, { useState, ChangeEvent, useEffect, useRef, useCallback } from 'react';
-import { User, Upload, X, Plus, MapPin, BookOpen, Globe, Award, Briefcase, Camera, Crop, Check } from 'lucide-react';
+import React, { useState, ChangeEvent, useEffect, useCallback } from 'react';
+import { User, Upload, X, Plus, MapPin, BookOpen, Globe, Award, Briefcase, Camera, Check } from 'lucide-react';
+import Cropper from 'react-easy-crop';
+import { Area } from 'react-easy-crop/types';
 
 interface FormData {
   name: string;
@@ -762,13 +763,6 @@ interface ArrayFieldSelectorProps {
   error?: string;
 }
 
-interface Crop {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
 const AddCounsellor: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -792,14 +786,9 @@ const AddCounsellor: React.FC = () => {
   // Image cropping states
   const [showCropper, setShowCropper] = useState<boolean>(false);
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
-  const [crop, setCrop] = useState<Crop>({ x: 0, y: 0, width: 200, height: 200 });
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [imageNaturalSize, setImageNaturalSize] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
-  const [croppedImageFile, setCroppedImageFile] = useState<File | null>(null);
-  
-  const imageRef = useRef<HTMLImageElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
   // Predefined options
   const expertiseOptions: string[] = [
@@ -842,6 +831,8 @@ const AddCounsellor: React.FC = () => {
       reader.onloadend = () => {
         setImageToCrop(reader.result as string);
         setShowCropper(true);
+        setZoom(1);
+        setCrop({ x: 0, y: 0 });
       };
       reader.readAsDataURL(file);
       
@@ -852,78 +843,50 @@ const AddCounsellor: React.FC = () => {
     }
   };
 
-  const handleImageLoad = () => {
-    if (imageRef.current) {
-      const { naturalWidth, naturalHeight } = imageRef.current;
-      setImageNaturalSize({ width: naturalWidth, height: naturalHeight });
-      
-      // Set initial crop to center square
-      const size = Math.min(naturalWidth, naturalHeight);
-      setCrop({
-        x: (naturalWidth - size) / 2,
-        y: (naturalHeight - size) / 2,
-        width: size * 0.8,
-        height: size * 0.8
-      });
-    }
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setDragStart({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging || !imageRef.current) return;
-
-    const rect = imageRef.current.getBoundingClientRect();
-    const scaleX = imageNaturalSize.width / rect.width;
-    const scaleY = imageNaturalSize.height / rect.height;
-
-    const deltaX = (e.clientX - dragStart.x) * scaleX;
-    const deltaY = (e.clientY - dragStart.y) * scaleY;
-
-    setCrop(prev => ({
-      ...prev,
-      x: Math.max(0, Math.min(imageNaturalSize.width - prev.width, prev.x + deltaX)),
-      y: Math.max(0, Math.min(imageNaturalSize.height - prev.height, prev.y + deltaY))
-    }));
-
-    setDragStart({ x: e.clientX, y: e.clientY });
-  }, [isDragging, dragStart, imageNaturalSize]);
-
-  const handleMouseUp = useCallback(() => {
-    setIsDragging(false);
+  const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
+    setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
-  useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-      };
+  const getCroppedImage = async (): Promise<File> => {
+    if (!croppedAreaPixels || !imageToCrop) {
+      throw new Error('No image to crop');
     }
-  }, [isDragging, handleMouseMove, handleMouseUp]);
 
-  const getCroppedImage = (): Promise<File> => {
+    const image = new Image();
+    image.src = imageToCrop;
+    await new Promise(resolve => {
+      image.onload = resolve;
+    });
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      throw new Error('Failed to get canvas context');
+    }
+
+    // Set canvas size to desired output size (e.g., 200x200)
+    const targetSize = 200;
+    canvas.width = targetSize;
+    canvas.height = targetSize;
+
+    // Calculate scaling factor
+    const scaleX = image.naturalWidth / 100;
+    const scaleY = image.naturalHeight / 100;
+
+    // Draw cropped image
+    ctx.drawImage(
+      image,
+      croppedAreaPixels.x * scaleX,
+      croppedAreaPixels.y * scaleY,
+      croppedAreaPixels.width * scaleX,
+      croppedAreaPixels.height * scaleY,
+      0,
+      0,
+      targetSize,
+      targetSize
+    );
+
     return new Promise((resolve) => {
-      if (!imageRef.current || !canvasRef.current) return;
-
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-
-      canvas.width = crop.width;
-      canvas.height = crop.height;
-
-      ctx.drawImage(
-        imageRef.current,
-        crop.x, crop.y, crop.width, crop.height,
-        0, 0, crop.width, crop.height
-      );
-
       canvas.toBlob((blob) => {
         if (blob) {
           const file = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg' });
@@ -934,28 +897,36 @@ const AddCounsellor: React.FC = () => {
   };
 
   const handleCropConfirm = async () => {
-    const croppedFile = await getCroppedImage();
-    setCroppedImageFile(croppedFile);
-    
-    setFormData(prev => ({
-      ...prev,
-      image: croppedFile
-    }));
+    try {
+      const croppedFile = await getCroppedImage();
+      
+      setFormData(prev => ({
+        ...prev,
+        image: croppedFile
+      }));
 
-    // Create preview URL
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result as string);
-    };
-    reader.readAsDataURL(croppedFile);
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(croppedFile);
 
-    setShowCropper(false);
-    setImageToCrop(null);
+      setShowCropper(false);
+      setImageToCrop(null);
+    } catch (error) {
+      setErrors(prev => ({
+        ...prev,
+        image: 'Failed to crop image'
+      }));
+    }
   };
 
   const handleCropCancel = () => {
     setShowCropper(false);
     setImageToCrop(null);
+    setZoom(1);
+    setCrop({ x: 0, y: 0 });
   };
 
   const handleArrayFieldChange = (
@@ -1129,7 +1100,6 @@ const AddCounsellor: React.FC = () => {
         specialization: '',
       });
       setImagePreview(null);
-      setCroppedImageFile(null);
       
       alert('Counsellor added successfully!');
     } catch (error: any) {
@@ -1197,37 +1167,42 @@ const AddCounsellor: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-auto">
             <h3 className="text-lg font-semibold mb-4 flex items-center">
-              <Crop className="w-5 h-5 mr-2 text-[#0A4F43]" />
-              Crop Image
+              <Camera className="w-5 h-5 mr-2 text-[#0A4F43]" />
+              Crop Profile Image
             </h3>
             
-            <div className="relative inline-block mb-4">
-              <img
-                ref={imageRef}
-                src={imageToCrop}
-                alt="To crop"
-                className="max-w-full max-h-96 block"
-                onLoad={handleImageLoad}
+            <div className="relative h-96 mb-4">
+              <Cropper
+                image={imageToCrop}
+                crop={crop}
+                zoom={zoom}
+                aspect={1}
+                cropShape="round"
+                showGrid={true}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+                classes={{
+                  containerClassName: 'bg-gray-100',
+                  mediaClassName: 'max-h-80',
+                  cropAreaClassName: 'border-2 border-[#0A4F43]'
+                }}
               />
-              
-              {imageNaturalSize.width > 0 && (
-                <div
-                  className="absolute border-2 border-[#0A4F43] cursor-move"
-                  style={{
-                    left: `${(crop.x / imageNaturalSize.width) * (imageRef.current?.clientWidth || 0)}px`,
-                    top: `${(crop.y / imageNaturalSize.height) * (imageRef.current?.clientHeight || 0)}px`,
-                    width: `${(crop.width / imageNaturalSize.width) * (imageRef.current?.clientWidth || 0)}px`,
-                    height: `${(crop.height / imageNaturalSize.height) * (imageRef.current?.clientHeight || 0)}px`,
-                  }}
-                  onMouseDown={handleMouseDown}
-                >
-                  <div className="absolute inset-0 bg-[#0A4F43] bg-opacity-20"></div>
-                  <div className="absolute top-0 left-0 w-2 h-2 bg-[#0A4F43] rounded-full -translate-x-1 -translate-y-1"></div>
-                  <div className="absolute top-0 right-0 w-2 h-2 bg-[#0A4F43] rounded-full translate-x-1 -translate-y-1"></div>
-                  <div className="absolute bottom-0 left-0 w-2 h-2 bg-[#0A4F43] rounded-full -translate-x-1 translate-y-1"></div>
-                  <div className="absolute bottom-0 right-0 w-2 h-2 bg-[#0A4F43] rounded-full translate-x-1 translate-y-1"></div>
-                </div>
-              )}
+            </div>
+            
+            <div className="mb-4">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Zoom
+              </label>
+              <input
+                type="range"
+                value={zoom}
+                min={1}
+                max={3}
+                step={0.1}
+                onChange={(e) => setZoom(Number(e.target.value))}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
             </div>
             
             <div className="flex justify-end space-x-3">
@@ -1248,9 +1223,6 @@ const AddCounsellor: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Hidden canvas for cropping */}
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
 
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Add New Counsellor</h1>
@@ -1274,11 +1246,22 @@ const AddCounsellor: React.FC = () => {
           <div className="flex items-center space-x-6">
             <div className="relative">
               {imagePreview ? (
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
-                />
+                <>
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg"
+                  />
+                  <button
+                    onClick={() => {
+                      setImageToCrop(imagePreview);
+                      setShowCropper(true);
+                    }}
+                    className="absolute bottom-0 right-0 bg-[#0A4F43] text-white p-2 rounded-full hover:bg-[#083d33]"
+                  >
+                    <Camera className="w-4 h-4" />
+                  </button>
+                </>
               ) : (
                 <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-4 border-white shadow-lg">
                   <User className="w-10 h-10 text-gray-400" />
@@ -1314,7 +1297,7 @@ const AddCounsellor: React.FC = () => {
             Basic Information
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 mdgrid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Full Name *
@@ -1527,7 +1510,6 @@ const AddCounsellor: React.FC = () => {
                 specialization: ''
               });
               setImagePreview(null);
-              setCroppedImageFile(null);
               setErrors({});
             }}
             className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
