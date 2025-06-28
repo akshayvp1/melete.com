@@ -13,11 +13,11 @@ const navItems: NavItem[] = [
   { 
     name: 'Specialized Care', 
     items: [
-      'child-support',
-      'adult-support', 
-      'parent-support',
-      'pregnancy-support',
-      'oldage-support'
+      'Child-Support',
+      'Adult-Support', 
+      'Parent-Support',
+      'Pregnancy-Support',
+      'Oldage-Support'
     ]
   },
   { name: 'Our Experts', href: '/experts' },
