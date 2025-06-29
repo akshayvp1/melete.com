@@ -503,8 +503,6 @@
 
 
 
-
-
 import React from "react";
 import {
   Heart,
@@ -659,7 +657,7 @@ const AboutPage = () => {
                 </div>
                 <h3 className="text-2xl font-semibold mb-4">Our Vision</h3>
                 <p className="text-white/90 leading-relaxed mb-6">
-                We envision a world where professional mental health support is universally accessible, delivered with therapeutic excellence, and recognized as essential to every individual's well-being.
+                  We envision a world where professional mental health support is universally accessible, delivered with therapeutic excellence, and recognized as essential to every individual's well-being.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-medium">Global Access</span>
@@ -682,7 +680,6 @@ const AboutPage = () => {
                 </div>
               </article>
             </div>
-         /Edit
           </div>
         </div>
       </section>
@@ -724,7 +721,6 @@ const AboutPage = () => {
                 icon: Brain,
                 title: "Evidence-Based Therapy",
                 description: "Access scientifically validated therapeutic methods for effective mental health support."
-
               },
               {
                 icon: Heart,
@@ -922,23 +918,23 @@ const AboutPage = () => {
       </section>
 
       {/* 6. App Download Section */}
-      <section className="py-20 bg-gray-50" aria-labelledby="app-download-heading">
-        <div className="container mx-auto px-6">
+      <section className="py-12 bg-gray-50" aria-labelledby="app-download-heading">
+        <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className="inline-flex items-center px-4 py-2 bg-[#015F4A]/10 rounded-full text-[#015F4A] font-medium mb-8">
+            <div className="flex flex-col lg:flex-row gap-8 items-center">
+              <div className="w-full lg:w-1/2">
+                <div className="inline-flex items-center px-4 py-2 bg-[#015F4A]/10 rounded-full text-[#015F4A] font-medium mb-6">
                   <Smartphone className="w-4 h-4 mr-2" aria-hidden="true" />
                   Download the MELETE App
                 </div>
-                <h2 id="app-download-heading" className="text-4xl lg:text-5xl font-light mb-6 leading-tight text-gray-900">
+                <h2 id="app-download-heading" className="text-3xl sm:text-4xl lg:text-5xl font-light mb-4 leading-tight text-gray-900">
                   Mental Health Support <br />
                   <span className="font-semibold text-[#015F4A]">Anytime, Anywhere</span>
                 </h2>
-                <p className="text-xl text-gray-600 mb-10 leading-relaxed">
+                <p className="text-lg sm:text-xl text-gray-600 mb-6 leading-relaxed">
                   Download the MELETE app to connect with licensed therapists, track your mental health progress, and access evidence-based resources on the go.
                 </p>
-                <div className="space-y-4 mb-10">
+                <div className="space-y-3 mb-6">
                   {[
                     "24/7 access to professional therapists",
                     "Secure video, voice, and chat therapy sessions",
@@ -947,14 +943,14 @@ const AboutPage = () => {
                     "Healthcare-grade privacy and security"
                   ].map((feature, index) => (
                     <div key={index} className="flex items-center">
-                      <CheckSquare className="w-5 h-5 text-[#015F4A] mr-4 flex-shrink-0" aria-hidden="true" />
-                      <span className="text-gray-600">{feature}</span>
+                      <CheckSquare className="w-5 h-5 text-[#015F4A] mr-3 flex-shrink-0" aria-hidden="true" />
+                      <span className="text-gray-600 text-sm sm:text-base">{feature}</span>
                     </div>
                   ))}
                 </div>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="group bg-gray-900 text-white px-6 py-3 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 flex items-center justify-center">
-                    <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="group bg-gray-900 text-white px-5 py-2.5 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 flex items-center justify-center">
+                    <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                       <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
                     </svg>
                     <div className="text-left">
@@ -962,8 +958,8 @@ const AboutPage = () => {
                       <div className="text-sm font-semibold">Google Play</div>
                     </div>
                   </a>
-                  <a href="https://www.apple.com/app-store" target="_blank" rel="noopener noreferrer" className="group bg-gray-900 text-white px-6 py-3 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 flex items-center justify-center">
-                    <svg className="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <a href="https://www.apple.com/app-store" target="_blank" rel="noopener noreferrer" className="group bg-gray-900 text-white px-5 py-2.5 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 flex items-center justify-center">
+                    <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                       <path d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.1,22C7.79,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.67 14.94,2.04 15.94,2C16.07,3.17 15.6,4.35 14.9,5.19C14.21,6.04 13.07,6.7 11.95,6.61C11.8,5.46 12.36,4.26 13,3.5Z"/>
                     </svg>
                     <div className="text-left">

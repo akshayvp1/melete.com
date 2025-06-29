@@ -5,7 +5,7 @@
 
 
 import React from 'react';
-import { Heart, Users, Brain, Clock, Award, CheckCircle, Building, GraduationCap, Briefcase, Star, Leaf, BookOpen, Headphones, Activity, Calendar, TrendingUp, Target, Lightbulb, CheckSquare } from 'lucide-react';
+import { Heart, Users, Brain, Clock, Award, CheckCircle, Sparkles,Building, GraduationCap, Briefcase, Star, Leaf, BookOpen, Headphones, Activity, Calendar, TrendingUp, Target, Lightbulb, CheckSquare } from 'lucide-react';
 import serviceImage from '../assets/service.jpg'
 import melteIcon from '../assets/Micon.png'
 import college from "../assets/colleges.webp";
@@ -23,6 +23,7 @@ import goal from '../assets/goal.webp'
 import relaxation from '../assets/relaxation-tech.webp'
 import activity from '../assets/activities.webp'
 import habit from '../assets/habit.webp'
+
 const MeleteServices = () => {
   
 
@@ -145,104 +146,128 @@ const MeleteServices = () => {
       </div>
 
       {/* Our Complete Services Section */}
-      <div className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-[#015F4A] mb-6">Our Complete Services</h2>
-            <p className="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
-              Discover our comprehensive range of mental health services designed to support your well-being journey with professional care and innovative features.
+      <section className="py-20 bg-gray-50" aria-labelledby="specialties-heading">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 id="specialties-heading" className="text-4xl lg:text-5xl font-light mb-6 text-gray-900">
+              Our Mental Health <span className="font-semibold text-[#015F4A]">Specialties</span>
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Explore our expert services tailored to diverse mental health needs, delivered with professional excellence.
             </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
             {[
               {
                 icon: Clock,
                 title: "24/7 Mental Health Support",
-                description: "Round-the-clock professional mental health support available whenever needed.",
-                image: day
+                description: "Access professional mental health support anytime with our round-the-clock services.",
+                image: day,
+                alt: "24/7 mental health support illustration"
               },
               {
                 icon: GraduationCap,
-                title: "Student Support",
-                description: "Tailored mental health resources and guidance to support students' academic and personal growth.",
-                image: student
+                title: "Student Mental Health Support",
+                description: "Tailored resources to support students' academic success and emotional well-being.",
+                image: student,
+                alt: "Student mental health support image"
               },
               {
                 icon: Leaf,
                 title: "Relaxation Techniques",
-                description: "Guided techniques to reduce stress and promote relaxation for mental well-being.",
-                image: relaxation
+                description: "Guided relaxation methods to reduce stress and enhance mental wellness.",
+                image: relaxation,
+                alt: "Relaxation techniques illustration"
               },
               {
                 icon: CheckSquare,
-                title: "To-Do List",
-                description: "Organize tasks and manage daily responsibilities to enhance mental clarity.",
-                image: todolist
+                title: "Mental Health To-Do List",
+                description: "Organize tasks to improve mental clarity and manage daily responsibilities.",
+                image: todolist,
+                alt: "Mental health to-do list image"
               },
               {
                 icon: BookOpen,
-                title: "Diary",
-                description: "Personal journaling space to reflect and process emotions effectively.",
-                image: diary
+                title: "Therapeutic Diary",
+                description: "A private journaling space to reflect and process emotions for mental health.",
+                image: diary,
+                alt: "Therapeutic diary illustration"
               },
               {
                 icon: Headphones,
-                title: "Relaxation Music",
-                description: "Curated music playlists designed to support mental health and relaxation.",
-                image: music
+                title: "Relaxation Music Therapy",
+                description: "Curated playlists to promote relaxation and support mental well-being.",
+                image: music,
+                alt: "Relaxation music therapy image"
               },
               {
                 icon: Activity,
                 title: "Breathing Exercises",
-                description: "Structured exercises to improve focus and reduce anxiety through controlled breathing.",
-                image: breathing
+                description: "Controlled breathing techniques to reduce anxiety and improve focus.",
+                image: breathing,
+                alt: "Breathing exercises illustration"
               },
               {
                 icon: Calendar,
-                title: "Immediate Booking",
-                description: "Instant appointment scheduling with real-time availability and confirmations.",
-                image: booking
+                title: "Instant Therapy Booking",
+                description: "Schedule therapy sessions instantly with real-time availability.",
+                image: booking,
+                alt: "Instant therapy booking image"
               },
               {
                 icon: TrendingUp,
                 title: "Mood Tracker",
-                description: "Track and analyze mood patterns to support mental health awareness.",
-                image: tracker
+                description: "Monitor mood patterns to gain insights into your mental health journey.",
+                image: tracker,
+                alt: "Mood tracker illustration"
               },
               {
                 icon: Activity,
-                title: "Activities",
-                description: "Engaging activities to boost mood and encourage a positive mindset.",
-                image: activity
+                title: "Mental Health Activities",
+                description: "Engaging activities to boost mood and foster a positive mindset.",
+                image: activity,
+                alt: "Mental health activities image"
               },
               {
                 icon: Target,
-                title: "Goal Settings",
-                description: "Set and monitor personal mental health goals for continuous improvement.",
-                image: goal
+                title: "Mental Health Goal Setting",
+                description: "Set and track personal goals to support your mental wellness journey.",
+                image: goal,
+                alt: "Mental health goal setting illustration"
               },
               {
                 icon: Lightbulb,
-                title: "Habits",
-                description: "Build and maintain healthy habits to support long-term mental wellness.",
-                image: habit
+                title: "Healthy Habit Building",
+                description: "Develop sustainable habits to promote long-term mental health.",
+                image: habit,
+                alt: "Healthy habit building image"
               }
             ].map((specialty, index) => (
-              <div key={index} className="group bg-white rounded-xl p-6 border border-gray-100 hover:border-[#015F4A]/20 transition-all duration-300 hover:shadow-md">
-                <div className="w-full h-48 mb-4 overflow-hidden rounded-lg">
-                  <img src={specialty.image} alt={specialty.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+              <article key={index} className="group bg-white rounded-xl p-6 border border-gray-100 hover:border-[#015F4A]/20 transition-all duration-300 hover:shadow-md">
+                <div className="w-full aspect-[4/3] mb-4 overflow-hidden rounded-lg">
+                  <img src={specialty.image} alt={specialty.alt} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" loading="lazy" />
                 </div>
                 <div className="w-12 h-12 bg-[#015F4A]/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-[#015F4A] group-hover:scale-105 transition-all duration-300">
-                  <specialty.icon className="text-[#015F4A] group-hover:text-white transition-colors duration-300" size={20} />
+                  <specialty.icon className="text-[#015F4A] group-hover:text-white transition-colors duration-300" size={20} aria-hidden="true" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-gray-900">{specialty.title}</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">{specialty.description}</p>
-              </div>
+              </article>
             ))}
           </div>
+          <article className="bg-white rounded-2xl p-10 border border-[#015F4A]/10">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="w-16 h-16 bg-[#015F4A]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Sparkles className="w-8 h-8 text-[#015F4A]" aria-hidden="true" />
+              </div>
+              <h3 className="text-3xl font-semibold mb-4 text-gray-900">Professional Mental Health Excellence</h3>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                MELETE combines innovative technology with licensed therapists to deliver comprehensive, evidence-based mental health care, accessible anytime, anywhere.
+              </p>
+            </div>
+          </article>
         </div>
-      </div>
+      </section>
 
       {/* What We Offer Section */}
       <div className="py-16">
