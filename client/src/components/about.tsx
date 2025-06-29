@@ -114,7 +114,7 @@ const AboutPage = () => {
               Certified Mental Health Platform
             </div>
             <h1 className="text-5xl lg:text-7xl font-light mb-6 leading-tight text-gray-900">
-              Welcome to <span className="font-bold text-[#015F4A]">MELETE</span>
+              Welcome to <h1 className="text-5xl font-inter font-normal text-[#1ca184]">MELETE</h1>
             </h1>
             <p className="text-xl lg:text-2xl mb-8 text-gray-600 leading-relaxed max-w-4xl mx-auto font-light">
               Your Trusted Professional Mental Wellness Platform

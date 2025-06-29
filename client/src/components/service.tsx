@@ -76,7 +76,7 @@ const MeleteServices = () => {
                               className="w-10 h-10" // Adjust width and height as needed
                             />
                           </div>
-                <h1 className="text-5xl font-bold text-[#015F4A]">MELETE</h1>
+<h1 className="text-5xl font-inter font-normal text-[#1ca184]">MELETE</h1>
               </div>
               <p className="text-xl mb-8 leading-relaxed text-gray-700">
                 A recognized mental health platform revolutionizing access to emotional support through 

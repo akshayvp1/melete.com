@@ -8,5 +8,16 @@ export default {
       extend: {},
     },
     plugins: [],
-  }
+    // tailwind.config.js
+
+  theme: {
+    extend: {
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+      },
+    },
+  },
+};
+
+ 
   
