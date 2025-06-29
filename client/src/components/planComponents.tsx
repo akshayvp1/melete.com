@@ -522,7 +522,7 @@ const TherapyServicesCard: React.FC = () => {
     },
     {
       title: "Problem-Focused Therapy",
-      sessions: "Flexible Sessions",
+      sessions: "8 Sessions",
       price: 5749,
       items: [
         "Establishing rapport",
@@ -740,7 +740,7 @@ const TherapyServicesCard: React.FC = () => {
                     </p>
                     <p className="text-xs text-white/80 font-medium">
                       {service.sessions === "Single Session"
-                        ? "Per session"
+                        ? "For a session"
                         : "Total package"}
                     </p>
                   </motion.div>
