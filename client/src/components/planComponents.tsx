@@ -498,7 +498,7 @@ interface ServiceItem {
 const TherapyServicesCard: React.FC = () => {
   const services: ServiceItem[] = [
     {
-      title: "Complete Care",
+      title: "Essential Support",
       sessions: "Single Session",
       price: 499,
       items: [
@@ -508,7 +508,7 @@ const TherapyServicesCard: React.FC = () => {
       ],
     },
     {
-      title: "Essential Support",
+      title: "Complete Care",
       sessions: "8 Sessions",
       price: 3700,
       items: [
