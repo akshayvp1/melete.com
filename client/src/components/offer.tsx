@@ -168,7 +168,7 @@ const WhatWeOffer: React.FC = () => {
                   {category.description}
                 </p>
                 <Link
-                  to="/services"
+                  to="/service"
                   className="inline-block px-6 py-2 rounded-full bg-[#015F4A] text-white font-medium hover:bg-[#014a3a] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#015F4A] focus:ring-offset-2"
                   aria-label={`Explore services for ${category.title}`}
                 >
@@ -181,7 +181,7 @@ const WhatWeOffer: React.FC = () => {
 
         <div className="text-center mt-12">
           <Link
-            to="/services"
+            to="/service"
             className="inline-block px-8 py-3 rounded-full bg-transparent border-2 border-[#015F4A] text-[#015F4A] font-semibold hover:bg-[#015F4A] hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#015F4A] focus:ring-offset-2"
             aria-label="Discover all MELETE services"
           >

@@ -37,8 +37,7 @@ const Home: React.FC = () => {
       const whatsappUrl = `https://wa.me/${CONTACT_CONFIG.phoneNumber}?text=${encodedMessage}`;
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     } catch (error) {
-      console.error('Failed to open WhatsApp:', error);
-      // Fallback: could show a toast notification or alternative contact method
+    
     }
   }, []);
 

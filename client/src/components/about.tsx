@@ -620,11 +620,11 @@ const AboutPage = () => {
               Experience accessible, evidence-based mental health care through our secure digital platform. Connect with licensed therapists and access tailored therapeutic resources for your well-being.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/get-started" className="group bg-[#015F4A] text-white px-8 py-4 rounded-xl font-medium hover:bg-[#014539] transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl">
+              <a href="" className="group bg-[#015F4A] text-white px-8 py-4 rounded-xl font-medium hover:bg-[#014539] transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl">
                 Begin Your Mental Health Journey
                 <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
               </a>
-              <a href="/learn-more" className="group border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300">
+              <a href="/service" className="group border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-xl font-medium hover:bg-gray-50 transition-all duration-300">
                 Explore Our Services
               </a>
             </div>
@@ -907,7 +907,7 @@ const AboutPage = () => {
                 <p className="text-lg text-gray-700 mb-8 leading-relaxed">
                   Whether managing stress, anxiety, or seeking personal growth, our expert therapists are here to support your mental health needs.
                 </p>
-                <a href="/get-started" className="group bg-[#015F4A] text-white px-10 py-4 rounded-xl font-medium hover:bg-[#014539] transition-all duration-300 flex items-center justify-center mx-auto shadow-lg hover:shadow-xl">
+                <a href="" className="group bg-[#015F4A] text-white px-10 py-4 rounded-xl font-medium hover:bg-[#014539] transition-all duration-300 flex items-center justify-center mx-auto shadow-lg hover:shadow-xl">
                   Start Your Therapy Journey
                   <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </a>
