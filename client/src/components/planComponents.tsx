@@ -509,7 +509,7 @@ const TherapyServicesCard: React.FC = () => {
     },
     {
       title: "Essential Support",
-      sessions: "12 Sessions",
+      sessions: "8 Sessions",
       price: 3700,
       items: [
         "Establishing rapport",
@@ -522,7 +522,7 @@ const TherapyServicesCard: React.FC = () => {
     },
     {
       title: "Problem-Focused Therapy",
-      sessions: "8 Sessions",
+      sessions: "12 Sessions",
       price: 5749,
       items: [
         "Establishing rapport",
