@@ -689,7 +689,7 @@ const AboutPage = () => {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 id="why-melete-heading" className="text-4xl lg:text-5xl font-light mb-6 text-gray-900">
-              Why Choose <span className="font-semibold text-[#015F4A]">MELETE</span>?
+              Why Choose <h1 className="text-5xl font-inter font-normal text-[#1ca184]">MELETE</h1>?
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
               Discover a secure, professional mental health platform combining innovative technology with licensed therapists for effective, accessible support.
