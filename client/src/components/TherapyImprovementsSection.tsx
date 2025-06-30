@@ -22,6 +22,7 @@ import {
   Heart,
   HeartHandshake,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import SelfImage from '../assets/Self-Confidence.webp';
 import StressImage from '../assets/stress.webp';
 import AnxietyImage from '../assets/Anxiety.webp';
@@ -271,18 +272,14 @@ const TherapyImprovementsSection: React.FC = () => {
           <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#F9F9F9] to-transparent pointer-events-none md:hidden" />
           <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#F9F9F9] to-transparent pointer-events-none md:hidden" />
         </div>
-        <div className="text-center mt-8">
-          <motion.button
-            className="px-8 py-3 rounded-full bg-teal-600 text-white font-medium text-base shadow-md hover:bg-teal-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
-            variants={buttonVariants}
-            whileHover="hover"
-            whileTap="tap"
-            onClick={() => navigate('/improve')}
-            aria-label="View all therapy improvements"
-          >
-            Show More
-          </motion.button>
-        </div>
+        <div className="flex justify-center mt-8">
+                <Link
+                  to="/improve"
+                  className="px-6 py-3 bg-[#015F4A] text-white font-medium rounded-lg hover:bg-[#013F3A] transition-colors duration-300"
+                >
+                  Show More
+                </Link>
+              </div>
       </div>
     </motion.section>
   );
