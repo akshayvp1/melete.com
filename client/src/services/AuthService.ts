@@ -217,7 +217,7 @@ interface ICounsellorData {
   expertise: string[];
   languages: string[];
   counsellingTypes: string[];
-  experience: string;
+  experience: number;
   location: string;
   imageUrl?: string;
   bio: string;
@@ -318,7 +318,7 @@ class AuthService {
         expertise: item.expertise || [],
         languages: item.languages || [],
         counsellingTypes: item.counsellingTypes || item.counseling || [],
-        experience: item.experience || '',
+        experience: item.experience ,
         location: item.location || '',
         image: item.imageUrl || item.image || 'https://via.placeholder.com/150',
         bio: item.bio || '',
@@ -350,7 +350,7 @@ class AuthService {
         expertise: item.expertise || [],
         languages: item.languages || [],
         counsellingTypes: item.counsellingTypes || item.counseling || [],
-        experience: item.experience || '',
+        experience: item.experience ,
         location: item.location || '',
         image: item.imageUrl || item.image || 'https://via.placeholder.com/150',
         bio: item.bio || '',
@@ -414,7 +414,7 @@ class AuthService {
         expertise: data.expertise || [],
         languages: data.languages || [],
         counsellingTypes: data.counsellingTypes || data.counseling || [],
-        experience: data.experience || '',
+        experience: data.experience ,
         location: data.location || '',
         image: data.imageUrl || data.image || 'https://via.placeholder.com/150',
         bio: data.bio || '',

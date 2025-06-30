@@ -17,7 +17,7 @@ interface FormData {
   expertise: string[];
   languages: string[];
   counsellingTypes: string[];
-  experience: string;
+  experience: number;
   location: string;
   image: File | null;
   imageUrl?: string;
@@ -32,7 +32,7 @@ interface Errors {
   email?: string;
   phone?: string;
   qualification?: string;
-  experience?: string;
+  experience?: number;
   location?: string;
   bio?: string;
   specialization?: string;
@@ -58,7 +58,7 @@ const AddCounsellor: React.FC = () => {
     expertise: [],
     languages: [],
     counsellingTypes: [],
-    experience: '',
+    experience: 0,
     location: '',
     image: null,
     bio: '',
@@ -82,7 +82,7 @@ const AddCounsellor: React.FC = () => {
     'Family Therapy', 'Addiction Recovery', 'Trauma', 'Child Counselling',
     'Couples Therapy', 'Grief Counselling', 'Stress Management',
     'PTSD', 'Eating Disorders', 'Exam-Related Issues', 'Behavioural issues', 'Academic backwardness ',
-    'psycho Education', 'Adolescents', 'General Psychiatry', 'Developmental Disorders',
+    'Psycho Education', 'Adolescents', 'General Psychiatry', 'Developmental Disorders',
     'Addiction & Substance Use Disorders', 'Sleep-Related Concerns', 'Identity Confusion & Emotional Difficulties',
     'Online Counselling', 'Screen Addiction', 'Anger Issues', 'Porn Addiction', 'Phobias', 'Obsessive Compulsive Tendencies',
     'Personality Disorders', 'Relaxation Technique', 'Psychological Assessments','Parental counselling'
@@ -251,7 +251,7 @@ const AddCounsellor: React.FC = () => {
     }
 
     if (!formData.experience) {
-      newErrors.experience = 'Experience is required.';
+      newErrors.experience ;
     }
 
     if (!formData.location.trim()) {
@@ -351,7 +351,7 @@ const AddCounsellor: React.FC = () => {
         expertise: [],
         languages: [],
         counsellingTypes: [],
-        experience: '',
+        experience: 0,
         location: '',
         image: null,
         bio: '',
@@ -755,7 +755,7 @@ const AddCounsellor: React.FC = () => {
                 expertise: [],
                 languages: [],
                 counsellingTypes: [],
-                experience: '',
+                experience: 0,
                 location: '',
                 image: null,
                 bio: '',

@@ -838,7 +838,7 @@ interface Consultant {
   expertise: string[];
   languages: string[];
   counsellingTypes: string[];
-  experience: string;
+  experience: number;
   location: string;
   image: string;
   bio: string;
@@ -1075,7 +1075,7 @@ const expertiseOptions: string[] = [
   'Family Therapy', 'Addiction Recovery', 'Trauma', 'Child Counselling',
   'Couples Counselling', 'Grief Counselling', 'Stress Management',
   'PTSD', 'Eating Disorders', 'Exam-Related Issues','Behavioural issues','Academic backwardness ',
-  'psycho Education','Adolescents','General Psychiatry','Developmental Disorders',
+  'Psycho Education','Adolescents','General Psychiatry','Developmental Disorders',
   'Addiction & Substance Use Disorders','Sleep-Related Concerns','Identity Confusion & Emotional Difficulties',
   'Online Counselling','Screen Addiction',"Anger Issues",'Porn Addiction','Phobias','Obsessive Compulsive Tendencies',
   'Personality Disorders','Relaxation Technique','Psychological Assessments','Parental counselling'
@@ -1261,7 +1261,7 @@ const EditCounsellorForm: React.FC<EditCounsellorFormProps> = ({ consultant, onC
         expertise: formData.expertise,
         languages: formData.languages,
         counsellingTypes: formData.counsellingTypes,
-        experience: formData.experience.trim(),
+        experience: formData.experience,
         location: formData.location.trim(),
         image: imageUrl,
         bio: formData.bio.trim(),

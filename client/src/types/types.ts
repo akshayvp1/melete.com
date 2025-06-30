@@ -80,7 +80,7 @@ export interface Consultant {
   expertise: string[];
   languages: string[];
   counsellingTypes: string[]; // Changed from `counseling` to `counsellingTypes`
-  experience: string;
+  experience: number;
   location: string;
   image: string;
   bio: string;
