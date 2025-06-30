@@ -1018,7 +1018,7 @@ const ConsultantCard: React.FC<{ consultant: Consultant; index: number }> = ({ c
         </div>
 
         {/* Book Session Button */}
-        <div className="mt-auto">
+        {/* <div className="mt-auto">
           <motion.button
             onClick={handleBookSession}
             className="w-full bg-gradient-to-r from-[#31A382] to-[#2F9B7A] text-white font-semibold py-3 rounded-full shadow-md hover:shadow-lg transition-all duration-300"
@@ -1027,7 +1027,7 @@ const ConsultantCard: React.FC<{ consultant: Consultant; index: number }> = ({ c
           >
             Book a Session
           </motion.button>
-        </div>
+        </div> */}
       </div>
     </motion.div>
   );
