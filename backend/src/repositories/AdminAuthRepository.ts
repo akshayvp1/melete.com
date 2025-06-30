@@ -87,7 +87,7 @@ class AdminAuthRepository implements IAdminAuthRepository {
     try {
       return await this.counsellorModel
         .find({})
-        .sort({ experience: -1 }) // Sort by experience in descending order
+        .sort({ experience: -1 }) 
         .exec();
     } catch (error) {
       console.error("Error fetching counsellors:", error);

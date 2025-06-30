@@ -9,7 +9,7 @@ const counsellorSchema = new Schema<ICounsellor>({
   expertise: { type: [String], default: [] },
   languages: { type: [String], default: [] },
   counsellingTypes: { type: [String], default: [] },
-  experience: { type: String, required: true, trim: true },
+  experience: { type: Number, required: true, trim: true },
   location: { type: String, required: true, trim: true },
   imageUrl: { type: String },
   bio: { type: String, trim: true },

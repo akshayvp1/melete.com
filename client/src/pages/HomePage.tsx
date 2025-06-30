@@ -7,7 +7,7 @@ import ConsultantsSection from '../components/getCounsellors';
 import WhatWeOffer from '../components/offer';
 import Footer from '../components/Footer';
 import SubscriptionPlans from '../components/planComponents';
-
+import SupportSubscription from '../components/supportsubscription'
 // Constants
 const CONTACT_CONFIG = {
   phoneNumber: '+918943175522',
@@ -54,6 +54,7 @@ const Home: React.FC = () => {
         <ConsultantsSection />
         <WhatWeOffer />
         <SubscriptionPlans />
+        <SupportSubscription/>
       </main>
       
       {/* Footer */}
