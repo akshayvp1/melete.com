@@ -3,7 +3,7 @@ import { motion, Variants } from "framer-motion";
 import { Link } from "react-router-dom";
 import student from "../assets/colleges.webp";
 import institution from "../assets/institution.webp";
-import company from '../assets/company.webp'
+import company from "../assets/company.webp";
 
 // Interface for SVG icon props
 interface IconProps extends React.SVGProps<SVGSVGElement> {}
@@ -78,7 +78,7 @@ const WhatWeOffer: React.FC = () => {
   const categoryImages = {
     students: student,
     professionals: company,
-    institutions:institution,
+    institutions: institution,
   };
 
   const categories: Category[] = [
@@ -124,8 +124,8 @@ const WhatWeOffer: React.FC = () => {
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             MELETE provides holistic mental health support, including expert
             consultations for anxiety, depression, stress, and other emotional
-            challenges. Our platform also offer soothing relaxation music, and personalized wellness plans
-            tailored to your needs.
+            challenges. Our platform also offer soothing relaxation music, and
+            personalized wellness plans tailored to your needs.
           </p>
         </div>
 
@@ -167,13 +167,15 @@ const WhatWeOffer: React.FC = () => {
                 <p className="text-gray-600 text-base leading-relaxed mb-6">
                   {category.description}
                 </p>
-                <Link
-                  to="/service"
-                  className="inline-block px-6 py-2 rounded-full bg-[#015F4A] text-white font-medium hover:bg-[#014a3a] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#015F4A] focus:ring-offset-2"
-                  aria-label={`Explore services for ${category.title}`}
-                >
-                  Explore Services
-                </Link>
+                <div className="flex justify-center">
+                  <Link
+                    to="/service"
+                    className="inline-block px-6 py-2 rounded-full bg-[#015F4A] text-white font-medium hover:bg-[#014a3a] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#015F4A] focus:ring-offset-2"
+                    aria-label={`Explore services for ${category.title}`}
+                  >
+                    Explore Services
+                  </Link>
+                </div>
               </div>
             </motion.article>
           ))}

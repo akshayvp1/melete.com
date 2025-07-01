@@ -1,8 +1,6 @@
 
 
 
-
-
 import React, { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -107,7 +105,7 @@ const TherapyImprovementsSection: React.FC = () => {
   const therapyImprovements: TherapyImprovement[] = [
     {
       title: 'Self Confidence',
-      desc: 'Self-confidence means believing in yourself and your abilities. It’s about trusting your own decisions, knowing your strengths and weaknesses, and feeling in control of your life.',
+      desc: 'Self-confidence means believing in yourself and your abilities. It is about trusting your own decisions, knowing your strengths and weaknesses, and feeling in control of your life.bgImage',
       icon: 'Star',
       bgImage: SelfImage,
     },
@@ -128,66 +126,6 @@ const TherapyImprovementsSection: React.FC = () => {
       desc: 'Depression is a common and serious mental disorder that negatively affects how you feel, think, act, and perceive the world.',
       icon: 'Frown',
       bgImage: DepressionImage,
-    },
-    {
-      title: 'Sleep Hygiene',
-      desc: 'Sleep hygiene means having good habits and routines that help you sleep well. It includes things like going to bed at the same time each night, keeping your bedroom quiet and comfortable, and avoiding screens or caffeine before bed.',
-      icon: 'Bed',
-      bgImage: SleepImage,
-    },
-    {
-      title: 'Unhealthy Diet',
-      desc: 'An unhealthy diet is when someone eats too many foods that are high in calories, sugar, unhealthy fats, and salt, but low in important nutrients like vitamins, minerals, and fiber.',
-      icon: 'Apple',
-      bgImage: UnhealthyImage,
-    },
-    {
-      title: 'Lack of Physical Activity',
-      desc: 'Lack of physical activity, or physical inactivity, refers to not engaging in enough moderate to vigorous exercise to support good health.',
-      icon: 'Dumbbell',
-      bgImage: LackImage,
-    },
-    {
-      title: 'Substance Abuse',
-      desc: 'The use of illegal drugs or the use of prescription or over-the-counter drugs or alcohol for purposes other than those for which they are meant to be used, or in excessive amounts.',
-      icon: 'Award',
-      bgImage: Substance,
-    },
-    {
-      title: 'Work Life Balance',
-      desc: 'Work-life balance means finding a healthy mix between your job and personal life. It’s about managing your time and energy so you can do your work, take care of your personal responsibilities, and still have time to rest and enjoy life.',
-      icon: 'Clock',
-      bgImage: WorkImage,
-    },
-    {
-      title: 'Social Connection',
-      desc: 'Social connection refers to the quality and quantity of relationships we have with others, encompassing a feeling of belonging and being cared for. It’s a fundamental human need, crucial for well-being and even physical health.',
-      icon: 'Users',
-      bgImage: SocialImage,
-    },
-    {
-      title: 'Digital Overload',
-      desc: 'Digital overload describes the feeling of being overwhelmed by the vast amount of digital information and interactions we encounter daily.',
-      icon: 'Monitor',
-      bgImage: DigitalImage,
-    },
-    {
-      title: 'Goal Direction',
-      desc: 'Goal direction means having a clear purpose and working toward it. It’s about planning your actions and making choices that help you reach a specific goal.',
-      icon: 'Target',
-      bgImage: GoalImage,
-    },
-    {
-      title: 'Emotional Need',
-      desc: 'Emotional needs are the feelings and support we need to feel happy and fulfilled. When these needs are met, we feel good about ourselves and our lives. If they’re not met, we might feel sad, frustrated, or lonely.',
-      icon: 'Heart',
-      bgImage: EmotionalImage,
-    },
-    {
-      title: 'Relationship',
-      desc: 'Relationships play a crucial role in human well-being and personal growth, making them an essential part of our lives.',
-      icon: 'HeartHandshake',
-      bgImage: RelationshipImage,
     },
   ];
 
