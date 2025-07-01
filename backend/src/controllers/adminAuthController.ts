@@ -14,7 +14,7 @@ interface ICounsellorData {
   expertise: string[];
   languages: string[];
   counsellingTypes: string[];
-  experience: string;
+  experience: number;
   location: string;
   imageUrl?: string;
   bio: string;
