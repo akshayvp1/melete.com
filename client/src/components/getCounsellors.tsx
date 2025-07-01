@@ -4,205 +4,6 @@
 
 
 
-// import React, { useEffect, useState } from 'react';
-// import { motion, Variants } from 'framer-motion';
-// import { useNavigate } from 'react-router-dom';
-// import ConsultantCard from './ConsultantCard';
-// import { Consultant } from '../types/types';
-// import AuthService from '../services/AuthService';
-// import { Link } from 'react-router-dom';
-
-// // Animation variants
-// const sectionVariants: Variants = {
-//   hidden: { opacity: 0, y: 30 },
-//   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
-// };
-
-// const containerVariants: Variants = {
-//   hidden: { opacity: 0 },
-//   visible: {
-//     opacity: 1,
-//     transition: {
-//       staggerChildren: 0.2,
-//     },
-//   },
-// };
-
-// const cardVariants: Variants = {
-//   hidden: { opacity: 0, scale: 0.95 },
-//   visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } },
-// };
-
-// const buttonVariants: Variants = {
-//   hover: {
-//     scale: 1.05,
-//     boxShadow: '0 5px 15px rgba(0, 0, 0, 0.2)',
-//     transition: { duration: 0.3 },
-//   },
-//   tap: { scale: 0.95 },
-// };
-
-// // Skeleton loader component for better UX
-// const SkeletonCard: React.FC = () => (
-//   <div className="flex-shrink-0 w-80 md:w-1/3 snap-center">
-//     <div className="bg-white rounded-2xl shadow-md overflow-hidden h-96 animate-pulse">
-//       <div className="h-48 bg-gray-200" />
-//       <div className="p-6 space-y-4">
-//         <div className="h-6 bg-gray-200 rounded w-3/4" />
-//         <div className="h-4 bg-gray-200 rounded w-full" />
-//         <div className="h-4 bg-gray-200 rounded w-5/6" />
-//         <div className="h-10 bg-gray-200 rounded-full w-32" />
-//       </div>
-//     </div>
-//   </div>
-// );
-
-// const CounsellorList: React.FC = () => {
-//   const [consultants, setConsultants] = useState<Consultant[]>([]);
-//   const [loading, setLoading] = useState<boolean>(true);
-//   const [error, setError] = useState<string | null>(null);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const fetchCounsellors = async () => {
-//       try {
-//         setLoading(true);
-//         const counsellors = await AuthService.frontGetCounsellors();
-//         setConsultants(counsellors);
-//       } catch (err: unknown) {
-//         const errorMessage = err instanceof Error ? err.message : 'Failed to fetch counsellors';
-//         setError(errorMessage);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchCounsellors();
-//   }, []);
-
-//   if (loading) {
-//     return (
-//       <section className="py-20 bg-gray-100" aria-labelledby="counsellors-heading">
-//         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-//           <h2
-//             id="counsellors-heading"
-//             className="text-3xl md:text-4xl font-bold text-center mb-12 text-[#015F4A]"
-//           >
-//             Our Expert Counsellors
-//           </h2>
-//           <div className="flex flex-row overflow-x-auto md:overflow-x-visible gap-6 snap-x snap-mandatory pb-4">
-//             {[...Array(3)].map((_, index) => (
-//               <SkeletonCard key={index} />
-//             ))}
-//           </div>
-//         </div>
-//       </section>
-//     );
-//   }
-
-//   if (error) {
-//     return (
-//       <section className="py-20 bg-gray-100" aria-labelledby="error-heading">
-//         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-//           <h2 id="error-heading" className="text-2xl font-semibold text-red-500 mb-4">
-//             Something Went Wrong
-//           </h2>
-//           <p className="text-gray-600 mb-6">{error}</p>
-//           <button
-//             className="px-6 py-2 rounded-full bg-[#31A382] text-white font-medium hover:bg-[#2F9B7A] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#31A382] focus:ring-offset-2"
-//             onClick={() => window.location.reload()}
-//             aria-label="Retry loading counsellors"
-//           >
-//             Try Again
-//           </button>
-//         </div>
-//       </section>
-//     );
-//   }
-
-//   if (consultants.length === 0) {
-//     return (
-//       <section className="py-20 bg-gray-100" aria-labelledby="empty-heading">
-//         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-//           <h2 id="empty-heading" className="text-2xl font-semibold text-gray-600 mb-4">
-//             No Counsellors Available
-//           </h2>
-//           <p className="text-gray-500 mb-6">Check back later for our expert counsellors.</p>
-//           <Link
-//             to="/service"
-//             className="inline-block px-6 py-2 rounded-full bg-[#31A382] text-white font-medium hover:bg-[#2F9B7A] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#31A382] focus:ring-offset-2"
-//             aria-label="Explore our services"
-//           >
-//             Explore Services
-//           </Link>
-//         </div>
-//       </section>
-//     );
-//   }
-
-//   const filteredConsultants = consultants.filter((c) => !c.isBlocked).slice(0, 3);
-
-//   return (
-//     <motion.section
-//       className="py-20 bg-gray-100"
-//       variants={sectionVariants}
-//       initial="hidden"
-//       animate="visible"
-//       aria-labelledby="counsellors-heading"
-//     >
-//       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-//         <h2
-//           id="counsellors-heading"
-//           className="text-3xl md:text-4xl font-bold text-center mb-12 text-[#015F4A]"
-//         >
-//           Our Expert Counsellors
-//         </h2>
-//         <div className="relative">
-//           <motion.div
-//             className="flex flex-row overflow-x-auto md:overflow-x-visible gap-6 snap-x snap-mandatory pb-4"
-//             variants={containerVariants}
-//             initial="hidden"
-//             animate="visible"
-//           >
-//             {filteredConsultants.map((consultant, index) => (
-//               <motion.div
-//                 key={consultant.id}
-//                 className="flex-shrink-0 w-80 md:w-1/3 snap-center"
-//                 variants={cardVariants}
-//                 transition={{ delay: index * 0.2 }}
-//               >
-//                 <ConsultantCard consultant={consultant} index={index} />
-//               </motion.div>
-//             ))}
-//           </motion.div>
-//           {/* Scroll indicators for mobile */}
-//           <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-gray-100 to-transparent pointer-events-none md:hidden" />
-//           <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-gray-100 to-transparent pointer-events-none md:hidden" />
-//         </div>
-//         {consultants.length > 3 && (
-//           <div className="text-center mt-12">
-//             <motion.button
-//               className="px-8 py-3 rounded-full font-semibold bg-[#31A382] text-white hover:bg-[#2F9B7A] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#31A382] focus:ring-offset-2"
-//               variants={buttonVariants}
-//               whileHover="hover"
-//               whileTap="tap"
-//               onClick={() => navigate('/experts')}
-//               aria-label="View more expert counsellors"
-//             >
-//               Show More
-//             </motion.button>
-//           </div>
-//         )}
-//       </div>
-//     </motion.section>
-//   );
-// };
-
-// export default CounsellorList;.
-
-
-
-
 // import React, { useState, useEffect } from 'react';
 // import { Star, Users, Clock, MapPin, MessageCircle, Award, Heart, Shield, CheckCircle, GraduationCap } from 'lucide-react';
 // import AuthService from '../services/AuthService'; // Adjust path to your AuthService
@@ -234,7 +35,7 @@
 //   };
 
 //   return (
-//     <div className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden">
+//     <div className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden flex-shrink-0 w-full sm:w-auto">
 //       {/* Compact Professional Header */}
 //       <div className="relative bg-white p-5 border-b border-gray-50">
 //         {/* Verification Badge */}
@@ -379,8 +180,12 @@
 //     fetchCounsellors();
 //   }, []);
 
-//   // Limit to first 4 counsellors
-//   const displayedConsultants = consultants.slice(0, itemsPerPage);
+//   // Mobile: show first 4, Tablet: show first 3, Desktop: show first 4
+//   const getDisplayedConsultants = () => {
+//     return consultants.slice(0, itemsPerPage);
+//   };
+
+//   const displayedConsultants = getDisplayedConsultants();
 
 //   return (
 //     <div className="min-h-screen bg-gray-50">
@@ -407,13 +212,35 @@
 
 //         {!loading && !error && consultants.length > 0 && (
 //           <>
-            
+//             {/* Counsellors Grid - Responsive Layout */}
+//             {/* Mobile: Horizontal scroll, Tablet: 3 cards grid, Desktop: 4 cards grid */}
+//             <div className="mb-8">
+//               {/* Mobile View: Horizontal Scrollable */}
+//               <div className="sm:hidden">
+//                 <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
+//                   <div className="flex gap-4 px-2">
+//                     {displayedConsultants.map((consultant: Consultant, index) => (
+//                       <div key={consultant.id} className="w-80 snap-center">
+//                         <CounsellorCard consultant={consultant} />
+//                       </div>
+//                     ))}
+//                   </div>
+//                 </div>
+//               </div>
 
-//             {/* Counsellors Grid */}
-//             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-//               {displayedConsultants.map((consultant: Consultant) => (
-//                 <CounsellorCard key={consultant.id} consultant={consultant} />
-//               ))}
+//               {/* Tablet View: 3 cards grid */}
+//               <div className="hidden sm:grid md:hidden grid-cols-3 gap-6">
+//                 {displayedConsultants.slice(0, 3).map((consultant: Consultant) => (
+//                   <CounsellorCard key={consultant.id} consultant={consultant} />
+//                 ))}
+//               </div>
+
+//               {/* Desktop View: 4 cards grid */}
+//               <div className="hidden md:grid lg:grid-cols-3 xl:grid-cols-4 gap-6">
+//                 {displayedConsultants.map((consultant: Consultant) => (
+//                   <CounsellorCard key={consultant.id} consultant={consultant} />
+//                 ))}
+//               </div>
 //             </div>
 
 //             {/* Show More Button */}
@@ -440,13 +267,24 @@
 //           </div>
 //         )}
 //       </div>
+
+//       {/* Add custom CSS for hiding scrollbar */}
+//       <style dangerouslySetInnerHTML={{
+//         __html: `
+//           .scrollbar-hide {
+//             -ms-overflow-style: none;
+//             scrollbar-width: none;
+//           }
+//           .scrollbar-hide::-webkit-scrollbar {
+//             display: none;
+//           }
+//         `
+//       }} />
 //     </div>
 //   );
 // };
 
 // export default ExpertCounsellorsComponent;
-
-
 
 
 
@@ -482,9 +320,9 @@ const CounsellorCard: React.FC<CounsellorCardProps> = ({ consultant }) => {
   };
 
   return (
-    <div className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden flex-shrink-0 w-full sm:w-auto">
+    <div className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden flex-shrink-0 w-full sm:w-auto h-[560px] flex flex-col">
       {/* Compact Professional Header */}
-      <div className="relative bg-white p-5 border-b border-gray-50">
+      <div className="relative bg-white p-5 border-b border-gray-50 flex-shrink-0">
         {/* Verification Badge */}
         <div className="absolute top-3 right-3 flex items-center bg-green-50 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
           <CheckCircle className="w-3 h-3 mr-1" />
@@ -527,9 +365,9 @@ const CounsellorCard: React.FC<CounsellorCardProps> = ({ consultant }) => {
       </div>
 
       {/* Compact Professional Details */}
-      <div className="p-4">
+      <div className="p-4 flex-1 flex flex-col">
         {/* Specializations */}
-        <div className="mb-4">
+        <div className="mb-4 flex-shrink-0">
           <h4 className="text-xs font-bold text-gray-700 mb-2 flex items-center">
             <GraduationCap className="w-3 h-3 mr-1 text-[#015F4A]" />
             SPECIALIZATIONS
@@ -563,7 +401,7 @@ const CounsellorCard: React.FC<CounsellorCardProps> = ({ consultant }) => {
         </div>
 
         {/* Professional Information */}
-        <div className="space-y-2">
+        <div className="space-y-2 flex-1">
           <div className="border-l-2 border-[#015F4A] pl-2">
             <span className="text-xs font-medium text-gray-500 uppercase">Languages</span>
             <p className="text-xs text-gray-800 font-medium">{consultant.languages.join(' • ') || 'N/A'}</p>
