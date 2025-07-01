@@ -837,8 +837,6 @@
 
 // export default SupportGroups;
 
-
-
 import React from "react";
 import {
   User,
@@ -854,6 +852,7 @@ import ChildImage from "../assets/child.webp";
 import ParentImage from "../assets/parent.webp";
 import PregnantImage from "../assets/pregnant.webp";
 import OldageImage from "../assets/oldage.webp";
+import { useNavigate } from "react-router-dom";
 
 // Interface for support group items
 interface SupportGroup {
@@ -934,6 +933,7 @@ const SupportGroups: React.FC = () => {
   const [sectionRef, isSectionVisible] = useIntersectionObserver(0.1);
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isTouch, setIsTouch] = React.useState(false);
+  const navigate = useNavigate();
 
   const groups: SupportGroup[] = [
     {
@@ -1020,8 +1020,7 @@ const SupportGroups: React.FC = () => {
 
   const handleServiceClick = (group: SupportGroup) => {
     console.log(`Navigating to ${group.path}`);
-    // In a real app, you would navigate to the service page
-    // Navigation logic would go here
+    navigate(group.path);
   };
 
   const nextSlide = () => {
@@ -1097,7 +1096,7 @@ const SupportGroups: React.FC = () => {
                 {groups.map((group) => (
                   <div key={group.id} className="w-full flex-shrink-0 px-3">
                     <article
-                      className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 mx-auto max-w-md cursor-pointer transform transition-all duration-300 hover:scale-105"
+                      className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 mx-auto max-w-md cursor-pointer transform transition-all duration-300 hover:scale-105 active:scale-95"
                       onClick={() => handleServiceClick(group)}
                     >
                       <div className="relative h-64 overflow-hidden">
@@ -1128,7 +1127,7 @@ const SupportGroups: React.FC = () => {
                           {group.description}
                         </p>
 
-                        <div className="grid grid-cols-1 gap-3 mb-8">
+                        <div className="grid grid-cols-1 gap-3">
                           {group.features.map((feature, featureIndex) => (
                             <div
                               key={featureIndex}
@@ -1139,26 +1138,12 @@ const SupportGroups: React.FC = () => {
                             </div>
                           ))}
                         </div>
-
-                        <button
-                          type="button"
-                          className="w-full bg-gradient-to-r from-[#015F4A] to-emerald-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-[#014136] hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-2xl transform hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-3"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleServiceClick(group);
-                          }}
-                        >
-                          Learn More About {group.title}
-                          <ArrowRight className="w-5 h-5" />
-                        </button>
                       </div>
                     </article>
                   </div>
                 ))}
               </div>
             </div>
-
-
 
             <div className="flex justify-center space-x-3 mt-8">
               {groups.map((_, index) => (
