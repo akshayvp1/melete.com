@@ -16,23 +16,25 @@ import {
   Heart,
   HeartHandshake,
 } from 'lucide-react';
-import SelfImage from '../assets/Self-Confidence.webp';
-import StressImage from '../assets/stress.webp';
-import AnxietyImage from '../assets/Anxiety.webp';
-import DepressionImage from '../assets/Depression.webp';
-import SleepImage from '../assets/Sleep-hygine.webp';
-import UnhealthyImage from '../assets/Unhealthy-diet.webp';
-import LackImage from '../assets/Lack-of-Physical-activity.webp';
-import Substance from '../assets/Substance-abuse.webp';
-import WorkImage from '../assets/Worklife-balance.webp';
-import SocialImage from '../assets/Social-connection.webp';
-import DigitalImage from '../assets/Digital-overloaded.webp';
-import GoalImage from '../assets/Goal-direction.webp';
-import EmotionalImage from '../assets/Emotional-need.webp';
-import RelationshipImage from '../assets/Relationship.webp';
-import { TherapyImprovement } from '../types/types';
 
+import { TherapyImprovement } from '../types/types';
+const SelfImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363240/Self-Confidence_s2ayoj.webp';
+const StressImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363122/stress_avadul.webp';
+const AnxietyImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363542/Anxiety_sb7fxe.webp';
+const DepressionImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363460/Depression_lhpzhm.webp';
+const SleepImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363200/Sleep-hygine_yr7hz2.webp';
+const UnhealthyImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362808/Worklife-balance_p6piwn.webp';
+const LackImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363330/Lack-of-Physical-activity_kfv8w8.webp';
+const Substance = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363087/Substance-abuse_wp70tr.webp';
+const WorkImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362808/Worklife-balance_p6piwn.webp';
+const SocialImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363161/Social-connection_lmaffw.webp';
+const DigitalImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363506/Digital-overloaded_hqknzd.webp';
+const GoalImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363371/Goal-direction_nbx3wp.webp';
+const EmotionalImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363414/Emotional-need_pwqlxw.webp';
+const RelationshipImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363290/Relationship_oeclvc.webp';
 const therapyImprovements: TherapyImprovement[] = [
+
+
   {
     title: 'Self Confidence',
     desc: 'Self-confidence means believing in yourself and your abilities. It’s about trusting your own decisions, knowing your strengths and weaknesses, and feeling in control of your life.',

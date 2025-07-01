@@ -21,20 +21,7 @@ import {
   HeartHandshake,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import SelfImage from '../assets/Self-Confidence.webp';
-import StressImage from '../assets/stress.webp';
-import AnxietyImage from '../assets/Anxiety.webp';
-import DepressionImage from '../assets/Depression.webp';
-import SleepImage from '../assets/Sleep-hygine.webp';
-import UnhealthyImage from '../assets/Unhealthy-diet.webp';
-import LackImage from '../assets/Lack-of-Physical-activity.webp';
-import Substance from '../assets/Substance-abuse.webp';
-import WorkImage from '../assets/Worklife-balance.webp';
-import SocialImage from '../assets/Social-connection.webp';
-import DigitalImage from '../assets/Digital-overloaded.webp';
-import GoalImage from '../assets/Goal-direction.webp';
-import EmotionalImage from '../assets/Emotional-need.webp';
-import RelationshipImage from '../assets/Relationship.webp';
+
 import { TherapyImprovement } from '../types/types';
 
 // Animation variants
@@ -101,7 +88,14 @@ const SkeletonCard: React.FC = () => (
 const TherapyImprovementsSection: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
-
+    const SelfImage =
+    "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363240/Self-Confidence_s2ayoj.webp";
+  const StressImage =
+    "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363122/stress_avadul.webp";
+  const AnxietyImage =
+    "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363542/Anxiety_sb7fxe.webp";
+  const DepressionImage =
+    "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363460/Depression_lhpzhm.webp";
   const therapyImprovements: TherapyImprovement[] = [
     {
       title: 'Self Confidence',

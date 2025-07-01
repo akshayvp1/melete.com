@@ -848,7 +848,7 @@ import {
 } from "lucide-react";
 
 import AdultImage from "../assets/adult.webp";
-import ChildImage from "../assets/child.webp";
+// import ChildImage from "../assets/child.webp";
 import ParentImage from "../assets/parent.webp";
 import PregnantImage from "../assets/pregnant.webp";
 import OldageImage from "../assets/oldage.webp";
@@ -870,7 +870,7 @@ interface SupportGroup {
 const useIntersectionObserver = (threshold = 0.1) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const [element, setElement] = React.useState<HTMLElement | null>(null);
-  
+  const ChildImage='https://res.cloudinary.com/dedrcfbxf/image/upload/v1751361737/child_ibkpcu.webp'
   React.useEffect(() => {
     if (!element) return;
 
@@ -934,7 +934,11 @@ const SupportGroups: React.FC = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isTouch, setIsTouch] = React.useState(false);
   const navigate = useNavigate();
-
+  const ChildImage='https://res.cloudinary.com/dedrcfbxf/image/upload/v1751361737/child_ibkpcu.webp'
+const AdultImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362272/adult_jsxayg.webp";
+const ParentImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362447/parent_fmzpic.webp";
+const PregnantImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362413/pregnant_q02awp.webp";
+const OldageImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362370/oldage_yhj5xq.webp";
   const groups: SupportGroup[] = [
     {
       id: "child",
