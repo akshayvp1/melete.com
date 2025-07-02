@@ -288,7 +288,6 @@
 
 
 
-
 import React, { useState, useEffect } from 'react';
 import { Star, Users, Clock, MapPin, MessageCircle, Award, Heart, Shield, CheckCircle, GraduationCap } from 'lucide-react';
 import AuthService from '../services/AuthService'; // Adjust path to your AuthService
@@ -446,7 +445,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
   const [consultants, setConsultants] = useState<Consultant[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const itemsPerPage = 4; // Show 4 counsellors per page
+  const itemsPerPage = 3; // Show 3 counsellors per page
 
   useEffect(() => {
     const fetchCounsellors = async () => {
@@ -465,7 +464,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
     fetchCounsellors();
   }, []);
 
-  // Mobile: show first 4, Tablet: show first 3, Desktop: show first 4
+  // Show first 3 counsellors for all views
   const getDisplayedConsultants = () => {
     return consultants.slice(0, itemsPerPage);
   };
@@ -498,7 +497,6 @@ const ExpertCounsellorsComponent: React.FC = () => {
         {!loading && !error && consultants.length > 0 && (
           <>
             {/* Counsellors Grid - Responsive Layout */}
-            {/* Mobile: Horizontal scroll, Tablet: 3 cards grid, Desktop: 4 cards grid */}
             <div className="mb-8">
               {/* Mobile View: Horizontal Scrollable */}
               <div className="sm:hidden">
@@ -513,15 +511,8 @@ const ExpertCounsellorsComponent: React.FC = () => {
                 </div>
               </div>
 
-              {/* Tablet View: 3 cards grid */}
-              <div className="hidden sm:grid md:hidden grid-cols-3 gap-6">
-                {displayedConsultants.slice(0, 3).map((consultant: Consultant) => (
-                  <CounsellorCard key={consultant.id} consultant={consultant} />
-                ))}
-              </div>
-
-              {/* Desktop View: 4 cards grid */}
-              <div className="hidden md:grid lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {/* Tablet and Laptop View: 3 cards grid */}
+              <div className="hidden sm:grid grid-cols-3 gap-6">
                 {displayedConsultants.map((consultant: Consultant) => (
                   <CounsellorCard key={consultant.id} consultant={consultant} />
                 ))}
