@@ -837,9 +837,6 @@
 
 // export default SupportGroups;
 
-
-
-
 import React from "react";
 import {
   User,
@@ -850,21 +847,8 @@ import {
   ArrowRight
 } from "lucide-react";
 
-// Navigation function - replace with your actual router implementation
-const useNavigate = () => {
-  return (path: string) => {
-    console.log(`Navigating to: ${path}`);
-    
-    // Direct navigation to the path
-    window.location.href = path;
-    
-    // Or if you're using React Router, replace above line with:
-    // navigate(path);
-    
-    // Or if you're using Next.js, replace above line with:
-    // router.push(path);
-  };
-};
+
+import { useNavigate } from "react-router-dom";
 
 // Interface for support group items
 interface SupportGroup {
@@ -882,7 +866,7 @@ interface SupportGroup {
 const useIntersectionObserver = (threshold = 0.1) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const [element, setElement] = React.useState<HTMLElement | null>(null);
-
+  const ChildImage='https://res.cloudinary.com/dedrcfbxf/image/upload/v1751361737/child_ibkpcu.webp'
   React.useEffect(() => {
     if (!element) return;
 
@@ -946,13 +930,11 @@ const SupportGroups: React.FC = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isTouch, setIsTouch] = React.useState(false);
   const navigate = useNavigate();
-
-  const ChildImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751361737/child_ibkpcu.webp';
-  const AdultImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362272/adult_jsxayg.webp";
-  const ParentImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362447/parent_fmzpic.webp";
-  const PregnantImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362413/pregnant_q02awp.webp";
-  const OldageImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362370/oldage_yhj5xq.webp";
-
+  const ChildImage='https://res.cloudinary.com/dedrcfbxf/image/upload/v1751361737/child_ibkpcu.webp'
+const AdultImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362272/adult_jsxayg.webp";
+const ParentImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362447/parent_fmzpic.webp";
+const PregnantImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362413/pregnant_q02awp.webp";
+const OldageImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362370/oldage_yhj5xq.webp";
   const groups: SupportGroup[] = [
     {
       id: "child",
@@ -1036,52 +1018,17 @@ const SupportGroups: React.FC = () => {
     },
   ];
 
-  const handleServiceClick = (group: SupportGroup, event?: React.MouseEvent) => {
-    // Prevent event bubbling if needed
-    if (event) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-    
-    console.log(`Clicking on ${group.title} - Navigating to ${group.path}`);
+  const handleServiceClick = (group: SupportGroup) => {
+    console.log(`Navigating to ${group.path}`);
     navigate(group.path);
   };
 
-  // Mobile: 1 card per slide
-  // Tablet: 2 cards per slide (vertical layout)
-  const getCardsPerSlide = () => {
-    const width = window.innerWidth;
-    if (width >= 768 && width < 1024) {
-      return 2; // Tablet: 2 cards vertically
-    }
-    return 1; // Mobile: 1 card
-  };
-
-  const [cardsPerSlide, setCardsPerSlide] = React.useState(() => {
-    if (typeof window !== 'undefined') {
-      return getCardsPerSlide();
-    }
-    return 1;
-  });
-
-  React.useEffect(() => {
-    const handleResize = () => {
-      setCardsPerSlide(getCardsPerSlide());
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Call immediately to set correct initial value
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const maxSlides = Math.ceil(groups.length / cardsPerSlide);
-
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % maxSlides);
+    setCurrentSlide((prev) => (prev + 1) % groups.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + maxSlides) % maxSlides);
+    setCurrentSlide((prev) => (prev - 1 + groups.length) % groups.length);
   };
 
   const goToSlide = (index: number) => {
@@ -1103,7 +1050,7 @@ const SupportGroups: React.FC = () => {
     if (isTouch) return;
     const interval = setInterval(nextSlide, 6000);
     return () => clearInterval(interval);
-  }, [isTouch, maxSlides]);
+  }, [isTouch]);
 
   return (
     <section
@@ -1135,7 +1082,7 @@ const SupportGroups: React.FC = () => {
           </p>
         </div>
 
-        {/* Mobile and Tablet Carousel View with Swipe */}
+        {/* Mobile Carousel View with Swipe */}
         <div className="block lg:hidden mb-12">
           <div className="relative">
             <div
@@ -1146,97 +1093,60 @@ const SupportGroups: React.FC = () => {
                 className="flex transition-transform duration-500 ease-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
-                {Array.from({ length: maxSlides }).map((_, slideIndex) => (
-                  <div key={slideIndex} className="w-full flex-shrink-0">
-                    <div className={`px-3 ${cardsPerSlide === 2 ? 'space-y-6' : ''}`}>
-                      {groups
-                        .slice(slideIndex * cardsPerSlide, (slideIndex + 1) * cardsPerSlide)
-                        .map((group) => (
-                          <article
-                            key={group.id}
-                            className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 cursor-pointer transform transition-all duration-300 hover:scale-105 active:scale-95 w-full max-w-md mx-auto"
-                            onClick={(e) => handleServiceClick(group, e)}
-                            role="button"
-                            tabIndex={0}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                handleServiceClick(group);
-                              }
-                            }}
-                            aria-label={`Navigate to ${group.title} support page`}
-                          >
-                            <div className="relative h-48 sm:h-56 md:h-52 overflow-hidden">
-                              <img
-                                src={group.image}
-                                alt={`${group.title} mental health services`}
-                                className="w-full h-full object-cover object-center"
-                                loading="lazy"
-                                style={{ objectFit: 'cover', objectPosition: 'center' }}
-                              />
-                              <div
-                                className={`absolute inset-0 bg-gradient-to-t ${group.color} mix-blend-multiply opacity-20`}
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                {groups.map((group) => (
+                  <div key={group.id} className="w-full flex-shrink-0 px-3">
+                    <article
+                      className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 mx-auto max-w-md cursor-pointer transform transition-all duration-300 hover:scale-105 active:scale-95"
+                      onClick={() => handleServiceClick(group)}
+                    >
+                      <div className="relative h-64 overflow-hidden">
+                        <img
+                          src={group.image}
+                          alt={`${group.title} mental health services`}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                        <div
+                          className={`absolute inset-0 bg-gradient-to-t ${group.color} mix-blend-multiply opacity-25`}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
 
-                              <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-2xl p-3 shadow-xl">
-                                <group.icon className="w-6 h-6 text-slate-700" />
-                              </div>
+                        <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl">
+                          <group.icon className="w-8 h-8 text-slate-700" />
+                        </div>
 
-                              <div className="absolute bottom-4 left-4 right-4">
-                                <h3 className="text-white text-xl font-bold mb-1 drop-shadow-lg">
-                                  {group.title}
-                                </h3>
-                              </div>
+                        <div className="absolute bottom-6 left-6 right-6">
+                          <h3 className="text-white text-2xl font-bold mb-2 drop-shadow-lg">
+                            {group.title}
+                          </h3>
+                        </div>
+                      </div>
+
+                      <div className="p-8">
+                        <p className="text-slate-600 text-base leading-relaxed mb-6">
+                          {group.description}
+                        </p>
+
+                        <div className="grid grid-cols-1 gap-3">
+                          {group.features.map((feature, featureIndex) => (
+                            <div
+                              key={featureIndex}
+                              className="flex items-center text-sm text-slate-600 bg-slate-50 rounded-xl px-4 py-3 hover:bg-slate-100 transition-colors duration-200"
+                            >
+                              <div className="w-2.5 h-2.5 bg-gradient-to-r from-[#015F4A] to-emerald-500 rounded-full mr-4 flex-shrink-0" />
+                              {feature}
                             </div>
-
-                            <div className="p-6">
-                              <p className="text-slate-600 text-sm leading-relaxed mb-4">
-                                {group.description}
-                              </p>
-
-                              <div className="grid grid-cols-1 gap-2">
-                                {group.features.map((feature, featureIndex) => (
-                                  <div
-                                    key={featureIndex}
-                                    className="flex items-center text-xs text-slate-600 bg-slate-50 rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors duration-200"
-                                  >
-                                    <div className="w-2 h-2 bg-gradient-to-r from-[#015F4A] to-emerald-500 rounded-full mr-3 flex-shrink-0" />
-                                    {feature}
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          </article>
-                        ))}
-                    </div>
+                          ))}
+                        </div>
+                      </div>
+                    </article>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Navigation Arrows */}
-            <button
-              type="button"
-              onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200 hover:bg-white hover:shadow-xl transition-all duration-200 z-10 flex items-center justify-center group"
-              aria-label="Previous slide"
-            >
-              <ArrowRight className="w-5 h-5 text-slate-600 rotate-180 group-hover:text-[#015F4A] transition-colors" />
-            </button>
-
-            <button
-              type="button"
-              onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200 hover:bg-white hover:shadow-xl transition-all duration-200 z-10 flex items-center justify-center group"
-              aria-label="Next slide"
-            >
-              <ArrowRight className="w-5 h-5 text-slate-600 group-hover:text-[#015F4A] transition-colors" />
-            </button>
-
-            {/* Dots Navigation */}
             <div className="flex justify-center space-x-3 mt-8">
-              {Array.from({ length: maxSlides }).map((_, index) => (
+              {groups.map((_, index) => (
                 <button
                   key={index}
                   type="button"
@@ -1246,7 +1156,7 @@ const SupportGroups: React.FC = () => {
                       ? "bg-[#015F4A] shadow-lg scale-125"
                       : "bg-slate-300 hover:bg-slate-400 hover:scale-110"
                   }`}
-                  aria-label={`Go to slide ${index + 1}`}
+                  aria-label={`Go to ${groups[index].title}`}
                 />
               ))}
             </div>
@@ -1267,15 +1177,6 @@ const SupportGroups: React.FC = () => {
                 transitionDelay: isSectionVisible ? `${index * 150}ms` : "0ms",
               }}
               onClick={() => handleServiceClick(group)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleServiceClick(group);
-                }
-              }}
-              aria-label={`Navigate to ${group.title} support page`}
             >
               <div className="relative h-56 overflow-hidden bg-gradient-to-br from-emerald-50 to-[#015F4A]/10">
                 <img
@@ -1296,9 +1197,8 @@ const SupportGroups: React.FC = () => {
                     className="w-12 h-12 bg-[#015F4A] text-white rounded-full hover:bg-[#014136] transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-110 active:scale-95"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleServiceClick(group, e);
+                      handleServiceClick(group);
                     }}
-                    aria-label={`Navigate to ${group.title} support page`}
                   >
                     <ArrowRight className="w-5 h-5 mx-auto" />
                   </button>
