@@ -320,7 +320,7 @@ const CounsellorCard: React.FC<CounsellorCardProps> = ({ consultant }) => {
   };
 
   return (
-    <div className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden flex-shrink-0 w-full sm:w-auto h-[560px] flex flex-col">
+    <div className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden flex-shrink-0 w-full sm:w-auto h-[610px] flex flex-col">
       {/* Compact Professional Header */}
       <div className="relative bg-white p-5 border-b border-gray-50 flex-shrink-0">
         {/* Verification Badge */}
