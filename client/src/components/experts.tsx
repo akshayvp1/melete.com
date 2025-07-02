@@ -533,7 +533,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-xl mx-auto">
               {[
                 { 
-                  number: '25+', 
+                  number: '30+', 
                   label: 'Licensed Professionals',
                   icon: Award 
                 },
