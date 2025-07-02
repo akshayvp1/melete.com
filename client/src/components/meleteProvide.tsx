@@ -840,7 +840,6 @@
 
 
 
-
 import React from "react";
 import {
   User,
@@ -851,11 +850,19 @@ import {
   ArrowRight
 } from "lucide-react";
 
-// Mock navigate function for demo
+// Navigation function - replace with your actual router implementation
 const useNavigate = () => {
   return (path: string) => {
-    console.log(`Navigation to: ${path}`);
-    // In real app, this would be actual navigation
+    console.log(`Navigating to: ${path}`);
+    
+    // Direct navigation to the path
+    window.location.href = path;
+    
+    // Or if you're using React Router, replace above line with:
+    // navigate(path);
+    
+    // Or if you're using Next.js, replace above line with:
+    // router.push(path);
   };
 };
 
@@ -1029,18 +1036,33 @@ const SupportGroups: React.FC = () => {
     },
   ];
 
-  const handleServiceClick = (group: SupportGroup) => {
-    console.log(`Navigating to ${group.path}`);
+  const handleServiceClick = (group: SupportGroup, event?: React.MouseEvent) => {
+    // Prevent event bubbling if needed
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    
+    console.log(`Clicking on ${group.title} - Navigating to ${group.path}`);
     navigate(group.path);
   };
 
   // Mobile: 1 card per slide
-  // Tablet: 2 cards per slide
+  // Tablet: 2 cards per slide (vertical layout)
   const getCardsPerSlide = () => {
-    return window.innerWidth >= 768 && window.innerWidth < 1024 ? 2 : 1;
+    const width = window.innerWidth;
+    if (width >= 768 && width < 1024) {
+      return 2; // Tablet: 2 cards vertically
+    }
+    return 1; // Mobile: 1 card
   };
 
-  const [cardsPerSlide, setCardsPerSlide] = React.useState(getCardsPerSlide);
+  const [cardsPerSlide, setCardsPerSlide] = React.useState(() => {
+    if (typeof window !== 'undefined') {
+      return getCardsPerSlide();
+    }
+    return 1;
+  });
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -1048,6 +1070,7 @@ const SupportGroups: React.FC = () => {
     };
 
     window.addEventListener('resize', handleResize);
+    handleResize(); // Call immediately to set correct initial value
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -1125,50 +1148,60 @@ const SupportGroups: React.FC = () => {
               >
                 {Array.from({ length: maxSlides }).map((_, slideIndex) => (
                   <div key={slideIndex} className="w-full flex-shrink-0">
-                    <div className={`grid gap-4 px-3 ${cardsPerSlide === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
+                    <div className={`px-3 ${cardsPerSlide === 2 ? 'space-y-6' : ''}`}>
                       {groups
                         .slice(slideIndex * cardsPerSlide, (slideIndex + 1) * cardsPerSlide)
                         .map((group) => (
                           <article
                             key={group.id}
-                            className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 cursor-pointer transform transition-all duration-300 hover:scale-105 active:scale-95"
-                            onClick={() => handleServiceClick(group)}
+                            className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 cursor-pointer transform transition-all duration-300 hover:scale-105 active:scale-95 w-full max-w-md mx-auto"
+                            onClick={(e) => handleServiceClick(group, e)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleServiceClick(group);
+                              }
+                            }}
+                            aria-label={`Navigate to ${group.title} support page`}
                           >
-                            <div className="relative h-64 overflow-hidden">
+                            <div className="relative h-48 sm:h-56 md:h-52 overflow-hidden">
                               <img
                                 src={group.image}
                                 alt={`${group.title} mental health services`}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover object-center"
                                 loading="lazy"
+                                style={{ objectFit: 'cover', objectPosition: 'center' }}
                               />
                               <div
-                                className={`absolute inset-0 bg-gradient-to-t ${group.color} mix-blend-multiply opacity-25`}
+                                className={`absolute inset-0 bg-gradient-to-t ${group.color} mix-blend-multiply opacity-20`}
                               />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-                              <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl">
-                                <group.icon className="w-8 h-8 text-slate-700" />
+                              <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-2xl p-3 shadow-xl">
+                                <group.icon className="w-6 h-6 text-slate-700" />
                               </div>
 
-                              <div className="absolute bottom-6 left-6 right-6">
-                                <h3 className="text-white text-2xl font-bold mb-2 drop-shadow-lg">
+                              <div className="absolute bottom-4 left-4 right-4">
+                                <h3 className="text-white text-xl font-bold mb-1 drop-shadow-lg">
                                   {group.title}
                                 </h3>
                               </div>
                             </div>
 
-                            <div className="p-8">
-                              <p className="text-slate-600 text-base leading-relaxed mb-6">
+                            <div className="p-6">
+                              <p className="text-slate-600 text-sm leading-relaxed mb-4">
                                 {group.description}
                               </p>
 
-                              <div className="grid grid-cols-1 gap-3">
+                              <div className="grid grid-cols-1 gap-2">
                                 {group.features.map((feature, featureIndex) => (
                                   <div
                                     key={featureIndex}
-                                    className="flex items-center text-sm text-slate-600 bg-slate-50 rounded-xl px-4 py-3 hover:bg-slate-100 transition-colors duration-200"
+                                    className="flex items-center text-xs text-slate-600 bg-slate-50 rounded-lg px-3 py-2 hover:bg-slate-100 transition-colors duration-200"
                                   >
-                                    <div className="w-2.5 h-2.5 bg-gradient-to-r from-[#015F4A] to-emerald-500 rounded-full mr-4 flex-shrink-0" />
+                                    <div className="w-2 h-2 bg-gradient-to-r from-[#015F4A] to-emerald-500 rounded-full mr-3 flex-shrink-0" />
                                     {feature}
                                   </div>
                                 ))}
@@ -1234,6 +1267,15 @@ const SupportGroups: React.FC = () => {
                 transitionDelay: isSectionVisible ? `${index * 150}ms` : "0ms",
               }}
               onClick={() => handleServiceClick(group)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleServiceClick(group);
+                }
+              }}
+              aria-label={`Navigate to ${group.title} support page`}
             >
               <div className="relative h-56 overflow-hidden bg-gradient-to-br from-emerald-50 to-[#015F4A]/10">
                 <img
@@ -1254,8 +1296,9 @@ const SupportGroups: React.FC = () => {
                     className="w-12 h-12 bg-[#015F4A] text-white rounded-full hover:bg-[#014136] transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-110 active:scale-95"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleServiceClick(group);
+                      handleServiceClick(group, e);
                     }}
+                    aria-label={`Navigate to ${group.title} support page`}
                   >
                     <ArrowRight className="w-5 h-5 mx-auto" />
                   </button>
