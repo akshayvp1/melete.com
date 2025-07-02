@@ -574,7 +574,6 @@
 
 
 
-
 import React, { useState, useEffect } from 'react';
 import { Star, Users, Clock, MapPin, MessageCircle, Award, Heart, Shield, CheckCircle, GraduationCap } from 'lucide-react';
 import AuthService from '../services/AuthService'; // Adjust path to your AuthService
@@ -776,22 +775,30 @@ const ExpertCounsellorsComponent: React.FC = () => {
                 </div>
               </div>
 
-              {/* Tablet View: 3 cards grid - More compact */}
-              <div className="hidden sm:grid md:hidden grid-cols-3 gap-4 auto-rows-min">
-                {displayedConsultants.slice(0, 3).map((consultant: Consultant) => (
-                  <div key={consultant.id} className="flex">
-                    <CounsellorCard consultant={consultant} />
+              {/* Tablet Horizontal View: 3 cards scrollable */}
+              <div className="hidden sm:block md:hidden">
+                <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
+                  <div className="flex gap-4 px-2">
+                    {displayedConsultants.slice(0, 3).map((consultant: Consultant) => (
+                      <div key={consultant.id} className="w-80 snap-center flex-shrink-0">
+                        <CounsellorCard consultant={consultant} />
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
 
-              {/* Desktop View: 4 cards grid */}
-              <div className="hidden md:grid lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-min">
-                {displayedConsultants.map((consultant: Consultant) => (
-                  <div key={consultant.id} className="flex">
-                    <CounsellorCard consultant={consultant} />
+              {/* Desktop View: 4 cards grid - centered */}
+              <div className="hidden md:block">
+                <div className="flex justify-center">
+                  <div className="grid lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-6xl">
+                    {displayedConsultants.map((consultant: Consultant) => (
+                      <div key={consultant.id} className="w-full">
+                        <CounsellorCard consultant={consultant} />
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
             </div>
 
