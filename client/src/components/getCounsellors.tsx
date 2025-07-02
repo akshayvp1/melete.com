@@ -742,7 +742,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Counsellors Grid */}
-      <div className="">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {loading && (
           <div className="text-center py-12">
             <div className="inline-block w-8 h-8 border-4 border-t-[#015F4A] border-gray-200 rounded-full animate-spin mb-4" />
@@ -777,13 +777,14 @@ const ExpertCounsellorsComponent: React.FC = () => {
               </div>
 
               {/* Tablet View: 3 cards grid - More compact */}
-              <div className="hidden sm:grid md:hidden grid-cols-3 gap-4 auto-rows-min">
-                {displayedConsultants.slice(0, 3).map((consultant: Consultant) => (
-                  <div key={consultant.id} className="flex">
-                    <CounsellorCard consultant={consultant} />
-                  </div>
-                ))}
-              </div>
+              // Replace the tablet view grid section in the render method
+<div className="hidden sm:grid md:hidden grid-cols-3 gap-2 auto-rows-fr">
+  {displayedConsultants.slice(0, 3).map((consultant: Consultant) => (
+    <div key={consultant.id} className="flex">
+      <CounsellorCard consultant={consultant} />
+    </div>
+  ))}
+</div>
 
               {/* Desktop View: 4 cards grid */}
               <div className="hidden md:grid lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-min">
