@@ -573,9 +573,8 @@
 
 
 
-
-import React, { useState, useEffect } from 'react';
-import { Star, Users, Clock, MapPin, MessageCircle, Award, Heart, Shield, CheckCircle, GraduationCap } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Star, Users, Clock, MapPin, MessageCircle, Award, Heart, Shield, CheckCircle, GraduationCap, ChevronLeft, ChevronRight } from 'lucide-react';
 import AuthService from '../services/AuthService'; // Adjust path to your AuthService
 import { Consultant } from '../types/types'; // Import the unified Consultant interface
 import { Link } from 'react-router-dom'; // Import Link for navigation
@@ -712,7 +711,17 @@ const ExpertCounsellorsComponent: React.FC = () => {
   const [consultants, setConsultants] = useState<Consultant[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
+  
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const touchRef = useRef<{ startX: number; isDragging: boolean }>({
+    startX: 0,
+    isDragging: false
+  });
+  
   const itemsPerPage = 4; // Show 4 counsellors per page
+  const tabletItemsPerView = 3; // Show 3 items per view on tablet
 
   useEffect(() => {
     const fetchCounsellors = async () => {
@@ -737,6 +746,71 @@ const ExpertCounsellorsComponent: React.FC = () => {
   };
 
   const displayedConsultants = getDisplayedConsultants();
+
+  // Calculate total slides for tablet view
+  const totalSlides = Math.ceil(consultants.length / tabletItemsPerView);
+
+  // Handle slide navigation
+  const goToSlide = useCallback((slideIndex: number) => {
+    if (isTransitioning) return;
+    
+    setIsTransitioning(true);
+    setCurrentSlide(slideIndex);
+    
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 300);
+  }, [isTransitioning]);
+
+  const nextSlide = useCallback(() => {
+    if (currentSlide < totalSlides - 1) {
+      goToSlide(currentSlide + 1);
+    }
+  }, [currentSlide, totalSlides, goToSlide]);
+
+  const prevSlide = useCallback(() => {
+    if (currentSlide > 0) {
+      goToSlide(currentSlide - 1);
+    }
+  }, [currentSlide, goToSlide]);
+
+  // Touch handlers for swipe functionality
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchRef.current.startX = e.touches[0].clientX;
+    touchRef.current.isDragging = true;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchRef.current.isDragging) return;
+    // Prevent default to avoid scrolling while swiping
+    e.preventDefault();
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchRef.current.isDragging) return;
+    
+    const endX = e.changedTouches[0].clientX;
+    const deltaX = touchRef.current.startX - endX;
+    const threshold = 50; // Minimum swipe distance
+    
+    if (Math.abs(deltaX) > threshold) {
+      if (deltaX > 0) {
+        // Swiped left - next slide
+        nextSlide();
+      } else {
+        // Swiped right - previous slide
+        prevSlide();
+      }
+    }
+    
+    touchRef.current.isDragging = false;
+  };
+
+  // Get current slide consultants for tablet
+  const getCurrentSlideConsultants = () => {
+    const startIndex = currentSlide * tabletItemsPerView;
+    return consultants.slice(startIndex, startIndex + tabletItemsPerView);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -775,16 +849,87 @@ const ExpertCounsellorsComponent: React.FC = () => {
                 </div>
               </div>
 
-              {/* Tablet Horizontal View: 3 cards scrollable */}
+              {/* Tablet Horizontal View: Swipeable slider */}
               <div className="hidden sm:block md:hidden">
-                <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
-                  <div className="flex gap-4 px-2">
-                    {displayedConsultants.slice(0, 3).map((consultant: Consultant) => (
-                      <div key={consultant.id} className="w-80 snap-center flex-shrink-0">
-                        <CounsellorCard consultant={consultant} />
-                      </div>
-                    ))}
+                <div className="relative">
+                  {/* Navigation Arrows */}
+                  {totalSlides > 1 && (
+                    <>
+                      <button
+                        onClick={prevSlide}
+                        disabled={currentSlide === 0 || isTransitioning}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                        style={{ marginLeft: '-20px' }}
+                      >
+                        <ChevronLeft className="w-5 h-5 text-gray-600" />
+                      </button>
+                      
+                      <button
+                        onClick={nextSlide}
+                        disabled={currentSlide === totalSlides - 1 || isTransitioning}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                        style={{ marginRight: '-20px' }}
+                      >
+                        <ChevronRight className="w-5 h-5 text-gray-600" />
+                      </button>
+                    </>
+                  )}
+                  
+                  {/* Slider Container */}
+                  <div 
+                    className="overflow-hidden rounded-lg"
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                  >
+                    <div 
+                      ref={sliderRef}
+                      className="flex transition-transform duration-300 ease-in-out"
+                      style={{ 
+                        transform: `translateX(-${currentSlide * 100}%)`,
+                        width: `${totalSlides * 100}%`
+                      }}
+                    >
+                      {Array.from({ length: totalSlides }).map((_, slideIndex) => {
+                        const slideConsultants = consultants.slice(
+                          slideIndex * tabletItemsPerView,
+                          (slideIndex + 1) * tabletItemsPerView
+                        );
+                        
+                        return (
+                          <div 
+                            key={slideIndex} 
+                            className="flex gap-4 px-4"
+                            style={{ width: `${100 / totalSlides}%` }}
+                          >
+                            {slideConsultants.map((consultant: Consultant) => (
+                              <div key={consultant.id} className="flex-1 min-w-0">
+                                <CounsellorCard consultant={consultant} />
+                              </div>
+                            ))}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
+                  
+                  {/* Slide Indicators */}
+                  {totalSlides > 1 && (
+                    <div className="flex justify-center mt-4 space-x-2">
+                      {Array.from({ length: totalSlides }).map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => goToSlide(index)}
+                          disabled={isTransitioning}
+                          className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                            index === currentSlide 
+                              ? 'bg-[#015F4A] w-6' 
+                              : 'bg-gray-300 hover:bg-gray-400'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
