@@ -848,6 +848,14 @@ import {
   ChevronRight
 } from "lucide-react";
 
+// Mock navigate function for demonstration
+const useNavigate = () => {
+  return (path: string) => {
+    console.log(`Navigating to: ${path}`);
+    // In real app, this would be: navigate(path);
+  };
+};
+
 // Interface for support group items
 interface SupportGroup {
   id: string;
@@ -888,31 +896,43 @@ const useIntersectionObserver = (threshold = 0.1) => {
 
 // Custom hook for swipe functionality
 const useSwipe = (onSwipeLeft: () => void, onSwipeRight: () => void) => {
-  const [touchStart, setTouchStart] = React.useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = React.useState<number | null>(null);
+  const [touchStart, setTouchStart] = React.useState<{ x: number; y: number } | null>(null);
+  const [touchEnd, setTouchEnd] = React.useState<{ x: number; y: number } | null>(null);
 
   const minSwipeDistance = 50;
+  const maxVerticalDistance = 100; // Maximum vertical movement allowed for horizontal swipe
 
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
+    setTouchStart({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY
+    });
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    setTouchEnd({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY
+    });
   };
 
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
     
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
+    const distanceX = touchStart.x - touchEnd.x;
+    const distanceY = Math.abs(touchStart.y - touchEnd.y);
+    
+    // Only trigger horizontal swipe if vertical movement is minimal
+    if (distanceY < maxVerticalDistance) {
+      const isLeftSwipe = distanceX > minSwipeDistance;
+      const isRightSwipe = distanceX < -minSwipeDistance;
 
-    if (isLeftSwipe) {
-      onSwipeLeft();
-    } else if (isRightSwipe) {
-      onSwipeRight();
+      if (isLeftSwipe) {
+        onSwipeLeft();
+      } else if (isRightSwipe) {
+        onSwipeRight();
+      }
     }
   };
 
@@ -928,6 +948,7 @@ const SupportGroups: React.FC = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [tabletSlide, setTabletSlide] = React.useState(0);
   const [isTouch, setIsTouch] = React.useState(false);
+  const navigate = useNavigate();
 
   const ChildImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751361737/child_ibkpcu.webp';
   const AdultImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362272/adult_jsxayg.webp";
@@ -1020,7 +1041,7 @@ const SupportGroups: React.FC = () => {
 
   const handleServiceClick = (group: SupportGroup) => {
     console.log(`Navigating to ${group.path}`);
-    // navigate(group.path);
+    navigate(group.path);
   };
 
   // Mobile carousel functions
@@ -1215,10 +1236,10 @@ const SupportGroups: React.FC = () => {
                 {groups.map((group) => (
                   <div key={group.id} className="w-1/2 flex-shrink-0 px-4">
                     <article
-                      className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
+                      className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group h-full flex flex-col"
                       onClick={() => handleServiceClick(group)}
                     >
-                      <div className="relative h-48 overflow-hidden">
+                      <div className="relative h-48 overflow-hidden flex-shrink-0">
                         <img
                           src={group.image}
                           alt={`${group.title} mental health services`}
@@ -1241,12 +1262,12 @@ const SupportGroups: React.FC = () => {
                         </div>
                       </div>
 
-                      <div className="p-6">
-                        <p className="text-slate-600 text-sm leading-relaxed mb-4">
+                      <div className="p-6 flex-grow flex flex-col">
+                        <p className="text-slate-600 text-sm leading-relaxed mb-4 flex-grow">
                           {group.description}
                         </p>
 
-                        <div className="space-y-2">
+                        <div className="space-y-2 mb-4">
                           {group.features.slice(0, 3).map((feature, featureIndex) => (
                             <div
                               key={featureIndex}
@@ -1258,7 +1279,7 @@ const SupportGroups: React.FC = () => {
                           ))}
                         </div>
 
-                        <div className="mt-4 flex justify-end">
+                        <div className="flex justify-end">
                           <button
                             type="button"
                             className="w-10 h-10 bg-[#015F4A] text-white rounded-full hover:bg-[#014136] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95"
