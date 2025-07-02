@@ -1243,7 +1243,6 @@
 
 
 
-
 import React from "react";
 import {
   User,
@@ -1511,8 +1510,8 @@ const OldageImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v17513623
           </p>
         </div>
 
-        {/* Mobile Carousel View with Swipe */}
-        <div className="block md:hidden mb-12">
+        {/* Mobile Carousel View with Swipe (phones only) */}
+        <div className="block sm:hidden mb-12">
           <div className="relative">
             <div
               className="relative overflow-hidden rounded-3xl"
@@ -1592,8 +1591,8 @@ const OldageImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v17513623
           </div>
         </div>
 
-        {/* Tablet View - Show 3 cards with swipe for remaining */}
-        <div className="hidden md:block lg:hidden mb-12">
+        {/* Tablet View - Show 2-3 cards with swipe for remaining */}
+        <div className="hidden sm:block xl:hidden mb-12">
           <div className="relative">
             <div
               className="relative overflow-hidden"
@@ -1603,99 +1602,172 @@ const OldageImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v17513623
                 className="flex transition-transform duration-500 ease-out"
                 style={{ transform: `translateX(-${tabletSlide * 100}%)` }}
               >
-                {Array.from({ length: Math.ceil(groups.length / 3) }, (_, slideIndex) => (
-                  <div key={slideIndex} className="w-full flex-shrink-0">
-                    <div className="grid grid-cols-3 gap-6">
-                      {groups.slice(slideIndex * 3, slideIndex * 3 + 3).map((group, index) => (
-                        <article
-                          key={group.id}
-                          className={`group bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-4 cursor-pointer border border-slate-200 hover:border-[#015F4A] ${
-                            isSectionVisible
-                              ? "translate-y-0 opacity-100"
-                              : "translate-y-12 opacity-0"
-                          }`}
-                          style={{
-                            transitionDelay: isSectionVisible ? `${index * 150}ms` : "0ms",
-                          }}
-                          onClick={() => handleServiceClick(group)}
-                        >
-                          <div className="relative h-48 overflow-hidden bg-gradient-to-br from-emerald-50 to-[#015F4A]/10">
-                            <img
-                              src={group.image}
-                              alt={`${group.title} mental health services`}
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                              loading="lazy"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#015F4A]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="w-full flex-shrink-0">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                    {groups.slice(0, 3).map((group, index) => (
+                      <article
+                        key={group.id}
+                        className={`group bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-4 cursor-pointer border border-slate-200 hover:border-[#015F4A] ${
+                          isSectionVisible
+                            ? "translate-y-0 opacity-100"
+                            : "translate-y-12 opacity-0"
+                        }`}
+                        style={{
+                          transitionDelay: isSectionVisible ? `${index * 150}ms` : "0ms",
+                        }}
+                        onClick={() => handleServiceClick(group)}
+                      >
+                        <div className="relative h-40 md:h-48 overflow-hidden bg-gradient-to-br from-emerald-50 to-[#015F4A]/10">
+                          <img
+                            src={group.image}
+                            alt={`${group.title} mental health services`}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#015F4A]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                            <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-full p-3 shadow-lg transform group-hover:scale-110 transition-transform duration-300">
-                              <group.icon className="w-6 h-6 text-[#015F4A]" />
-                            </div>
+                          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm rounded-full p-2 shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                            <group.icon className="w-5 h-5 text-[#015F4A]" />
+                          </div>
 
-                            <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
-                              <button
-                                type="button"
-                                className="w-12 h-12 bg-[#015F4A] text-white rounded-full hover:bg-[#014136] transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-110 active:scale-95"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleServiceClick(group);
-                                }}
+                          <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
+                            <button
+                              type="button"
+                              className="w-10 h-10 bg-[#015F4A] text-white rounded-full hover:bg-[#014136] transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-110 active:scale-95"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleServiceClick(group);
+                              }}
+                            >
+                              <ArrowRight className="w-4 h-4 mx-auto" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="p-4 md:p-6">
+                          <h3 className="text-lg md:text-xl font-bold text-slate-800 mb-2 md:mb-3 group-hover:text-[#015F4A] transition-colors duration-300">
+                            {group.title}
+                          </h3>
+
+                          <p className="text-slate-600 text-xs md:text-sm leading-relaxed mb-4 md:mb-5 line-clamp-3">
+                            {group.description}
+                          </p>
+
+                          <div className="space-y-1 md:space-y-2">
+                            {group.features.slice(0, 2).map((feature, featureIndex) => (
+                              <div
+                                key={featureIndex}
+                                className="flex items-center text-xs text-slate-500 hover:text-slate-700 transition-colors duration-200"
                               >
-                                <ArrowRight className="w-5 h-5 mx-auto" />
-                              </button>
-                            </div>
+                                <div className="w-1.5 h-1.5 bg-[#015F4A] rounded-full mr-2 flex-shrink-0" />
+                                {feature}
+                              </div>
+                            ))}
                           </div>
-
-                          <div className="p-6">
-                            <h3 className="text-xl font-bold text-slate-800 mb-3 group-hover:text-[#015F4A] transition-colors duration-300">
-                              {group.title}
-                            </h3>
-
-                            <p className="text-slate-600 text-sm leading-relaxed mb-5">
-                              {group.description}
-                            </p>
-
-                            <div className="space-y-2">
-                              {group.features.slice(0, 3).map((feature, featureIndex) => (
-                                <div
-                                  key={featureIndex}
-                                  className="flex items-center text-xs text-slate-500 hover:text-slate-700 transition-colors duration-200"
-                                >
-                                  <div className="w-2 h-2 bg-[#015F4A] rounded-full mr-3 flex-shrink-0" />
-                                  {feature}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        </article>
-                      ))}
-                    </div>
+                        </div>
+                      </article>
+                    ))}
                   </div>
-                ))}
+                </div>
+                
+                <div className="w-full flex-shrink-0">
+                  <div className="grid grid-cols-2 gap-4 md:gap-6">
+                    {groups.slice(3).map((group, index) => (
+                      <article
+                        key={group.id}
+                        className={`group bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-700 transform hover:-translate-y-4 cursor-pointer border border-slate-200 hover:border-[#015F4A] ${
+                          isSectionVisible
+                            ? "translate-y-0 opacity-100"
+                            : "translate-y-12 opacity-0"
+                        }`}
+                        style={{
+                          transitionDelay: isSectionVisible ? `${(index + 3) * 150}ms` : "0ms",
+                        }}
+                        onClick={() => handleServiceClick(group)}
+                      >
+                        <div className="relative h-40 md:h-48 overflow-hidden bg-gradient-to-br from-emerald-50 to-[#015F4A]/10">
+                          <img
+                            src={group.image}
+                            alt={`${group.title} mental health services`}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#015F4A]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                          <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm rounded-full p-2 shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+                            <group.icon className="w-5 h-5 text-[#015F4A]" />
+                          </div>
+
+                          <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
+                            <button
+                              type="button"
+                              className="w-10 h-10 bg-[#015F4A] text-white rounded-full hover:bg-[#014136] transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-110 active:scale-95"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleServiceClick(group);
+                              }}
+                            >
+                              <ArrowRight className="w-4 h-4 mx-auto" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="p-4 md:p-6">
+                          <h3 className="text-lg md:text-xl font-bold text-slate-800 mb-2 md:mb-3 group-hover:text-[#015F4A] transition-colors duration-300">
+                            {group.title}
+                          </h3>
+
+                          <p className="text-slate-600 text-xs md:text-sm leading-relaxed mb-4 md:mb-5 line-clamp-3">
+                            {group.description}
+                          </p>
+
+                          <div className="space-y-1 md:space-y-2">
+                            {group.features.slice(0, 2).map((feature, featureIndex) => (
+                              <div
+                                key={featureIndex}
+                                className="flex items-center text-xs text-slate-500 hover:text-slate-700 transition-colors duration-200"
+                              >
+                                <div className="w-1.5 h-1.5 bg-[#015F4A] rounded-full mr-2 flex-shrink-0" />
+                                {feature}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
             {/* Tablet dots indicator */}
             <div className="flex justify-center space-x-3 mt-8">
-              {Array.from({ length: Math.ceil(groups.length / 3) }, (_, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => goToTabletSlide(index)}
-                  className={`w-4 h-4 rounded-full transition-all duration-300 ${
-                    index === tabletSlide
-                      ? "bg-[#015F4A] shadow-lg scale-125"
-                      : "bg-slate-300 hover:bg-slate-400 hover:scale-110"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
+              <button
+                type="button"
+                onClick={() => goToTabletSlide(0)}
+                className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                  tabletSlide === 0
+                    ? "bg-[#015F4A] shadow-lg scale-125"
+                    : "bg-slate-300 hover:bg-slate-400 hover:scale-110"
+                }`}
+                aria-label="Go to first 3 cards"
+              />
+              <button
+                type="button"
+                onClick={() => goToTabletSlide(1)}
+                className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                  tabletSlide === 1
+                    ? "bg-[#015F4A] shadow-lg scale-125"
+                    : "bg-slate-300 hover:bg-slate-400 hover:scale-110"
+                }`}
+                aria-label="Go to remaining cards"
+              />
             </div>
           </div>
         </div>
 
         {/* Desktop Grid View */}
-        <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+        <div className="hidden xl:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
           {groups.map((group, index) => (
             <article
               key={group.id}
