@@ -574,7 +574,6 @@
 
 
 
-
 import React, { useState, useEffect } from 'react';
 import { Star, Users, Clock, MapPin, MessageCircle, Award, Heart, Shield, CheckCircle, GraduationCap } from 'lucide-react';
 import AuthService from '../services/AuthService'; // Adjust path to your AuthService
@@ -608,7 +607,7 @@ const CounsellorCard: React.FC<CounsellorCardProps> = ({ consultant }) => {
   return (
     <div className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden w-full">
       {/* Compact Professional Header */}
-      <div className="relative bg-white p-4 border-b border-gray-50">
+      <div className="relative bg-white p-3 sm:p-4 border-b border-gray-50">
         {/* Verification Badge */}
         <div className="absolute top-2 right-2 flex items-center bg-green-50 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
           <CheckCircle className="w-3 h-3 mr-1" />
@@ -616,25 +615,25 @@ const CounsellorCard: React.FC<CounsellorCardProps> = ({ consultant }) => {
         </div>
         
         <div className="text-center">
-          {/* Professional Profile Image - Smaller for tablet */}
-          <div className="relative inline-block mb-3">
+          {/* Professional Profile Image - More compact for tablet */}
+          <div className="relative inline-block mb-2 sm:mb-3">
             <img
               src={consultant.image}
               alt={`${consultant.name}`}
-              className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border-2 border-white shadow-lg ring-2 ring-[#015F4A]/10"
+              className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 rounded-full object-cover border-2 border-white shadow-lg ring-2 ring-[#015F4A]/10"
             />
-            <div className="absolute -bottom-1 -right-1 bg-[#015F4A] w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 border-white flex items-center justify-center shadow-lg">
-              <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
+            <div className="absolute -bottom-1 -right-1 bg-[#015F4A] w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 rounded-full border-2 border-white flex items-center justify-center shadow-lg">
+              <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-white rounded-full"></div>
             </div>
           </div>
           
           {/* Name and Title */}
-          <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1 leading-tight">{consultant.name}</h3>
-          <p className="text-[#015F4A] font-medium text-xs mb-2">{consultant.qualification}</p>
+          <h3 className="text-sm sm:text-base md:text-lg font-bold text-gray-900 mb-1 leading-tight">{consultant.name}</h3>
+          <p className="text-[#015F4A] font-medium text-xs mb-1 sm:mb-2">{consultant.qualification}</p>
           
           {/* Experience Badge - Only show if experience is greater than 0 */}
           {consultant.experience !== undefined && consultant.experience > 0 && (
-            <div className="inline-flex items-center bg-[#015F4A]/5 border border-[#015F4A]/20 rounded-full px-2 py-1 mb-2">
+            <div className="inline-flex items-center bg-[#015F4A]/5 border border-[#015F4A]/20 rounded-full px-2 py-1 mb-1 sm:mb-2">
               <Award className="w-3 h-3 text-[#015F4A] mr-1" />
               <span className="text-[#015F4A] font-medium text-xs">{consultant.experience}+ years</span>
             </div>
@@ -643,10 +642,10 @@ const CounsellorCard: React.FC<CounsellorCardProps> = ({ consultant }) => {
       </div>
 
       {/* Compact Professional Details */}
-      <div className="p-3 sm:p-4">
+      <div className="p-2 sm:p-3 md:p-4">
         {/* Specializations */}
-        <div className="mb-3">
-          <h4 className="text-xs font-bold text-gray-700 mb-2 flex items-center">
+        <div className="mb-2 sm:mb-3">
+          <h4 className="text-xs font-bold text-gray-700 mb-1 sm:mb-2 flex items-center">
             <GraduationCap className="w-3 h-3 mr-1 text-[#015F4A]" />
             SPECIALIZATIONS
           </h4>
@@ -679,7 +678,7 @@ const CounsellorCard: React.FC<CounsellorCardProps> = ({ consultant }) => {
         </div>
 
         {/* Professional Information - More compact */}
-        <div className="space-y-2">
+        <div className="space-y-1 sm:space-y-2">
           <div className="border-l-2 border-[#015F4A] pl-2">
             <span className="text-xs font-medium text-gray-500 uppercase">Languages</span>
             <p className="text-xs text-gray-800 font-medium leading-tight">{consultant.languages.join(' • ') || 'N/A'}</p>
@@ -713,7 +712,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
   const [consultants, setConsultants] = useState<Consultant[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const itemsPerPage = 3; // Show 4 counsellors per page
+  const itemsPerPage = 3; // Show 3 counsellors per page
 
   useEffect(() => {
     const fetchCounsellors = async () => {
@@ -732,7 +731,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
     fetchCounsellors();
   }, []);
 
-  // Mobile: show first 4, Tablet: show first 3, Desktop: show first 4
+  // Show first 3 counsellors across all devices
   const getDisplayedConsultants = () => {
     return consultants.slice(0, itemsPerPage);
   };
@@ -763,7 +762,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
           <>
             {/* Counsellors Grid - Responsive Layout */}
             <div className="mb-8">
-              {/* Mobile View: Horizontal Scrollable */}
+              {/* Mobile View: Horizontal Scrollable - Show 3 cards */}
               <div className="sm:hidden">
                 <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
                   <div className="flex gap-4 px-2">
@@ -776,17 +775,15 @@ const ExpertCounsellorsComponent: React.FC = () => {
                 </div>
               </div>
 
-              {/* Tablet View: 3 cards grid - More compact */}
-              <div className="hidden sm:grid md:hidden grid-cols-3 gap-4 auto-rows-min">
-                {displayedConsultants.slice(0, 3).map((consultant: Consultant) => (
-                  <div key={consultant.id} className="flex">
-                    <CounsellorCard consultant={consultant} />
-                  </div>
+              {/* Tablet View: 2 cards grid - Compact layout */}
+              <div className="hidden sm:grid md:hidden grid-cols-2 gap-4 max-w-3xl mx-auto">
+                {displayedConsultants.slice(0, 2).map((consultant: Consultant) => (
+                  <CounsellorCard key={consultant.id} consultant={consultant} />
                 ))}
               </div>
 
-              {/* Desktop View: 4 cards grid */}
-              <div className="hidden md:grid lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-min">
+              {/* Desktop View: 3 cards grid */}
+              <div className="hidden md:grid grid-cols-3 gap-6 auto-rows-min">
                 {displayedConsultants.map((consultant: Consultant) => (
                   <div key={consultant.id} className="flex">
                     <CounsellorCard consultant={consultant} />
