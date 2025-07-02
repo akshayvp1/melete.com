@@ -94,8 +94,8 @@ const TherapyImprovementsSection: React.FC = () => {
     "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363122/stress_avadul.webp";
   const AnxietyImage =
     "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363542/Anxiety_sb7fxe.webp";
-  const DepressionImage =
-    "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363460/Depression_lhpzhm.webp";
+  // const DepressionImage =
+  //   "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751363460/Depression_lhpzhm.webp";
   const therapyImprovements: TherapyImprovement[] = [
     {
       title: 'Self Confidence',
@@ -115,12 +115,12 @@ const TherapyImprovementsSection: React.FC = () => {
       icon: 'AlertTriangle',
       bgImage: AnxietyImage,
     },
-    {
-      title: 'Depression',
-      desc: 'Depression is a common and serious mental disorder that negatively affects how you feel, think, act, and perceive the world.',
-      icon: 'Frown',
-      bgImage: DepressionImage,
-    },
+    // {
+    //   title: 'Depression',
+    //   desc: 'Depression is a common and serious mental disorder that negatively affects how you feel, think, act, and perceive the world.',
+    //   icon: 'Frown',
+    //   bgImage: DepressionImage,
+    // },
   ];
 
   const handleImageLoad = (imageSrc: string) => {

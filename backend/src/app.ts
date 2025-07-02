@@ -30,13 +30,13 @@ mongoose
   .connect(MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB Connected");
-    console.log("🔍 Connected to:", MONGO_URI); // Add this
+    // console.log("🔍 Connected to:", MONGO_URI); // Add this
   })
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
 
-app.use(cors({ origin:process.env.CLIENT_URL, credentials: true }));
-// app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+// app.use(cors({ origin:process.env.CLIENT_URL, credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.use(morgan('dev'));
 app.use(express.json());

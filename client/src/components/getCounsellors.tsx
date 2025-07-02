@@ -713,7 +713,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
   const [consultants, setConsultants] = useState<Consultant[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const itemsPerPage = 4; // Show 4 counsellors per page
+  const itemsPerPage = 3; // Show 4 counsellors per page
 
   useEffect(() => {
     const fetchCounsellors = async () => {
