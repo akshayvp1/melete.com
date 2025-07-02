@@ -713,7 +713,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
   const [consultants, setConsultants] = useState<Consultant[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const itemsPerPage = 3; // Show 4 counsellors per page
+  const itemsPerPage = 4; // Show 4 counsellors per page
 
   useEffect(() => {
     const fetchCounsellors = async () => {
@@ -777,14 +777,13 @@ const ExpertCounsellorsComponent: React.FC = () => {
               </div>
 
               {/* Tablet View: 3 cards grid - More compact */}
-              // Replace the tablet view grid section in the render method
-<div className="hidden sm:grid md:hidden grid-cols-3 gap-2 auto-rows-fr">
-  {displayedConsultants.slice(0, 3).map((consultant: Consultant) => (
-    <div key={consultant.id} className="flex">
-      <CounsellorCard consultant={consultant} />
-    </div>
-  ))}
-</div>
+              <div className="hidden sm:grid md:hidden grid-cols-3 gap-4 auto-rows-min">
+                {displayedConsultants.slice(0, 3).map((consultant: Consultant) => (
+                  <div key={consultant.id} className="flex">
+                    <CounsellorCard consultant={consultant} />
+                  </div>
+                ))}
+              </div>
 
               {/* Desktop View: 4 cards grid */}
               <div className="hidden md:grid lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-min">
