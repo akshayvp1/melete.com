@@ -836,6 +836,7 @@
 // };
 
 // export default SupportGroups;
+
 import React from "react";
 import {
   User,
@@ -843,18 +844,11 @@ import {
   Heart,
   Baby,
   UserCheck,
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight
+  ArrowRight
 } from "lucide-react";
 
-// Mock navigate function for demonstration
-const useNavigate = () => {
-  return (path: string) => {
-    console.log(`Navigating to: ${path}`);
-    // In real app, this would be: navigate(path);
-  };
-};
+
+import { useNavigate } from "react-router-dom";
 
 // Interface for support group items
 interface SupportGroup {
@@ -872,7 +866,7 @@ interface SupportGroup {
 const useIntersectionObserver = (threshold = 0.1) => {
   const [isVisible, setIsVisible] = React.useState(false);
   const [element, setElement] = React.useState<HTMLElement | null>(null);
-
+  const ChildImage='https://res.cloudinary.com/dedrcfbxf/image/upload/v1751361737/child_ibkpcu.webp'
   React.useEffect(() => {
     if (!element) return;
 
@@ -896,43 +890,31 @@ const useIntersectionObserver = (threshold = 0.1) => {
 
 // Custom hook for swipe functionality
 const useSwipe = (onSwipeLeft: () => void, onSwipeRight: () => void) => {
-  const [touchStart, setTouchStart] = React.useState<{ x: number; y: number } | null>(null);
-  const [touchEnd, setTouchEnd] = React.useState<{ x: number; y: number } | null>(null);
+  const [touchStart, setTouchStart] = React.useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = React.useState<number | null>(null);
 
   const minSwipeDistance = 50;
-  const maxVerticalDistance = 100; // Maximum vertical movement allowed for horizontal swipe
 
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
-    setTouchStart({
-      x: e.targetTouches[0].clientX,
-      y: e.targetTouches[0].clientY
-    });
+    setTouchStart(e.targetTouches[0].clientX);
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd({
-      x: e.targetTouches[0].clientX,
-      y: e.targetTouches[0].clientY
-    });
+    setTouchEnd(e.targetTouches[0].clientX);
   };
 
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
     
-    const distanceX = touchStart.x - touchEnd.x;
-    const distanceY = Math.abs(touchStart.y - touchEnd.y);
-    
-    // Only trigger horizontal swipe if vertical movement is minimal
-    if (distanceY < maxVerticalDistance) {
-      const isLeftSwipe = distanceX > minSwipeDistance;
-      const isRightSwipe = distanceX < -minSwipeDistance;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
 
-      if (isLeftSwipe) {
-        onSwipeLeft();
-      } else if (isRightSwipe) {
-        onSwipeRight();
-      }
+    if (isLeftSwipe) {
+      onSwipeLeft();
+    } else if (isRightSwipe) {
+      onSwipeRight();
     }
   };
 
@@ -946,16 +928,13 @@ const useSwipe = (onSwipeLeft: () => void, onSwipeRight: () => void) => {
 const SupportGroups: React.FC = () => {
   const [sectionRef, isSectionVisible] = useIntersectionObserver(0.1);
   const [currentSlide, setCurrentSlide] = React.useState(0);
-  const [tabletSlide, setTabletSlide] = React.useState(0);
   const [isTouch, setIsTouch] = React.useState(false);
   const navigate = useNavigate();
-
-  const ChildImage = 'https://res.cloudinary.com/dedrcfbxf/image/upload/v1751361737/child_ibkpcu.webp';
-  const AdultImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362272/adult_jsxayg.webp";
-  const ParentImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362447/parent_fmzpic.webp";
-  const PregnantImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362413/pregnant_q02awp.webp";
-  const OldageImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362370/oldage_yhj5xq.webp";
-
+  const ChildImage='https://res.cloudinary.com/dedrcfbxf/image/upload/v1751361737/child_ibkpcu.webp'
+const AdultImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362272/adult_jsxayg.webp";
+const ParentImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362447/parent_fmzpic.webp";
+const PregnantImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362413/pregnant_q02awp.webp";
+const OldageImage = "https://res.cloudinary.com/dedrcfbxf/image/upload/v1751362370/oldage_yhj5xq.webp";
   const groups: SupportGroup[] = [
     {
       id: "child",
@@ -1044,7 +1023,6 @@ const SupportGroups: React.FC = () => {
     navigate(group.path);
   };
 
-  // Mobile carousel functions
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % groups.length);
   };
@@ -1057,26 +1035,8 @@ const SupportGroups: React.FC = () => {
     setCurrentSlide(index);
   };
 
-  // Tablet carousel functions (shows 2-3 cards at once)
-  const nextTabletSlide = () => {
-    const maxSlide = Math.max(0, groups.length - 2); // Show 2 cards at once
-    setTabletSlide((prev) => Math.min(prev + 1, maxSlide));
-  };
-
-  const prevTabletSlide = () => {
-    setTabletSlide((prev) => Math.max(prev - 1, 0));
-  };
-
-  const goToTabletSlide = (index: number) => {
-    const maxSlide = Math.max(0, groups.length - 2);
-    setTabletSlide(Math.min(index, maxSlide));
-  };
-
-  // Swipe handlers for mobile
-  const mobileSwipeHandlers = useSwipe(nextSlide, prevSlide);
-  
-  // Swipe handlers for tablet
-  const tabletSwipeHandlers = useSwipe(nextTabletSlide, prevTabletSlide);
+  // Swipe handlers
+  const swipeHandlers = useSwipe(nextSlide, prevSlide);
 
   React.useEffect(() => {
     const checkTouch = () => {
@@ -1122,12 +1082,12 @@ const SupportGroups: React.FC = () => {
           </p>
         </div>
 
-        {/* Mobile Carousel View (sm and below) */}
-        <div className="block md:hidden mb-12">
+        {/* Mobile Carousel View with Swipe */}
+        <div className="block lg:hidden mb-12">
           <div className="relative">
             <div
               className="relative overflow-hidden rounded-3xl"
-              {...mobileSwipeHandlers}
+              {...swipeHandlers}
             >
               <div
                 className="flex transition-transform duration-500 ease-out"
@@ -1203,122 +1163,8 @@ const SupportGroups: React.FC = () => {
           </div>
         </div>
 
-        {/* Tablet Swipe View (md to lg) */}
-        <div className="hidden md:block xl:hidden mb-12">
-          <div className="relative">
-            {/* Navigation Arrows */}
-            <button
-              type="button"
-              onClick={prevTabletSlide}
-              disabled={tabletSlide === 0}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-[#015F4A] hover:bg-[#015F4A] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white/90 disabled:hover:text-[#015F4A]"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-
-            <button
-              type="button"
-              onClick={nextTabletSlide}
-              disabled={tabletSlide >= groups.length - 2}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-slate-200 flex items-center justify-center text-[#015F4A] hover:bg-[#015F4A] hover:text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white/90 disabled:hover:text-[#015F4A]"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-
-            <div
-              className="overflow-hidden rounded-3xl mx-12"
-              {...tabletSwipeHandlers}
-            >
-              <div
-                className="flex transition-transform duration-500 ease-out"
-                style={{ transform: `translateX(-${tabletSlide * 50}%)` }}
-              >
-                {groups.map((group) => (
-                  <div key={group.id} className="w-1/2 flex-shrink-0 px-4">
-                    <article
-                      className="bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group h-full flex flex-col"
-                      onClick={() => handleServiceClick(group)}
-                    >
-                      <div className="relative h-48 overflow-hidden flex-shrink-0">
-                        <img
-                          src={group.image}
-                          alt={`${group.title} mental health services`}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                          loading="lazy"
-                        />
-                        <div
-                          className={`absolute inset-0 bg-gradient-to-t ${group.color} mix-blend-multiply opacity-20`}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-
-                        <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-full p-3 shadow-lg">
-                          <group.icon className="w-6 h-6 text-[#015F4A]" />
-                        </div>
-
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <h3 className="text-white text-xl font-bold drop-shadow-lg">
-                            {group.title}
-                          </h3>
-                        </div>
-                      </div>
-
-                      <div className="p-6 flex-grow flex flex-col">
-                        <p className="text-slate-600 text-sm leading-relaxed mb-4 flex-grow">
-                          {group.description}
-                        </p>
-
-                        <div className="space-y-2 mb-4">
-                          {group.features.slice(0, 3).map((feature, featureIndex) => (
-                            <div
-                              key={featureIndex}
-                              className="flex items-center text-xs text-slate-500"
-                            >
-                              <div className="w-2 h-2 bg-[#015F4A] rounded-full mr-3 flex-shrink-0" />
-                              {feature}
-                            </div>
-                          ))}
-                        </div>
-
-                        <div className="flex justify-end">
-                          <button
-                            type="button"
-                            className="w-10 h-10 bg-[#015F4A] text-white rounded-full hover:bg-[#014136] transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleServiceClick(group);
-                            }}
-                          >
-                            <ArrowRight className="w-4 h-4 mx-auto" />
-                          </button>
-                        </div>
-                      </div>
-                    </article>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Tablet Dots Indicator */}
-            <div className="flex justify-center space-x-2 mt-6">
-              {Array.from({ length: Math.max(1, groups.length - 1) }).map((_, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => goToTabletSlide(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === tabletSlide
-                      ? "bg-[#015F4A] shadow-lg scale-125"
-                      : "bg-slate-300 hover:bg-slate-400 hover:scale-110"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop Grid View (xl and above) */}
-        <div className="hidden xl:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+        {/* Desktop Grid View */}
+        <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
           {groups.map((group, index) => (
             <article
               key={group.id}
