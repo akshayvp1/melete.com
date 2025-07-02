@@ -472,7 +472,7 @@ const ExpertCounsellorsComponent: React.FC = () => {
   const displayedConsultants = getDisplayedConsultants();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className=" bg-gradient-to-br from-slate-50 via-white to-emerald-50 overflow-hidden">
       {/* Compact Professional Hero Section */}
       
 

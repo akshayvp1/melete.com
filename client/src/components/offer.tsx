@@ -107,7 +107,7 @@ const WhatWeOffer: React.FC = () => {
 
   return (
     <motion.section
-      className="py-20 bg-gray-100"
+      className="py-20 bg-gradient-to-br from-slate-50 via-white to-emerald-50 overflow-hidden"
       variants={sectionVariants}
       initial="hidden"
       animate="visible"

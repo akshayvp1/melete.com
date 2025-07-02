@@ -130,7 +130,7 @@ const TherapyServicesCard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-gray-50 to-[#015F4A]/5 py-12 px-4 relative overflow-hidden">
+    <div className="bg-gradient-to-br from-slate-50 via-white to-emerald-50 overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-32 -right-32 w-64 h-64 bg-gradient-to-br from-[#015F4A]/10 to-[#027F61]/5 rounded-full blur-3xl"></div>
